@@ -28,3 +28,13 @@
 *.exe
 *.out
 *.app
+
+#random compiled junk
+*.suo
+*.db
+*.opendb
+*.ipch
+*.log
+*.lastbuildstate
+*.tlog
+*.idb
