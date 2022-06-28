@@ -2,21 +2,34 @@
 //
 
 #include <iostream>
+#include "Game.h"
 #include <SDL.h>
 
-int main(int args, char *arv[])
+const std::string windowTitle = "Bomberman";
+const int xPos = SDL_WINDOWPOS_CENTERED;
+const int yPos = SDL_WINDOWPOS_CENTERED;
+const int resolutionX = 1240;
+const int resolutionY = 720;
+const bool fullScreen = false;
+
+Game* game = nullptr;
+
+int main(int argc, char *argv[])
 {
-	SDL_Init(SDL_INIT_EVERYTHING);
-	SDL_Window *window = SDL_CreateWindow("Bomberman", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1024, 720, SDL_WINDOW_SHOWN);
-	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
+	game = new Game();
 
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	game->Init(windowTitle, xPos, yPos, resolutionX, resolutionY, fullScreen);
 
-	SDL_RenderClear(renderer);
+	//Main Game loop
 
-	SDL_RenderPresent(renderer);
+	while (game->Running())
+	{
+		game->HandleEvents();
+		game->Update();
+		game->Render();
+	}
 
-	SDL_Delay(5000);
+	game->Clean();
 
 	return 0;
 }
