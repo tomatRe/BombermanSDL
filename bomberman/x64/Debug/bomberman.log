@@ -1,4 +1,4 @@
-﻿  Game.cpp
-  bomberman.cpp
+﻿  Entity.cpp
+  Player.cpp
   Generating Code...
   bomberman.vcxproj -> D:\Documents\GitHub\BombermanSDL\x64\Debug\bomberman.exe
