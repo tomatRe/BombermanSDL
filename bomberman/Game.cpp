@@ -45,7 +45,7 @@ void Game::Init(const std::string title, int xpos, int ypos, int width, int heig
 			std::cout << "Error initializing SDL_image '" << IMG_GetError() << "'...\n";
 
 		//Load everything
-		LoadMedia("assets/sprites/Untitled.png");
+		player = new Player(20, 30, LoadMedia("assets/sprites/Untitled.png"), 0, 0, 320, 320);
 
 		//if everything goes ok set running to true
 		isRunning = true;
@@ -62,15 +62,12 @@ void Game::Init(const std::string title, int xpos, int ypos, int width, int heig
 //retrieve list of textures from /textures
 //add all textures to the vector
 //Check if load ok and show according message
-bool Game::LoadMedia(std::string path)
+SDL_Texture* Game::LoadMedia(std::string path)
 {
-	//Loading success flag
-	bool success = true;
-
 	//int textureCount = textures.size();
 
 	//Load PNG texture
-	player_t = loader->LoadTexture(path);
+	SDL_Texture* result = loader->LoadTexture(path);
 	//textures.push_back(loader->LoadTexture("/texture.png"));
 
 	//int textureAddedCount = textures.size();
@@ -78,7 +75,7 @@ bool Game::LoadMedia(std::string path)
 	//if (textureCount == textureAddedCount)
 	//	success = false;
 
-	return success;
+	return result;
 }
 
 
@@ -109,7 +106,8 @@ void Game::Render()
 	SDL_RenderClear(renderer);
 
 	//Draw texture(s)
-	SDL_RenderCopy(renderer, player_t, NULL, NULL);
+	//SDL_RenderCopy(renderer, -BACKGROUND-, NULL, NULL);
+	SDL_RenderCopy(renderer, player->GetSprite(), NULL, player->GetTextureRectangle());
 
 	//Draw next frame
 	SDL_RenderPresent(renderer);
@@ -118,7 +116,7 @@ void Game::Render()
 void Game::Clean()
 {
 	std::cout << "Cleaning up...\n";
-	SDL_DestroyTexture(player_t);
+	SDL_DestroyTexture(player->GetSprite());
 	//SDL_DestroyTexture();
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);

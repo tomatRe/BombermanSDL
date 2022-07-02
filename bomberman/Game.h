@@ -5,6 +5,8 @@
 #include <SDL_image.h>
 #include <SDL_surface.h>
 #include "SDL_image.h"
+#include "Entity.h"
+#include "Player.h"
 #include "Loader.h"
 #include <vector>
 
@@ -28,13 +30,16 @@ class Game
 		Loader* loader;
 
 	private:
-		bool LoadMedia(std::string path);
+		SDL_Texture* LoadMedia(std::string path);
 		bool isRunning;
 		SDL_Window *window;
 		SDL_Renderer *renderer;
 
 		//Media
-		SDL_Texture* player_t;
 		//std::vector<SDL_Texture*> textures;
+
+		//player(s)
+		Player* player;
+		//std::vector<Player*> players;
 };
 
