@@ -45,7 +45,7 @@ void Game::Init(const std::string title, int xpos, int ypos, int width, int heig
 			std::cout << "Error initializing SDL_image '" << IMG_GetError() << "'...\n";
 
 		//Load everything
-		player = new Player(20, 30, LoadMedia("assets/sprites/Untitled.png"), 0, 0, 320, 320);
+		player = new Player(0, 0, LoadMedia("assets/sprites/playerSpriteSheet.png"), 56, 48, 310, 262);
 
 		//if everything goes ok set running to true
 		isRunning = true;
@@ -107,7 +107,7 @@ void Game::Render()
 
 	//Draw texture(s)
 	//SDL_RenderCopy(renderer, -BACKGROUND-, NULL, NULL);
-	SDL_RenderCopy(renderer, player->GetSprite(), NULL, player->GetTextureRectangle());
+	SDL_RenderCopy(renderer, player->GetSprite(), player->GetSrcRectangle(), player->GetDestRectangle());
 
 	//Draw next frame
 	SDL_RenderPresent(renderer);

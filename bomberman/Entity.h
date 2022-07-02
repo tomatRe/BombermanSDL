@@ -9,16 +9,15 @@ class Entity
 	public:
 		Entity();
 		Entity(int x, int y);
-		Entity(int x, int y, SDL_Texture *sprite, int textPosX, int textPosY, int textSizeX, int textSizeY);
+		Entity(int x, int y, int rectW, int rectH, SDL_Texture *sprite, int textPosX, int textPosY, int textSizeX, int textSizeY);
 		~Entity();
 
 		bool AddTexture(SDL_Texture *sprite, int w, int h, int x, int y);
+		void SetX(int x);
+		void SetY(int y);
 
 		SDL_Texture *sprite;
-		SDL_Rect textureRectangle;
-		SDL_Rect screenRectangle;
-
-		int x;
-		int y;
+		SDL_Rect srcRectangle;
+		SDL_Rect destRectangle;
 };
 

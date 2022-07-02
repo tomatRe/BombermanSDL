@@ -6,28 +6,23 @@ Entity::Entity()
 
 Entity::Entity(int x, int y)
 {
-	this->x = x;
-	this->y = y;
-
-	screenRectangle.x = x;
-	screenRectangle.y = y;
+	destRectangle.x = x;
+	destRectangle.y = y;
 }
 
-Entity::Entity(int x, int y, SDL_Texture *sprite, int textPosX, int textPosY, int textSizeX, int textSizeY)
+Entity::Entity(int x, int y, int rectW, int rectH, SDL_Texture *sprite, int textPosX, int textPosY, int textSizeX, int textSizeY)
 {
-	this->x = x;
-	this->y = y;
 	this->sprite = sprite;
 
-	screenRectangle.x = x;
-	screenRectangle.y = y;
-	screenRectangle.w = textSizeX;
-	screenRectangle.h = textSizeY;
+	destRectangle.x = x;
+	destRectangle.y = y;
+	destRectangle.w = rectW;
+	destRectangle.h = rectH;
 
-	textureRectangle.x = textPosX;
-	textureRectangle.y = textPosY;
-	textureRectangle.w = textSizeX;
-	textureRectangle.h = textSizeY;
+	srcRectangle.x = textPosX;
+	srcRectangle.y = textPosY;
+	srcRectangle.w = textSizeX;
+	srcRectangle.h = textSizeY;
 }
 
 bool Entity::AddTexture(SDL_Texture * sprite, int w, int h, int x, int y)
@@ -36,12 +31,22 @@ bool Entity::AddTexture(SDL_Texture * sprite, int w, int h, int x, int y)
 
 	this->sprite = sprite;
 
-	textureRectangle.h = h;
-	textureRectangle.w = w;
-	textureRectangle.x = x;
-	textureRectangle.y = y;
+	srcRectangle.h = h;
+	srcRectangle.w = w;
+	srcRectangle.x = x;
+	srcRectangle.y = y;
 
 	return result;
+}
+
+void Entity::SetX(int x)
+{
+	destRectangle.x = x;
+}
+
+void Entity::SetY(int y)
+{
+	destRectangle.y = y;
 }
 
 Entity::~Entity()

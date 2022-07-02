@@ -10,10 +10,7 @@ class Player : public Entity
 		~Player();
 
 		SDL_Texture* GetSprite();
-		SDL_Rect* GetTextureRectangle();
-		SDL_Rect* GetScreenRectangle();
-
-		float x;
-		float y;
+		SDL_Rect* GetSrcRectangle();
+		SDL_Rect* GetDestRectangle();
 };
 
