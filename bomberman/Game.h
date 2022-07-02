@@ -4,6 +4,11 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_surface.h>
+#include "SDL_image.h"
+#include "Loader.h"
+#include <vector>
+
+using namespace std;
 
 class Game
 {
@@ -20,9 +25,16 @@ class Game
 
 		bool Running() { return isRunning; }
 
-private:
-	bool isRunning;
-	SDL_Window *window;
-	SDL_Renderer *renderer;
+		Loader* loader;
+
+	private:
+		bool LoadMedia(std::string path);
+		bool isRunning;
+		SDL_Window *window;
+		SDL_Renderer *renderer;
+
+		//Media
+		SDL_Texture* player_t;
+		//std::vector<SDL_Texture*> textures;
 };
 

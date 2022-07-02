@@ -9,6 +9,8 @@
 class Loader
 {
 	public:
+		Loader(SDL_Renderer* renderer);
+		~Loader();
 		SDL_Texture* LoadTexture(std::string path);
 
 	private:

@@ -1,5 +1,14 @@
 #include "Loader.h"
 
+Loader::Loader(SDL_Renderer* render)
+{
+	renderer = render;
+}
+
+Loader::~Loader()
+{
+}
+
 SDL_Texture* Loader::LoadTexture(std::string path)
 {
 	SDL_Texture* texture = NULL;

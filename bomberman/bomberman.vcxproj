@@ -100,7 +100,8 @@
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y /d  "$(SolutionDir)SDL2\lib\x64\*.dll" "$(OutDir)"</Command>
+      <Command>xcopy /y /d  "$(SolutionDir)SDL2\lib\x64\*.dll" "$(OutDir)"
+xcopy /y /d  "$(ProjectDir)assets\sprites\*.*" "$(OutDir)assets\sprites\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -121,7 +122,8 @@
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y /d  "$(SolutionDir)SDL2\lib\x64\*.dll" "$(OutDir)"</Command>
+      <Command>xcopy /y /d  "$(SolutionDir)SDL2\lib\x64\*.dll" "$(OutDir)"
+xcopy /y /d  "$(ProjectDir)assets\sprites\*.*" "$(OutDir)assets\sprites\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -146,7 +148,8 @@
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y /d  "$(SolutionDir)SDL2\lib\x64\*.dll" "$(OutDir)"</Command>
+      <Command>xcopy /y /d  "$(SolutionDir)SDL2\lib\x64\*.dll" "$(OutDir)"
+xcopy /y /d  "$(ProjectDir)assets\sprites\*.*" "$(OutDir)assets\sprites\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -171,7 +174,8 @@
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y /d  "$(SolutionDir)SDL2\lib\x64\*.dll" "$(OutDir)"</Command>
+      <Command>xcopy /y /d  "$(SolutionDir)SDL2\lib\x64\*.dll" "$(OutDir)"
+xcopy /y /d  "$(ProjectDir)assets\sprites\*.*" "$(OutDir)assets\sprites\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

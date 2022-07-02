@@ -38,20 +38,50 @@ void Game::Init(const std::string title, int xpos, int ypos, int width, int heig
 
 		//Initialize PNG loader
 		int imgFlags = IMG_INIT_PNG;
+
+		loader = new Loader(renderer);
 		
 		if (!(IMG_Init(imgFlags) & imgFlags))
-		{
 			std::cout << "Error initializing SDL_image '" << IMG_GetError() << "'...\n";
-		}
+
+		//Load everything
+		LoadMedia("assets/sprites/Untitled.png");
 
 		//if everything goes ok set running to true
 		isRunning = true;
+		std::cout << "Engine running: OK\n";
 	}
 	else 
 	{
 		isRunning = false;
+		std::cout << "Engine running: ERR\n";
 	}
 }
+
+//TODO:
+//retrieve list of textures from /textures
+//add all textures to the vector
+//Check if load ok and show according message
+bool Game::LoadMedia(std::string path)
+{
+	//Loading success flag
+	bool success = true;
+
+	//int textureCount = textures.size();
+
+	//Load PNG texture
+	player_t = loader->LoadTexture(path);
+	//textures.push_back(loader->LoadTexture("/texture.png"));
+
+	//int textureAddedCount = textures.size();
+
+	//if (textureCount == textureAddedCount)
+	//	success = false;
+
+	return success;
+}
+
+
 
 void Game::HandleEvents()
 {
@@ -78,6 +108,9 @@ void Game::Render()
 	//Clear last frame
 	SDL_RenderClear(renderer);
 
+	//Draw texture(s)
+	SDL_RenderCopy(renderer, player_t, NULL, NULL);
+
 	//Draw next frame
 	SDL_RenderPresent(renderer);
 }
@@ -85,6 +118,8 @@ void Game::Render()
 void Game::Clean()
 {
 	std::cout << "Cleaning up...\n";
+	SDL_DestroyTexture(player_t);
+	//SDL_DestroyTexture();
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
 	SDL_Quit();
