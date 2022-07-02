@@ -36,6 +36,14 @@ void Game::Init(const std::string title, int xpos, int ypos, int width, int heig
 		//Set background color to black
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
+		//Initialize PNG loader
+		int imgFlags = IMG_INIT_PNG;
+		
+		if (!(IMG_Init(imgFlags) & imgFlags))
+		{
+			std::cout << "Error initializing SDL_image '" << IMG_GetError() << "'...\n";
+		}
+
 		//if everything goes ok set running to true
 		isRunning = true;
 	}
