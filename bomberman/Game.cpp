@@ -33,8 +33,8 @@ void Game::Init(const std::string title, int xpos, int ypos, int width, int heig
 		if (renderer)
 			std::cout << "Renderer Created...\n";
 
-		//Set background color to black
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+		//Set background color to background green
+		SDL_SetRenderDrawColor(renderer, 16, 120, 48, 255);
 
 		//Initialize PNG loader
 		int imgFlags = IMG_INIT_PNG;
@@ -45,7 +45,11 @@ void Game::Init(const std::string title, int xpos, int ypos, int width, int heig
 			std::cout << "Error initializing SDL_image '" << IMG_GetError() << "'...\n";
 
 		//Load everything
-		player = new Player(500, 200, LoadMedia("assets/sprites/playerSpriteSheet.png"), 56, 48);
+		SDL_Texture* pTexture = loader->LoadTexture("assets/sprites/playerSpriteSheet.png");
+		SDL_Texture* tilemap = loader->LoadTexture("assets/sprites/tilemap.png");
+
+		//Initialize entities
+		player = new Player(500, 200, pTexture, 56, 48);
 
 		//if everything goes ok set running to true
 		isRunning = true;
@@ -57,28 +61,6 @@ void Game::Init(const std::string title, int xpos, int ypos, int width, int heig
 		std::cout << "Engine running: ERR\n";
 	}
 }
-
-//TODO:
-//retrieve list of textures from /textures
-//add all textures to the vector
-//Check if load ok and show according message
-SDL_Texture* Game::LoadMedia(std::string path)
-{
-	//int textureCount = textures.size();
-
-	//Load PNG texture
-	SDL_Texture* result = loader->LoadTexture(path);
-	//textures.push_back(loader->LoadTexture("/texture.png"));
-
-	//int textureAddedCount = textures.size();
-
-	//if (textureCount == textureAddedCount)
-	//	success = false;
-
-	return result;
-}
-
-
 
 void Game::HandleEvents()
 {
@@ -106,8 +88,10 @@ void Game::Render()
 	//Clear last frame
 	SDL_RenderClear(renderer);
 
-	//Draw texture(s)
-	//SDL_RenderCopy(renderer, -BACKGROUND-, NULL, NULL);
+	//Draw map
+	//SDL_RenderCopy(renderer, -BACKGROUND TEXTURE-, NULL, NULL);
+
+	//Draw player(s)
 	SDL_RenderCopy(renderer, player->GetSprite(), player->GetSrcRectangle(), player->GetDestRectangle());
 
 	//Draw next frame
