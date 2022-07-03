@@ -12,6 +12,7 @@ class Entity
 		Entity(int x, int y, int rectW, int rectH, SDL_Texture *sprite, int textPosX, int textPosY, int textSizeX, int textSizeY);
 		~Entity();
 
+		void Update(float delta);
 		bool AddTexture(SDL_Texture *sprite, int w, int h, int x, int y);
 		void SetX(int x);
 		void SetY(int y);

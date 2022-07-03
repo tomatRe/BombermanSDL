@@ -25,6 +25,10 @@ Entity::Entity(int x, int y, int rectW, int rectH, SDL_Texture *sprite, int text
 	srcRectangle.h = textSizeY;
 }
 
+void Entity::Update(float delta)
+{
+}
+
 bool Entity::AddTexture(SDL_Texture * sprite, int w, int h, int x, int y)
 {
 	bool result = true;

@@ -45,7 +45,7 @@ void Game::Init(const std::string title, int xpos, int ypos, int width, int heig
 			std::cout << "Error initializing SDL_image '" << IMG_GetError() << "'...\n";
 
 		//Load everything
-		player = new Player(0, 0, LoadMedia("assets/sprites/playerSpriteSheet.png"), 56, 48, 310, 262);
+		player = new Player(500, 200, LoadMedia("assets/sprites/playerSpriteSheet.png"), 56, 48);
 
 		//if everything goes ok set running to true
 		isRunning = true;
@@ -98,6 +98,7 @@ void Game::HandleEvents()
 
 void Game::Update()
 {
+	player->Update(NULL);
 }
 
 void Game::Render()
