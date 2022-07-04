@@ -1,6 +1,9 @@
-﻿  Game.cpp
-  bomberman.cpp
+﻿  bomberman.cpp
+  Game.cpp
+  Map.cpp
   Generating Code...
+  LINK : D:\Documents\GitHub\BombermanSDL\x64\Debug\bomberman.exe not found or not built by the last incremental link; performing full link
   bomberman.vcxproj -> D:\Documents\GitHub\BombermanSDL\x64\Debug\bomberman.exe
   0 File(s) copied
-  0 File(s) copied
+  D:\Documents\GitHub\BombermanSDL\bomberman\assets\sprites\tilemap.png
+  1 File(s) copied
