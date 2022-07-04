@@ -8,6 +8,7 @@
 #include "Entity.h"
 #include "Player.h"
 #include "Loader.h"
+#include "Map.h"
 #include <vector>
 
 using namespace std;
@@ -37,6 +38,9 @@ class Game
 
 		//Media
 		//std::vector<SDL_Texture*> textures;
+
+		//Map
+		Map* map;
 
 		//player(s)
 		Player* player;

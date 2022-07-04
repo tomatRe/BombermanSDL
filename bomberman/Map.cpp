@@ -12,36 +12,45 @@ Map::Map(std::string mapName, SDL_Texture* tileSet)
 
 int ** Map::LoadMap(std::string mapName)
 {
-	std::stringstream ss;
 	std::string line;
+	mapTiles = 0;
+	mapTiles = new int*[180];
 
 	// Read from the text file
 	std::ifstream mapFile(mapName);
 
-	int i = 0;
-	while (std::getline(mapFile, line)) {
-		// Output the text from the file
+	if (mapFile.is_open())
+	{
+		int i = 0;
+		while (std::getline(mapFile, line)) {
+			// Output the text from the file
 
-		for (int j = 0; j < line.length(); j++)
-		{
-			//Get tile position on the string
-			char sTile = line.at(j);
-			int tile;
+			mapTiles[i] = new int[320];
 
-			//Convert char to string
-			ss << sTile;
-			//Convert string to int
-			ss >> tile;
+			for (int j = 0; j < line.length(); j++)
+			{
+				//Get tile position on the string
+				char sTile = line[j];
+				int tile = 0;
 
-			//save int to the array
-			mapTiles[i][j] = tile;
+				//Convert char to int
+				tile = sTile - '0';
+
+				//save int to the array
+				mapTiles[i][j] = tile;
+			}
+
+			i++;
 		}
-
-		i++;
 	}
 
 	// Close the file
 	mapFile.close();
+
+	if (mapTiles != nullptr)
+		std::cout << "Map " + mapName << " loaded\n";
+	else 
+		std::cout << "Map " + mapName << " failed to load\n";
 
 	return mapTiles;
 }
