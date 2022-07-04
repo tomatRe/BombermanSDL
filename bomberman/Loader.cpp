@@ -28,6 +28,10 @@ SDL_Texture* Loader::LoadTexture(std::string path)
 		{
 			std::cout << "Error appliying texture '" << path.c_str() << "'...\n";
 		}
+		else 
+		{
+			std::cout << "Loaded texture '" << path.c_str() << "'...\n";
+		}
 
 		SDL_FreeSurface(loadedSurface);
 	}
