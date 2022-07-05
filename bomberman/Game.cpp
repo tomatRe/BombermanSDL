@@ -49,7 +49,7 @@ void Game::Init(const std::string title, int xpos, int ypos, int width, int heig
 		SDL_Texture* tilemap = loader->LoadTexture("assets/sprites/tilemap.png");
 
 		//Load map
-		map = new Map("assets/maps/map1.map", tilemap);
+		//map = new Map("assets/maps/map1.map", tilemap);
 
 		//Initialize entities
 		player = new Player(500, 200, pTexture, 56, 48);
@@ -81,9 +81,9 @@ void Game::HandleEvents()
 	}
 }
 
-void Game::Update()
+void Game::Update(float delta)
 {
-	player->Update(NULL);
+	player->Update(delta);
 }
 
 void Game::Render()

@@ -15,9 +15,8 @@ class Player : public Entity
 		SDL_Rect* GetSrcRectangle();
 		SDL_Rect* GetDestRectangle();
 
-	private:
-		void Move();
-		void CheckInput();
+		void Move(float delta);
+		void HandleEvents(SDL_Event& e);
 		void CheckCollisions();
 };
 
