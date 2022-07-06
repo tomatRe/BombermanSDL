@@ -3,8 +3,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <sstream>
 #include <SDL_image.h>
+#include <json.hpp>
 
 class Map
 {
@@ -22,5 +22,7 @@ class Map
 
 		SDL_Texture* tileSet;
 		int** mapTiles;
+
+		using json = nlohmann::json;
 };
 

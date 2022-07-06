@@ -1,7 +1,0 @@
-D:\Documents\GitHub\BombermanSDL\MapGenerator\bin\Debug\MapGenerator.exe.config
-D:\Documents\GitHub\BombermanSDL\MapGenerator\bin\Debug\MapGenerator.exe
-D:\Documents\GitHub\BombermanSDL\MapGenerator\bin\Debug\MapGenerator.pdb
-D:\Documents\GitHub\BombermanSDL\MapGenerator\obj\Debug\MapGenerator.csprojAssemblyReference.cache
-D:\Documents\GitHub\BombermanSDL\MapGenerator\obj\Debug\MapGenerator.csproj.CoreCompileInputs.cache
-D:\Documents\GitHub\BombermanSDL\MapGenerator\obj\Debug\MapGenerator.exe
-D:\Documents\GitHub\BombermanSDL\MapGenerator\obj\Debug\MapGenerator.pdb
