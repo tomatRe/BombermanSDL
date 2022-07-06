@@ -5,7 +5,7 @@ const int playerW = 14;
 const int playerH = 22;
 
 //Movement
-static const int moveSpeed = 300;
+static const float moveSpeed = 1.5f;
 float mPosX, mPosY;
 float mVelX, mVelY;
 
@@ -15,10 +15,10 @@ SDL_DisplayMode DM;
 //Constructors
 Player::Player():Entity(0,0)
 {
-	mPosX = 0;
-	mPosY = 0;
-	mVelX = 0;
-	mVelY = 0;
+	mPosX = 0.f;
+	mPosY = 0.f;
+	mVelX = 0.f;
+	mVelY = 0.f;
 
     SDL_GetCurrentDisplayMode(0, &DM);
 }
@@ -27,8 +27,8 @@ Player::Player(int x, int y):Entity(x, y)
 {
 	mPosX = x;
 	mPosY = y;
-	mVelX = 0;
-	mVelY = 0;
+	mVelX = 0.f;
+	mVelY = 0.f;
 
     SDL_GetCurrentDisplayMode(0, &DM);
 }
@@ -38,8 +38,8 @@ Player::Player(int x, int y, SDL_Texture *sprite, int textPosX, int textPosY):
 {
 	mPosX = x;
 	mPosY = y;
-	mVelX = 0;
-	mVelY = 0;
+	mVelX = 0.f;
+	mVelY = 0.f;
 
     SDL_GetCurrentDisplayMode(0, &DM);
 
@@ -49,6 +49,8 @@ Player::Player(int x, int y, SDL_Texture *sprite, int textPosX, int textPosY):
 //Gameplay functions
 void Player::Update(float delta)
 {
+	Move(delta);
+
     Entity::SetX((int)mPosX);
     Entity::SetY((int)mPosY);
 }
@@ -56,7 +58,7 @@ void Player::Update(float delta)
 void Player::Move(float delta)
 {
     //Move the player left or right
-    mPosX += mVelX * delta;
+    mPosX += mVelX/* * delta*/;
 
     //If the player went too far to the left or right
     if (mPosX < 0)
@@ -69,7 +71,7 @@ void Player::Move(float delta)
     }
 
     //Move the player up or down
-    mPosY += mVelY * delta;
+    mPosY += mVelY/* * delta*/;
 
     //If the player went too far up or down
     if (mPosY < 0)
@@ -84,6 +86,30 @@ void Player::Move(float delta)
 
 void Player::HandleEvents(SDL_Event& e)
 {
+	//If a key was pressed
+	if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
+	{
+		//Adjust the velocity
+		switch (e.key.keysym.sym)
+		{
+			case SDLK_UP: mVelY -= moveSpeed; break;
+			case SDLK_DOWN: mVelY += moveSpeed; break;
+			case SDLK_LEFT: mVelX -= moveSpeed; break;
+			case SDLK_RIGHT: mVelX += moveSpeed; break;
+		}
+	}
+	//If a key was released
+	else if (e.type == SDL_KEYUP && e.key.repeat == 0)
+	{
+		//Adjust the velocity
+		switch (e.key.keysym.sym)
+		{
+		case SDLK_UP: mVelY += moveSpeed; break;
+		case SDLK_DOWN: mVelY -= moveSpeed; break;
+		case SDLK_LEFT: mVelX += moveSpeed; break;
+		case SDLK_RIGHT: mVelX -= moveSpeed; break;
+		}
+	}
 }
 
 void Player::CheckCollisions()

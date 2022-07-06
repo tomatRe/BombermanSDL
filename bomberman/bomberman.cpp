@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
 		frameStart = SDL_GetTicks();
 
 		game->HandleEvents();
-		game->Update();
+		game->Update(((SDL_GetTicks() - frameStart)* 1000) / (float)SDL_GetPerformanceFrequency());
 		game->Render();
 
 		frameTime = SDL_GetTicks() - frameStart;//ms of how much it took the frame

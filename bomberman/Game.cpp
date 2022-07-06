@@ -70,6 +70,10 @@ void Game::HandleEvents()
 	SDL_Event event;
 	SDL_PollEvent(&event);
 
+	//Handle player events
+	player->HandleEvents(event);
+
+	//Handle system events
 	switch (event.type)
 	{
 		case SDL_QUIT:
