@@ -1,7 +1,20 @@
-﻿  Map.cpp
-  bomberman.vcxproj -> D:\Documents\GitHub\BombermanSDL\x64\Debug\bomberman.exe
+﻿  bomberman.cpp
+  Entity.cpp
+  Game.cpp
+  Loader.cpp
+  Map.cpp
+  Player.cpp
+c:\users\angel\documents\github\bombermansdl\bomberman\player.cpp(28): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\angel\documents\github\bombermansdl\bomberman\player.cpp(29): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\angel\documents\github\bombermansdl\bomberman\player.cpp(39): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\angel\documents\github\bombermansdl\bomberman\player.cpp(40): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\angel\documents\github\bombermansdl\bomberman\player.cpp(70): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\angel\documents\github\bombermansdl\bomberman\player.cpp(83): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  Generating Code...
+  bomberman.vcxproj -> C:\Users\Angel\Documents\GitHub\BombermanSDL\x64\Debug\bomberman.exe
   0 File(s) copied
   0 File(s) copied
+  File not found - *.map
   0 File(s) copied
-  D:\Documents\GitHub\BombermanSDL\MapGenerator\bin\debug\map1.map
-  1 File(s) copied
+  File not found - *.map
+  0 File(s) copied

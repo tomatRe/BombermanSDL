@@ -4,7 +4,7 @@
 #include <fstream>
 #include <string>
 #include <SDL_image.h>
-#include <json.hpp>
+//#include <json.hpp>
 
 class Map
 {
@@ -23,6 +23,6 @@ class Map
 		SDL_Texture* tileSet;
 		int** mapTiles;
 
-		using json = nlohmann::json;
+		//using json = nlohmann::json;
 };
 
