@@ -19,12 +19,16 @@ class Map
 		std::vector<std::vector<int>> GetMap() const;
 		SDL_Texture* GetSpriteAtLocation(int x, int y);
 		void SetSpriteAtLocation(int x, int y);
+		void DrawMap(SDL_Renderer* renderer);
 	private:
-		void ReadMap(std::string mapName);
-
 		SDL_Texture* tileSet;
 		std::vector<std::vector<int>> mapTiles;
-
+		const int mapSizex = 180;
+		const int mapSizey = 180;
+		const int tileSizex = 17;
+		const int tileSizey = 17;
+		const int blockSizex = 24;
+		const int blockSizey = 24;
 		//using json = nlohmann::json;
 };
 

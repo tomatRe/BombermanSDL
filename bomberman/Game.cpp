@@ -96,7 +96,7 @@ void Game::Render()
 	SDL_RenderClear(renderer);
 
 	//Draw map
-	//SDL_RenderCopy(renderer, -BACKGROUND TEXTURE-, NULL, NULL);
+	map->DrawMap(renderer);
 
 	//Draw player(s)
 	SDL_RenderCopy(renderer, player->GetSprite(), player->GetSrcRectangle(), player->GetDestRectangle());

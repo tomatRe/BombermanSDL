@@ -66,8 +66,51 @@ void Map::SetSpriteAtLocation(int x, int y)
 {
 }
 
-void Map::ReadMap(std::string mapName)
+void Map::DrawMap(SDL_Renderer* renderer)
 {
+	SDL_Rect srcRectangle;
+	SDL_Rect destRectangle;
+
+	//size on the spritesheet
+	srcRectangle.w = tileSizex;
+	srcRectangle.h = tileSizey;
+	
+	//size on the world
+	destRectangle.w = blockSizex;
+	destRectangle.h = blockSizey;
+
+	if (mapTiles.size() != 0)
+	{
+		int tilePositionx = 0;
+		int tilePositiony = 0;
+
+		for (size_t i = 0; i < mapSizex; i++)
+		{
+			for (size_t j = 0; j < mapSizey; j++)
+			{
+				if (mapTiles[i][j] == 0) // texture 1
+				{
+					srcRectangle.x = 327;
+					srcRectangle.y = 460;
+				}
+				else // texture 2
+				{
+					srcRectangle.x = 310;
+					srcRectangle.y = 460;
+				}
+
+				//world position
+				destRectangle.x = tilePositionx;
+				destRectangle.y = tilePositiony;
+
+				SDL_RenderCopy(renderer, tileSet, &srcRectangle, &destRectangle);
+
+				tilePositionx += tileSizex;
+			}
+			tilePositionx = 0;
+			tilePositiony += tileSizey;
+		}
+	}
 }
 
 Map::~Map()
