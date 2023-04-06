@@ -49,7 +49,7 @@ void Game::Init(const std::string title, int xpos, int ypos, int width, int heig
 		SDL_Texture* tilemap = loader->LoadTexture("assets/sprites/tilemap.png");
 
 		//Load map
-		//map = new Map("assets/maps/map1.map", tilemap);
+		map = new Map("assets/maps/map1.map", tilemap);
 
 		//Initialize entities
 		player = new Player(500, 200, pTexture, 56, 48);
@@ -108,6 +108,7 @@ void Game::Render()
 void Game::Clean()
 {
 	std::cout << "Cleaning up...\n";
+	delete map;
 	SDL_DestroyTexture(player->GetSprite());
 	//SDL_DestroyTexture();
 	SDL_DestroyWindow(window);

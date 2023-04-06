@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string>
 #include <SDL_image.h>
+#include <vector>
 //#include <json.hpp>
 
 class Map
@@ -14,14 +15,15 @@ class Map
 		Map(std::string mapName, SDL_Texture* tileSet);
 		~Map();
 
-		int** LoadMap(std::string mapName);
+		void LoadMap(std::string mapName);
+		std::vector<std::vector<int>> GetMap() const;
 		SDL_Texture* GetSpriteAtLocation(int x, int y);
 		void SetSpriteAtLocation(int x, int y);
 	private:
 		void ReadMap(std::string mapName);
 
 		SDL_Texture* tileSet;
-		int** mapTiles;
+		std::vector<std::vector<int>> mapTiles;
 
 		//using json = nlohmann::json;
 };
