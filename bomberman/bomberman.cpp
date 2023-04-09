@@ -42,8 +42,6 @@ int main(int argc, char *argv[])
 		now = SDL_GetPerformanceCounter();
 		deltaTime = (double)((now - last) * 1000 / (double)SDL_GetPerformanceFrequency());
 
-		std::cout << deltaTime << "\n";
-
 		if (frameDelay > deltaTime)//apply delay
 			SDL_Delay(frameDelay - deltaTime);
 	}
