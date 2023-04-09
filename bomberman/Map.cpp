@@ -111,8 +111,12 @@ void Map::GetTexture(int tile, SDL_Rect* srcRectangle)
 {
 	switch (tile)
 	{
-	case 1: // Brick texture
+	case 1: // Brick
 		srcRectangle->x = 310;
+		srcRectangle->y = 460;
+		break;
+	case 2: // Brick 2
+		srcRectangle->x = 293;
 		srcRectangle->y = 460;
 		break;
 
