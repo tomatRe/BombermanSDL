@@ -1,17 +1,5 @@
 #include "Player.h"
 
-//Constants
-const int playerW = 14;
-const int playerH = 22;
-
-//Movement
-static const float moveSpeed = 1.5f;
-float mPosX, mPosY;
-float mVelX, mVelY;
-
-//Screen boundaries
-SDL_DisplayMode DM;
-
 //Constructors
 Player::Player():Entity(0,0)
 {
@@ -34,7 +22,7 @@ Player::Player(int x, int y):Entity(x, y)
 }
 
 Player::Player(int x, int y, SDL_Texture *sprite, int textPosX, int textPosY):
-	Entity(x, y, playerW*2, playerH*2, sprite, textPosX, textPosY, playerW, playerH)
+	Entity(x, y, sprite, textPosX, textPosY)
 {
 	mPosX = x;
 	mPosY = y;
@@ -43,6 +31,29 @@ Player::Player(int x, int y, SDL_Texture *sprite, int textPosX, int textPosY):
 
     SDL_GetCurrentDisplayMode(0, &DM);
 
+	// Load animation frames
+
+	upSpriteFrames = {
+		{56, 20, playerH, playerW},
+		{73, 20, playerH, playerW},
+		{88, 20, playerH, playerW}
+	};
+	downSpriteFrames = {
+		{55, 45, playerH, playerW},
+		{71, 45, playerH, playerW},
+		{86, 45, playerH, playerW}
+	};
+	leftSpriteFrames = {
+		{2, 44, playerH, playerW},
+		{19, 44, playerH, playerW},
+		{35, 44, playerH, playerW}
+	};
+	rightSpriteFrames = {
+		{105, 46, playerH, playerW},
+		{122, 47, playerH, playerW},
+		{137, 48, playerH, playerW}
+	};
+
 	std::cout << "Player created at " << x << ", " << y << "\n";
 }
 
@@ -50,7 +61,7 @@ Player::Player(int x, int y, SDL_Texture *sprite, int textPosX, int textPosY):
 void Player::Update(float delta)
 {
 	Move(delta);
-
+	AnimatePlayer(delta);
     Entity::SetX((int)mPosX);
     Entity::SetY((int)mPosY);
 }
@@ -114,6 +125,41 @@ void Player::HandleEvents(SDL_Event& e)
 
 void Player::CheckCollisions()
 {
+}
+
+void Player::AnimatePlayer(float delta)
+{
+
+	if (animationDeltaTime >= timePerAnimation)
+	{
+		animationDeltaTime = 0;
+
+		switch (playerDirection)
+		{
+		case 0:
+			srcRectangle = upSpriteFrames[animationFrame];
+			break;
+
+		case 1:
+			srcRectangle = downSpriteFrames[animationFrame];
+			break;
+
+		case 2:
+			srcRectangle = leftSpriteFrames[animationFrame];
+			break;
+
+		case 3:
+			srcRectangle = rightSpriteFrames[animationFrame];
+			break;
+		}
+	}
+
+	animationDeltaTime += delta;
+
+	if (animationFrame != 2)
+		animationFrame++;
+	else
+		animationFrame = 0;
 }
 
 //Utils functions

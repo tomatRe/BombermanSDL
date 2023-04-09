@@ -10,6 +10,21 @@ Entity::Entity(int x, int y)
 	destRectangle.y = y;
 }
 
+Entity::Entity(int x, int y, SDL_Texture* sprite, int textPosX, int textPosY)
+{
+	this->sprite = sprite;
+
+	destRectangle.x = x;
+	destRectangle.y = y;
+	destRectangle.w = playerW*2;
+	destRectangle.h = playerH*2;
+
+	srcRectangle.x = textPosX;
+	srcRectangle.y = textPosY;
+	srcRectangle.w = playerW;
+	srcRectangle.h = playerH;
+}
+
 Entity::Entity(int x, int y, int rectW, int rectH, SDL_Texture *sprite, int textPosX, int textPosY, int textSizeX, int textSizeY)
 {
 	this->sprite = sprite;
