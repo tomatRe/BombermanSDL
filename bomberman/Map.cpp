@@ -13,7 +13,7 @@ Map::Map(std::string mapName, SDL_Texture* tileSet)
 void Map::LoadMap(std::string mapName)
 {
 	std::string line;
-	mapTiles.reserve(180);
+	mapTiles.reserve(165);
 
 	// Read from the text file
 	std::ifstream mapFile(mapName);
@@ -24,7 +24,7 @@ void Map::LoadMap(std::string mapName)
 		while (std::getline(mapFile, line)) {
 			// Output the text from the file
 
-			mapTiles.push_back(std::vector<int>(180));
+			mapTiles.push_back(std::vector<int>(line.length()));
 
 			for (size_t j = 0; j < line.length(); j++)
 			{
@@ -38,9 +38,11 @@ void Map::LoadMap(std::string mapName)
 				//save int to the array
 				mapTiles[i][j] = tile;
 			}
-
+			mapSizey = line.length();
 			i++;
 		}
+
+		mapSizex = i;
 	}
 
 	// Close the file
@@ -88,16 +90,8 @@ void Map::DrawMap(SDL_Renderer* renderer)
 		{
 			for (size_t j = 0; j < mapSizey; j++)
 			{
-				if (mapTiles[i][j] == 0) // texture 1
-				{
-					srcRectangle.x = 327;
-					srcRectangle.y = 460;
-				}
-				else // texture 2
-				{
-					srcRectangle.x = 310;
-					srcRectangle.y = 460;
-				}
+				//Set texture
+				GetTexture(mapTiles[i][j], &srcRectangle);
 
 				//world position
 				destRectangle.x = tilePositionx;
@@ -110,6 +104,22 @@ void Map::DrawMap(SDL_Renderer* renderer)
 			tilePositionx = 0;
 			tilePositiony += tileSizey;
 		}
+	}
+}
+
+void Map::GetTexture(int tile, SDL_Rect* srcRectangle)
+{
+	switch (tile)
+	{
+	case 1: // Brick texture
+		srcRectangle->x = 310;
+		srcRectangle->y = 460;
+		break;
+
+	default: // Ground texture
+		srcRectangle->x = 327;
+		srcRectangle->y = 460;
+		break;
 	}
 }
 
