@@ -26,10 +26,10 @@ class Map
 		std::vector<std::vector<int>> mapTiles;
 		int mapSizex = 180;
 		int mapSizey = 180;
-		const int tileSizex = 17;
-		const int tileSizey = 17;
-		const int blockSizex = 24;
-		const int blockSizey = 24;
+		const int tileSizex = 20;
+		const int tileSizey = 20;
+		const int blockSizex = 25;
+		const int blockSizey = 25;
 		//using json = nlohmann::json;
 };
 
