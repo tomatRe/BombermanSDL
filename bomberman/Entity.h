@@ -23,8 +23,8 @@ class Entity
 		SDL_Rect destRectangle;
 
 		//Constants
-		const int playerW = 14;
-		const int playerH = 22;
+		const int playerW = 17;
+		const int playerH = 24;
 
 		//Movement
 		const float moveSpeed = 1.5f;

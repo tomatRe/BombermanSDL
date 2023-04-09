@@ -34,24 +34,24 @@ Player::Player(int x, int y, SDL_Texture *sprite, int textPosX, int textPosY):
 	// Load animation frames
 
 	upSpriteFrames = {
-		{56, 20, playerH, playerW},
-		{73, 20, playerH, playerW},
-		{88, 20, playerH, playerW}
+		{56, 20, playerW, playerH},
+		{73, 20, playerW, playerH},
+		{88, 20, playerW, playerH}
 	};
 	downSpriteFrames = {
-		{55, 45, playerH, playerW},
-		{71, 45, playerH, playerW},
-		{86, 45, playerH, playerW}
+		{56, 45, playerW, playerH},
+		{71, 45, playerW, playerH},
+		{86, 45, playerW, playerH}
 	};
 	leftSpriteFrames = {
-		{2, 44, playerH, playerW},
-		{19, 44, playerH, playerW},
-		{35, 44, playerH, playerW}
+		{2, 44, playerW, playerH},
+		{19, 44, playerW, playerH},
+		{35, 44, playerW, playerH}
 	};
 	rightSpriteFrames = {
-		{105, 46, playerH, playerW},
-		{122, 47, playerH, playerW},
-		{137, 48, playerH, playerW}
+		{105, 46, playerW, playerH},
+		{122, 47, playerW, playerH},
+		{137, 48, playerW, playerH}
 	};
 
 	std::cout << "Player created at " << x << ", " << y << "\n";
@@ -62,37 +62,34 @@ void Player::Update(float delta)
 {
 	Move(delta);
 	AnimatePlayer(delta);
-    Entity::SetX((int)mPosX);
-    Entity::SetY((int)mPosY);
 }
 
 void Player::Move(float delta)
 {
     //Move the player left or right
-    mPosX += mVelX/* * delta*/;
+    mPosX += mVelX * delta;
 
-    //If the player went too far to the left or right
-    if (mPosX < 0)
-    {
-        mPosX = 0;
-    }
-    else if (mPosX > DM.w - playerW)
-    {
-        mPosX = DM.w - playerW;
-    }
+	//Animate direction x
+	if (mVelX > 0)
+		playerDirection = 3;
+	else if (mVelX < 0)
+		playerDirection = 2;
 
     //Move the player up or down
-    mPosY += mVelY/* * delta*/;
+    mPosY += mVelY * delta;
 
-    //If the player went too far up or down
-    if (mPosY < 0)
-    {
-        mPosY = 0;
-    }
-    else if (mPosY > DM.h - playerH)
-    {
-        mPosY = DM.h - playerH;
-    }
+	//Animate direction y
+	if (mVelY > 0)
+		playerDirection = 1;
+	else if (mVelY < 0)
+		playerDirection = 0;
+
+	//Check collisions before moving
+	CheckCollisions();
+
+	//Apply movement
+	Entity::SetX((int)mPosX);
+	Entity::SetY((int)mPosY);
 }
 
 void Player::HandleEvents(SDL_Event& e)
@@ -125,6 +122,26 @@ void Player::HandleEvents(SDL_Event& e)
 
 void Player::CheckCollisions()
 {
+	//Screen boundaries collision
+	//If the player went too far to the left or right
+	if (mPosX < 0)
+	{
+		mPosX = 0;
+	}
+	else if (mPosX > DM.w - playerW)
+	{
+		mPosX = DM.w - playerW;
+	}
+
+	//If the player went too far up or down
+	if (mPosY < 0)
+	{
+		mPosY = 0;
+	}
+	else if (mPosY > DM.h - playerH)
+	{
+		mPosY = DM.h - playerH;
+	}
 }
 
 void Player::AnimatePlayer(float delta)

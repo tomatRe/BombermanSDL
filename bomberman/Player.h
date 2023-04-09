@@ -23,7 +23,7 @@ class Player : public Entity
 	private:
 		void AnimatePlayer(float delta);
 
-		int animationFrame = 1; // 3 frames per animation
+		int animationFrame = 0; // 3 frames per animation
 		int playerDirection = 1; //0=Up, 1=Down... (same order as below)
 
 		std::vector<SDL_Rect> upSpriteFrames;
@@ -31,9 +31,9 @@ class Player : public Entity
 		std::vector<SDL_Rect> leftSpriteFrames;
 		std::vector<SDL_Rect> rightSpriteFrames;
 
-		float animationDeltaTime = 0;
+		float animationDeltaTime = 1; // Current frame duration
 
 		// Constants
-		const float timePerAnimation = 1.f; // 1 second per animation
+		const float timePerAnimation = 1000.f; // 1 second per animation
 };
 
