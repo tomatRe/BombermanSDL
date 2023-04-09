@@ -16,8 +16,10 @@ const bool fullScreen = false;
 const int fps = 60;
 const int frameDelay = 1000/fps;
 
-Uint32 frameStart;
-int frameTime;
+//Delta time vars
+Uint64 now = SDL_GetPerformanceCounter();
+Uint64 last = 0;
+double deltaTime = 0;
 
 Game* game = nullptr;
 
@@ -31,16 +33,19 @@ int main(int argc, char *argv[])
 
 	while (game->Running())
 	{
-		frameStart = SDL_GetTicks();
+		last = now;
 
 		game->HandleEvents();
-		game->Update(((SDL_GetTicks() - frameStart)* 1000) / (float)SDL_GetPerformanceFrequency());
+		game->Update(deltaTime);
 		game->Render();
 
-		frameTime = SDL_GetTicks() - frameStart;//ms of how much it took the frame
+		now = SDL_GetPerformanceCounter();
+		deltaTime = (double)((now - last) * 1000 / (double)SDL_GetPerformanceFrequency());
 
-		if (frameDelay > frameTime)//apply delay
-			SDL_Delay(frameDelay - frameTime);
+		std::cout << deltaTime << "\n";
+
+		if (frameDelay > deltaTime)//apply delay
+			SDL_Delay(frameDelay - deltaTime);
 	}
 
 	game->Clean();
