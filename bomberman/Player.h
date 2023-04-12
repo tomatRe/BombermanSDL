@@ -25,7 +25,7 @@ class Player : public Entity
 		const int playerH = 24;
 
 		//Movement
-		const float moveSpeed = 0.05f;
+		const float moveSpeed = 0.07f;
 		float mPosX, mPosY;
 		float mVelX, mVelY;
 
