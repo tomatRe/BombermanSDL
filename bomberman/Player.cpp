@@ -34,14 +34,14 @@ Player::Player(int x, int y, SDL_Texture *sprite, int textPosX, int textPosY):
 	// Load animation frames
 
 	upSpriteFrames = {
+		{72, 20, playerW, playerH},
 		{56, 20, playerW, playerH},
-		{73, 20, playerW, playerH},
 		{88, 20, playerW, playerH}
 	};
 	downSpriteFrames = {
-		{56, 45, playerW, playerH},
 		{71, 45, playerW, playerH},
-		{86, 45, playerW, playerH}
+		{55, 45, playerW, playerH},
+		{87, 45, playerW, playerH}
 	};
 	leftSpriteFrames = {
 		{2, 44, playerW, playerH},
@@ -50,8 +50,8 @@ Player::Player(int x, int y, SDL_Texture *sprite, int textPosX, int textPosY):
 	};
 	rightSpriteFrames = {
 		{105, 46, playerW, playerH},
-		{122, 47, playerW, playerH},
-		{137, 48, playerW, playerH}
+		{121, 47, playerW, playerH},
+		{139, 48, playerW, playerH}
 	};
 
 	std::cout << "Player created at " << x << ", " << y << "\n";
@@ -105,6 +105,8 @@ void Player::HandleEvents(SDL_Event& e)
 			case SDLK_LEFT: mVelX -= moveSpeed; break;
 			case SDLK_RIGHT: mVelX += moveSpeed; break;
 		}
+
+		isMoving = true;
 	}
 	//If a key was released
 	else if (e.type == SDL_KEYUP && e.key.repeat == 0)
@@ -117,6 +119,8 @@ void Player::HandleEvents(SDL_Event& e)
 		case SDLK_LEFT: mVelX += moveSpeed; break;
 		case SDLK_RIGHT: mVelX -= moveSpeed; break;
 		}
+
+		isMoving = false;
 	}
 }
 
@@ -147,36 +151,60 @@ void Player::CheckCollisions()
 void Player::AnimatePlayer(float delta)
 {
 
-	if (animationDeltaTime >= timePerAnimation)
+	if (isMoving) // Play moving animation
 	{
-		animationDeltaTime = 0;
+		if (animationDeltaTime >= timePerAnimation)
+		{
+			animationDeltaTime = 0;
 
+			switch (playerDirection)
+			{
+			case 0:
+				srcRectangle = upSpriteFrames[animationFrame];
+				break;
+
+			case 1:
+				srcRectangle = downSpriteFrames[animationFrame];
+				break;
+
+			case 2:
+				srcRectangle = leftSpriteFrames[animationFrame];
+				break;
+
+			case 3:
+				srcRectangle = rightSpriteFrames[animationFrame];
+				break;
+			}
+
+			if (animationFrame < 2)
+				animationFrame++;
+			else
+				animationFrame = 1;
+		}
+	}
+	else // Play Idle frame
+	{
 		switch (playerDirection)
 		{
 		case 0:
-			srcRectangle = upSpriteFrames[animationFrame];
+			srcRectangle = upSpriteFrames[0];
 			break;
 
 		case 1:
-			srcRectangle = downSpriteFrames[animationFrame];
+			srcRectangle = downSpriteFrames[0];
 			break;
 
 		case 2:
-			srcRectangle = leftSpriteFrames[animationFrame];
+			srcRectangle = leftSpriteFrames[0];
 			break;
 
 		case 3:
-			srcRectangle = rightSpriteFrames[animationFrame];
+			srcRectangle = rightSpriteFrames[0];
 			break;
 		}
 	}
 
 	animationDeltaTime += delta;
-
-	if (animationFrame != 2)
-		animationFrame++;
-	else
-		animationFrame = 0;
 }
 
 //Utils functions

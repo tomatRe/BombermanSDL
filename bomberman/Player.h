@@ -33,6 +33,7 @@ class Player : public Entity
 		SDL_DisplayMode DM;
 
 	private:
+		bool isMoving = false;
 		void AnimatePlayer(float delta);
 
 		int animationFrame = 0; // 3 frames per animation
@@ -46,6 +47,6 @@ class Player : public Entity
 		float animationDeltaTime = 1; // Current frame duration
 
 		// Constants
-		const float timePerAnimation = 1000.f; // 1 second per animation
+		const float timePerAnimation = 333.33333f; // 1 second to complete the animation set
 };
 
