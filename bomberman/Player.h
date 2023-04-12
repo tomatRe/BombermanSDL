@@ -20,6 +20,18 @@ class Player : public Entity
 		void HandleEvents(SDL_Event& e);
 		void CheckCollisions();
 
+		//Constants
+		const int playerW = 17;
+		const int playerH = 24;
+
+		//Movement
+		const float moveSpeed = 0.05f;
+		float mPosX, mPosY;
+		float mVelX, mVelY;
+
+		//Screen boundaries
+		SDL_DisplayMode DM;
+
 	private:
 		void AnimatePlayer(float delta);
 

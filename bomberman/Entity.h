@@ -21,17 +21,5 @@ class Entity
 		SDL_Texture *sprite;
 		SDL_Rect srcRectangle;
 		SDL_Rect destRectangle;
-
-		//Constants
-		const int playerW = 17;
-		const int playerH = 24;
-
-		//Movement
-		const float moveSpeed = 1.5f;
-		float mPosX, mPosY;
-		float mVelX, mVelY;
-
-		//Screen boundaries
-		SDL_DisplayMode DM;
 };
 
