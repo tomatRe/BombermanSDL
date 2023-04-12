@@ -90,14 +90,17 @@ void Map::DrawMap(SDL_Renderer* renderer)
 		{
 			for (size_t j = 0; j < mapSizey; j++)
 			{
-				//Set texture
-				GetTexture(mapTiles[i][j], &srcRectangle);
+				if (mapTiles[i][j] != 0) // 0 Means nodraw
+				{
+					//Set texture
+					GetTexture(mapTiles[i][j], &srcRectangle);
 
-				//world position
-				destRectangle.x = tilePositionx;
-				destRectangle.y = tilePositiony;
+					//world position
+					destRectangle.x = tilePositionx;
+					destRectangle.y = tilePositiony;
 
-				SDL_RenderCopy(renderer, tileSet, &srcRectangle, &destRectangle);
+					SDL_RenderCopy(renderer, tileSet, &srcRectangle, &destRectangle);
+				}
 
 				tilePositionx += tileSizex;
 			}
