@@ -66,6 +66,9 @@ void Player::Update(float delta)
 
 void Player::Move(float delta)
 {
+	lastPosX = mPosX;
+	lastPosY = mPosY;
+
     //Move the player left or right
     mPosX += mVelX * delta;
 
@@ -87,9 +90,18 @@ void Player::Move(float delta)
 	//Check collisions before moving
 	CheckCollisions();
 
-	//Apply movement
-	Entity::SetX((int)mPosX);
-	Entity::SetY((int)mPosY);
+	if (lastPosX != mPosX || lastPosY != mPosY)
+	{
+		isMoving = true;
+
+		//Apply movement
+		Entity::SetX((int)mPosX);
+		Entity::SetY((int)mPosY);
+	}
+	else 
+	{
+		isMoving = false;
+	}
 }
 
 void Player::HandleEvents(SDL_Event& e)
@@ -105,8 +117,6 @@ void Player::HandleEvents(SDL_Event& e)
 			case SDLK_LEFT: mVelX -= moveSpeed; break;
 			case SDLK_RIGHT: mVelX += moveSpeed; break;
 		}
-
-		isMoving = true;
 	}
 	//If a key was released
 	else if (e.type == SDL_KEYUP && e.key.repeat == 0)
@@ -119,8 +129,6 @@ void Player::HandleEvents(SDL_Event& e)
 		case SDLK_LEFT: mVelX += moveSpeed; break;
 		case SDLK_RIGHT: mVelX -= moveSpeed; break;
 		}
-
-		isMoving = false;
 	}
 }
 
@@ -202,6 +210,9 @@ void Player::AnimatePlayer(float delta)
 			srcRectangle = rightSpriteFrames[0];
 			break;
 		}
+
+		//Reset animation
+		animationFrame = 1;
 	}
 
 	animationDeltaTime += delta;

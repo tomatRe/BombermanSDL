@@ -32,6 +32,10 @@ class Player : public Entity
 		//Screen boundaries
 		SDL_DisplayMode DM;
 
+		//Collision
+		float lastPosX;
+		float lastPosY;
+
 	private:
 		bool isMoving = false;
 		void AnimatePlayer(float delta);
