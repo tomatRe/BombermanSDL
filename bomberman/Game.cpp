@@ -99,6 +99,8 @@ void Game::Update(float delta)
 {
 	for (size_t i = 0; i < players.size(); i++)
 			players[i]->Update(delta);
+
+	CheckCollisions();
 }
 
 void Game::Render()
@@ -123,6 +125,14 @@ void Game::Render()
 
 	//Draw next frame
 	SDL_RenderPresent(renderer);
+}
+
+void Game::CheckCollisions()
+{
+	for (size_t i = 0; i < players.size(); i++)
+	{
+		map->CheckCollision(players[i]);
+	}
 }
 
 void Game::Clean()

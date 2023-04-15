@@ -20,6 +20,7 @@ class Map
 		SDL_Texture* GetSpriteAtLocation(int x, int y);
 		void SetSpriteAtLocation(int x, int y);
 		void DrawMap(SDL_Renderer* renderer);
+		void CheckCollision(Player* p);
 	private:
 		//variables
 		SDL_Texture* tileSet;
@@ -32,5 +33,7 @@ class Map
 		const int blockSizey = 50;
 
 		void GetTexture(int tile, SDL_Rect* srcRectangle);
+		bool IsOverlaping(SDL_Rect rect1, SDL_Rect rect2);
+		void MoveOverlapingPlayer(Player* p, SDL_Rect* mapChunk);
 };
 

@@ -130,6 +130,55 @@ void Map::GetTexture(int tile, SDL_Rect* srcRectangle)
 	}
 }
 
+void Map::CheckCollision(Player* p)
+{
+	SDL_Rect pRect = *p->GetDestRectangle();
+
+	for (size_t i = 0; i < mapSizex; i++)
+	{
+		for (size_t j = 0; j < mapSizey; j++)
+		{
+			SDL_Rect mapRect = {i, j, Map::blockSizex, Map::blockSizey};
+
+			if (IsOverlaping(mapRect, pRect))
+			{
+				MoveOverlapingPlayer(p, &mapRect);
+			}
+		}
+	}
+}
+
+bool Map::IsOverlaping(SDL_Rect rect1, SDL_Rect rect2)
+{
+	// If one rectangle is on left side of other
+	if (rect1.x > rect2.x || rect2.x + rect2.w > rect1.x + rect1.w)
+		return false;
+
+	// If one rectangle is above other
+	if (rect1.y + rect1.h > rect2.y || rect2.y > rect1.y)
+		return false;
+
+	return true;
+}
+
+void Map::MoveOverlapingPlayer(Player* p, SDL_Rect* mapChunk)
+{
+	//Move player to closest non-overlaping chunk
+	SDL_Rect pRect = *p->GetDestRectangle();
+
+	//Move left - right
+	if (pRect.x - mapChunk->x != 0 )
+	{
+
+	}
+
+	//Move up - down
+	if (pRect.y - mapChunk->y != 0)
+	{
+
+	}
+}
+
 Map::~Map()
 {
 }

@@ -24,6 +24,7 @@ class Game
 		void HandleEvents();
 		void Update(float delta);
 		void Render();
+		void CheckCollisions();
 		void Clean();
 
 		bool Running() { return isRunning; }
