@@ -36,14 +36,20 @@ class Game
 		SDL_Window *window;
 		SDL_Renderer *renderer;
 
-		//Media
+		//Media (HUD)
 		//std::vector<SDL_Texture*> textures;
 
 		//Map
 		Map* map;
 
-		//player(s)
-		Player* player;
-		//std::vector<Player*> players;
+		//Player(s)
+		std::vector<Player*> players;
+
+		//Entities
+		std::vector<Entity*> entities;
+
+		//Constants
+		const int maxPlayers = 4;
+		const int maxEntities = 100;
 };
 

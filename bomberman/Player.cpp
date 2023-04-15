@@ -237,4 +237,5 @@ SDL_Rect* Player::GetDestRectangle()
 //Destructor
 Player::~Player()
 {
+	SDL_DestroyTexture(GetSprite());
 }

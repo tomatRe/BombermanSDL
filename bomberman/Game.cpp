@@ -1,7 +1,10 @@
 #include "Game.h"
 
 Game::Game()
-{}
+{
+	players.reserve(maxPlayers);
+	entities.reserve(maxEntities);
+}
 
 Game::~Game()
 {
@@ -51,8 +54,9 @@ void Game::Init(const std::string title, int xpos, int ypos, int width, int heig
 		//Load map
 		map = new Map("assets/maps/map1.map", tilemap);
 
-		//Initialize entities
-		player = new Player(500, 200, pTexture, 56, 48);
+		//Initialize players
+		Player* player = new Player(500, 200, pTexture, 56, 48);
+		players.push_back(player);
 
 		//if everything goes ok set running to true
 		isRunning = true;
@@ -71,7 +75,13 @@ void Game::HandleEvents()
 	SDL_PollEvent(&event);
 
 	//Handle player events
-	player->HandleEvents(event);
+	for (size_t i = 0; i < players.size(); i++)
+			players[i]->HandleEvents(event);
+
+	//Handle entity events
+	//for (size_t i = 0; i < entities.size(); i++)
+	//	entities[i]->HandleEvents(event);
+	
 
 	//Handle system events
 	switch (event.type)
@@ -87,7 +97,8 @@ void Game::HandleEvents()
 
 void Game::Update(float delta)
 {
-	player->Update(delta);
+	for (size_t i = 0; i < players.size(); i++)
+			players[i]->Update(delta);
 }
 
 void Game::Render()
@@ -99,7 +110,16 @@ void Game::Render()
 	map->DrawMap(renderer);
 
 	//Draw player(s)
-	SDL_RenderCopy(renderer, player->GetSprite(), player->GetSrcRectangle(), player->GetDestRectangle());
+	for (size_t i = 0; i < players.size(); i++)
+		SDL_RenderCopy(
+			renderer,
+			players[i]->GetSprite(),
+			players[i]->GetSrcRectangle(),
+			players[i]->GetDestRectangle());
+
+	//Draw entities
+	//for (size_t i = 0; i < entities.size(); i++)
+	//	SDL_RenderCopy(renderer,entities[i]->GetSprite(),entities[i]->GetSrcRectangle(),entities[i]->GetDestRectangle());
 
 	//Draw next frame
 	SDL_RenderPresent(renderer);
@@ -109,8 +129,14 @@ void Game::Clean()
 {
 	std::cout << "Cleaning up...\n";
 	delete map;
-	SDL_DestroyTexture(player->GetSprite());
-	//SDL_DestroyTexture();
+
+	for (size_t i = 0; i < players.size(); i++)
+		delete players[i];
+
+	for (size_t i = 0; i < entities.size(); i++)
+		delete entities[i];
+
+	//SDL_DestroyTexture(); HUD
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
 	SDL_Quit();
