@@ -83,8 +83,8 @@ void Map::DrawMap(SDL_Renderer* renderer)
 
 	if (mapTiles.size() != 0)
 	{
-		int tilePositionx = 0;
-		int tilePositiony = 0;
+		int tilePositionx = -3;
+		int tilePositiony = -2;
 
 		for (size_t i = 0; i < mapSizex; i++)
 		{
@@ -102,10 +102,10 @@ void Map::DrawMap(SDL_Renderer* renderer)
 					SDL_RenderCopy(renderer, tileSet, &srcRectangle, &destRectangle);
 				}
 
-				tilePositionx += tileSizex;
+				tilePositionx += blockSizex-6;
 			}
-			tilePositionx = 0;
-			tilePositiony += tileSizey;
+			tilePositionx = -6;
+			tilePositiony += blockSizey-6;
 		}
 	}
 }

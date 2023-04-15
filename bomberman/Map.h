@@ -5,7 +5,7 @@
 #include <string>
 #include <SDL_image.h>
 #include <vector>
-//#include <json.hpp>
+#include "Player.h"
 
 class Map
 {
@@ -21,15 +21,16 @@ class Map
 		void SetSpriteAtLocation(int x, int y);
 		void DrawMap(SDL_Renderer* renderer);
 	private:
-		void GetTexture(int tile, SDL_Rect* srcRectangle);
+		//variables
 		SDL_Texture* tileSet;
 		std::vector<std::vector<int>> mapTiles;
-		int mapSizex = 180;
-		int mapSizey = 180;
-		const int tileSizex = 20;
-		const int tileSizey = 20;
-		const int blockSizex = 25;
-		const int blockSizey = 25;
-		//using json = nlohmann::json;
+		int mapSizex = 0;
+		int mapSizey = 0;
+		const int tileSizex = 18;
+		const int tileSizey = 18;
+		const int blockSizex = 50;
+		const int blockSizey = 50;
+
+		void GetTexture(int tile, SDL_Rect* srcRectangle);
 };
 
