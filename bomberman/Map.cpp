@@ -166,16 +166,36 @@ void Map::MoveOverlapingPlayer(Player* p, SDL_Rect* mapChunk)
 	//Move player to closest non-overlaping chunk
 	SDL_Rect pRect = *p->GetDestRectangle();
 
-	//Move left - right
-	if (pRect.x - mapChunk->x != 0 )
+	int dir = 0;
+	int force = 1;
+
+	while (IsOverlaping(*mapChunk, pRect))
 	{
+		switch (dir)
+		{
+		case 0:
+			p->mPosY += force;
+			break;
 
-	}
+		case 1:
+			p->mPosY -= force;
+			break;
 
-	//Move up - down
-	if (pRect.y - mapChunk->y != 0)
-	{
+		case 2:
+			p->mPosX -= force;
+			break;
 
+		case 3:
+			p->mPosX += force;
+			break;
+
+		default:
+			p->mPosY += force;
+			dir = 1;
+			break;
+		}
+		force++;
+		dir++;
 	}
 }
 
