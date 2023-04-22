@@ -150,15 +150,17 @@ void Map::CheckCollision(Player* p)
 
 bool Map::IsOverlaping(SDL_Rect rect1, SDL_Rect rect2)
 {
-	// If one rectangle is on left side of other
-	if (rect1.x > rect2.x || rect2.x + rect2.w > rect1.x + rect1.w)
-		return false;
+	if (rect1.x < rect2.x + rect2.w &&
+		rect1.x + rect1.w > rect2.x &&
+		rect1.y < rect2.y + rect2.h &&
+		rect1.h + rect1.y > rect2.y
+		) 
+	{
+		// Collision detected!
+		return true;
+	}
 
-	// If one rectangle is above other
-	if (rect1.y + rect1.h > rect2.y || rect2.y > rect1.y)
-		return false;
-
-	return true;
+	return false;
 }
 
 void Map::MoveOverlapingPlayer(Player* p, SDL_Rect* mapChunk)
