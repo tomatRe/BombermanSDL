@@ -32,6 +32,7 @@ class Map
 		const int blockSizex = 50;
 		const int blockSizey = 50;
 
+		SDL_Rect GetRectAtPosition(int x, int y);
 		void GetTexture(int tile, SDL_Rect* srcRectangle);
 		bool IsOverlaping(SDL_Rect rect1, SDL_Rect rect2);
 		void MoveOverlapingPlayer(Player* p, SDL_Rect* mapChunk);
