@@ -14,6 +14,7 @@ void Map::LoadMap(std::string mapName)
 {
 	std::string line;
 	mapTiles.reserve(165);
+	mapRect.reserve(165);
 
 	// Read from the text file
 	std::ifstream mapFile(mapName);
@@ -48,6 +49,9 @@ void Map::LoadMap(std::string mapName)
 	// Close the file
 	mapFile.close();
 
+	//Parse tiles to rect
+	ParseTilesToRect();
+
 	if (mapTiles.size() != 0)
 		std::cout << "Map " + mapName << " loaded\n";
 	else 
@@ -76,17 +80,36 @@ void Map::DrawMap(SDL_Renderer* renderer)
 		{
 			for (size_t x = 0; x < mapSizex; x++)
 			{
+				//Get texture
+				SDL_Rect srcRectangle = {0, 0, tileSizex, tileSizey};
+				GetTexture(mapTiles[x][y], &srcRectangle);
+
+				//Get screen tile position
+				SDL_Rect destRectangle = mapRect[y][x];
+
+				//Draw
+				SDL_RenderCopy(renderer, tileSet, &srcRectangle, &destRectangle);
+			}
+		}
+	}
+}
+
+void Map::ParseTilesToRect()
+{
+	if (mapTiles.size() != 0)
+	{
+		for (size_t y = 0; y < mapSizey; y++)
+		{
+			mapRect.push_back(std::vector<SDL_Rect>(mapSizex));
+
+			for (size_t x = 0; x < mapSizex; x++)
+			{
 				if (mapTiles[x][y] != 0) // 0 Means nodraw
 				{
-					//Get texture
-					SDL_Rect srcRectangle = {0, 0, tileSizex, tileSizey};
-					GetTexture(mapTiles[x][y], &srcRectangle);
-
 					//Get screen tile position
 					SDL_Rect destRectangle = GetRectAtPosition(x, y);
 
-					//Draw
-					SDL_RenderCopy(renderer, tileSet, &srcRectangle, &destRectangle);
+					mapRect[y][x] = destRectangle;
 				}
 			}
 		}
@@ -136,12 +159,10 @@ void Map::CheckCollision(Player* p)
 	{
 		for (size_t j = 0; j < mapSizey; j++)
 		{
-
-			SDL_Rect mapRect = GetRectAtPosition(i, j);
-
-			if (IsOverlaping(mapRect, pRect))
+			if (IsOverlaping(mapRect[j][i], pRect))
 			{
-				MoveOverlapingPlayer(p, &mapRect);
+				p->mPosX = p->lastPosX;
+				p->mPosY = p->lastPosY;
 			}
 		}
 	}
@@ -155,48 +176,10 @@ bool Map::IsOverlaping(SDL_Rect rect1, SDL_Rect rect2)
 		rect1.h + rect1.y > rect2.y) 
 	{
 		// Collision detected!
-		return false;
+		return true;
 	}
 
 	return false;
-}
-
-void Map::MoveOverlapingPlayer(Player* p, SDL_Rect* mapChunk)
-{
-	//Move player to closest non-overlaping chunk
-	SDL_Rect pRect = *p->GetDestRectangle();
-
-	int dir = 0;
-	int force = 1;
-
-	while (IsOverlaping(*mapChunk, pRect))
-	{
-		switch (dir)
-		{
-		case 0:
-			p->mPosY += force;
-			break;
-
-		case 1:
-			p->mPosY -= force;
-			break;
-
-		case 2:
-			p->mPosX -= force;
-			break;
-
-		case 3:
-			p->mPosX += force;
-			break;
-
-		default:
-			p->mPosY += force;
-			dir = 1;
-			break;
-		}
-		force++;
-		dir++;
-	}
 }
 
 Map::~Map()
