@@ -135,13 +135,37 @@ void Map::GetTexture(int tile, SDL_Rect* srcRectangle)
 {
 	switch (tile)
 	{
-	case 1: // Brick
-		srcRectangle->x = 310;
-		srcRectangle->y = 460;
+	case 1: // Brick TL
+		srcRectangle->x = 34;
+		srcRectangle->y = 237;
 		break;
-	case 2: // Brick 2
-		srcRectangle->x = 293;
-		srcRectangle->y = 460;
+	case 8: // Brick TR
+		srcRectangle->x = 68;
+		srcRectangle->y = 237;
+		break;
+	case 3: // Brick L
+		srcRectangle->x = 17;
+		srcRectangle->y = 254;
+		break;
+	case 4: // Brick R
+		srcRectangle->x = 68;
+		srcRectangle->y = 272;
+		break;
+	case 2: // Brick TL corner
+		srcRectangle->x = 17;
+		srcRectangle->y = 237;
+		break;
+	case 5: // Brick TR corner
+		srcRectangle->x = 102;
+		srcRectangle->y = 271;
+		break;
+	case 6: // Brick BL corner
+		srcRectangle->x = 85;
+		srcRectangle->y = 271;
+		break;
+	case 7: // Brick BR corner
+		srcRectangle->x = 119;
+		srcRectangle->y = 272;
 		break;
 
 	default: // Ground texture
@@ -173,7 +197,7 @@ bool Map::IsOverlaping(SDL_Rect rect1, SDL_Rect rect2)
 	if (rect1.x < rect2.x + rect2.w &&
 		rect1.x + rect1.w > rect2.x &&
 		rect1.y < rect2.y + rect2.h &&
-		rect1.h + rect1.y > rect2.y) 
+		(rect1.h/2) + rect1.y > rect2.y) 
 	{
 		// Collision detected!
 		return true;
