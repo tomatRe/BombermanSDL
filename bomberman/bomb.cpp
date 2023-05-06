@@ -1,7 +1,7 @@
 #include "Bomb.h"
 
 Bomb::Bomb(Player* p, SDL_Texture* texture) : 
-	Entity(p->lastPosX, p->lastPosX, texture, 20, 20)
+	Entity(p->lastPosX, p->lastPosY, texture, 20, 20)
 {
 	ownerPlayer = p;
 }
