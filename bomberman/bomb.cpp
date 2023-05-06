@@ -1,19 +1,38 @@
 #include "Bomb.h"
 
 Bomb::Bomb(Player* p, SDL_Texture* texture) : 
-	Entity(p->lastPosX, p->lastPosY, texture, 20, 20)
+	Entity(p->lastPosX-10, p->lastPosY, texture, 170, 528)
 {
 	ownerPlayer = p;
+
+	srcRectangle.w = 17;
+	srcRectangle.h = 17;
+
+	destRectangle.w = 48;
+	destRectangle.h = 48;
+
+	// Load animation frames
+	/*
+	animationFrames = {
+		{170, 528, destRectangle.w, destRectangle.h},
+		{170, 528, destRectangle.w, destRectangle.h},
+		{170, 528, destRectangle.w, destRectangle.h}
+	};*/
 }
 
 void Bomb::Update(float delta)
 {
+	//Animate(delta);
 	aliveTime += (delta/1000);
 
 	if (aliveTime >= timeToExplode)
 	{
 		Detonate();
 	}
+}
+
+void Bomb::Animate(float delta)
+{
 }
 
 void Bomb::Detonate()

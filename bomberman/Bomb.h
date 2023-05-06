@@ -19,6 +19,9 @@ class Bomb : public Entity
         Player* ownerPlayer;
 
     private:
+        void Animate(float delta);
+
+        std::vector<SDL_Rect> animationFrames;
         float aliveTime = 0.f;
         float timeToExplode = 3.0f;
         int blastRadius = 1;

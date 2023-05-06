@@ -77,7 +77,7 @@ void Game::HandleEvents()
 
 	//Handle player events
 	for (size_t i = 0; i < players.size(); i++)
-			players[i]->HandleEvents(event);
+ 			players[i]->HandleEvents(event);
 
 	//Handle entity events
 	//for (size_t i = 0; i < entities.size(); i++)
@@ -118,12 +118,6 @@ void Game::Render()
 		Player* p = players[i];
 		std::vector<Bomb> bombs = p->GetBombs();
 
-		SDL_RenderCopy(
-			renderer,
-			p->GetSprite(),
-			p->GetSrcRectangle(),
-			p->GetDestRectangle());
-
 		//Draw bomb(s) for this player
 		for (size_t i = 0; i < bombs.size(); i++)
 		{
@@ -133,6 +127,13 @@ void Game::Render()
 				bombs[i].GetSrcRectangle(),
 				bombs[i].GetDestRectangle());
 		}
+
+		//Draw player after bomb
+		SDL_RenderCopy(
+			renderer,
+			p->GetSprite(),
+			p->GetSrcRectangle(),
+			p->GetDestRectangle());
 	}
 
 	//Draw next frame
