@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "Loader.h"
 #include "Map.h"
+#include "Bomb.h"
 #include <vector>
 
 using namespace std;
@@ -45,9 +46,6 @@ class Game
 
 		//Player(s)
 		std::vector<Player*> players;
-
-		//Entities
-		std::vector<Entity*> entities;
 
 		//Constants
 		const int maxPlayers = 4;

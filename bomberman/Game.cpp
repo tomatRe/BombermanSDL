@@ -3,7 +3,6 @@
 Game::Game()
 {
 	players.reserve(maxPlayers);
-	entities.reserve(maxEntities);
 }
 
 Game::~Game()
@@ -56,6 +55,8 @@ void Game::Init(const std::string title, int xpos, int ypos, int width, int heig
 
 		//Initialize players
 		Player* player = new Player(500, 200, pTexture, 56, 48);
+		player->SetBombTexture(tilemap);
+		player->SetGameReference(this);
 		players.push_back(player);
 
 		//if everything goes ok set running to true
@@ -113,15 +114,26 @@ void Game::Render()
 
 	//Draw player(s)
 	for (size_t i = 0; i < players.size(); i++)
+	{
+		Player* p = players[i];
+		std::vector<Bomb> bombs = p->GetBombs();
+
 		SDL_RenderCopy(
 			renderer,
-			players[i]->GetSprite(),
-			players[i]->GetSrcRectangle(),
-			players[i]->GetDestRectangle());
+			p->GetSprite(),
+			p->GetSrcRectangle(),
+			p->GetDestRectangle());
 
-	//Draw entities
-	//for (size_t i = 0; i < entities.size(); i++)
-	//	SDL_RenderCopy(renderer,entities[i]->GetSprite(),entities[i]->GetSrcRectangle(),entities[i]->GetDestRectangle());
+		//Draw bomb(s) for this player
+		for (size_t i = 0; i < bombs.size(); i++)
+		{
+			SDL_RenderCopy(
+				renderer,
+				bombs[i].GetSprite(),
+				bombs[i].GetSrcRectangle(),
+				bombs[i].GetDestRectangle());
+		}
+	}
 
 	//Draw next frame
 	SDL_RenderPresent(renderer);
@@ -142,9 +154,6 @@ void Game::Clean()
 
 	for (size_t i = 0; i < players.size(); i++)
 		delete players[i];
-
-	for (size_t i = 0; i < entities.size(); i++)
-		delete entities[i];
 
 	//SDL_DestroyTexture(); HUD
 	SDL_DestroyWindow(window);

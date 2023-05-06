@@ -2,6 +2,9 @@
 #include "Entity.h"
 #include <vector>
 
+class Bomb;
+class Game;
+
 class Player : public Entity
 {
 	public:
@@ -11,14 +14,19 @@ class Player : public Entity
 		~Player();
 
 		void Update(float delta);
-
-		SDL_Texture* GetSprite();
-		SDL_Rect* GetSrcRectangle();
-		SDL_Rect* GetDestRectangle();
-
 		void Move(float delta);
 		void HandleEvents(SDL_Event& e);
 		void CheckCollisions();
+		void SetBombTexture(SDL_Texture* texture);
+		void SpawnBomb();
+		void UpdateBombs(float delta);
+		void SetGameReference(Game*);
+		void DestroyBombReference(Bomb*);
+
+		std::vector<Bomb> GetBombs();
+		SDL_Texture* GetSprite();
+		SDL_Rect* GetSrcRectangle();
+		SDL_Rect* GetDestRectangle();
 
 		//Constants
 		const int playerW = 17;
@@ -40,9 +48,15 @@ class Player : public Entity
 		bool isMoving = false;
 		void AnimatePlayer(float delta);
 
+		int ammo = 1;
+		int maxAmmo = 1;
 		int animationFrame = 0; // 3 frames per animation
 		int playerDirection = 1; //0=Up, 1=Down... (same order as below)
+		Game* game;
 
+		SDL_Texture* bombTexture;
+
+		std::vector<Bomb> placedBombs;
 		std::vector<SDL_Rect> upSpriteFrames;
 		std::vector<SDL_Rect> downSpriteFrames;
 		std::vector<SDL_Rect> leftSpriteFrames;

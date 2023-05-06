@@ -1,4 +1,6 @@
 #include "Player.h"
+#include "Bomb.h"
+#include "Game.h"
 
 //Constructors
 Player::Player():Entity(0,0)
@@ -31,6 +33,10 @@ Player::Player(int x, int y, SDL_Texture *sprite, int textPosX, int textPosY):
 
     SDL_GetCurrentDisplayMode(0, &DM);
 
+	// Reserve bombs memory space
+
+	placedBombs.reserve(20);
+
 	// Load animation frames
 
 	upSpriteFrames = {
@@ -62,6 +68,7 @@ void Player::Update(float delta)
 {
 	Move(delta);
 	AnimatePlayer(delta);
+	UpdateBombs(delta);
 }
 
 void Player::Move(float delta)
@@ -116,6 +123,7 @@ void Player::HandleEvents(SDL_Event& e)
 			case SDLK_DOWN: mVelY += moveSpeed; break;
 			case SDLK_LEFT: mVelX -= moveSpeed; break;
 			case SDLK_RIGHT: mVelX += moveSpeed; break;
+			case SDLK_SPACE: SpawnBomb(); break;
 		}
 	}
 	//If a key was released
@@ -154,6 +162,58 @@ void Player::CheckCollisions()
 	{
 		mPosY = DM.h - playerH;
 	}
+}
+
+void Player::SpawnBomb()
+{
+	if (ammo > 0)
+	{
+		ammo--;
+		Bomb b = Bomb(this, bombTexture);
+		placedBombs.push_back(b);
+	}
+}
+
+void Player::UpdateBombs(float delta)
+{
+	int bombsSize = placedBombs.size();
+
+	if (bombsSize > 0)
+	{
+		for (size_t i = 0; i < bombsSize; i++)
+			placedBombs[i].Update(delta);
+	}
+}
+
+void Player::SetGameReference(Game* game)
+{
+	this->game = game;
+}
+
+void Player::DestroyBombReference(Bomb* b)
+{
+	std::vector<Bomb> newBombs;
+	newBombs.reserve(placedBombs.size() - 1);
+	bool found = false;
+
+	for (size_t i = 0; i < placedBombs.size(); i++)
+	{
+		if (&placedBombs[i] == b)
+		{
+			b = nullptr;
+			found = true;
+		}
+		else 
+		{
+			newBombs.push_back(placedBombs[i]);
+		}
+	}
+
+	if (found)
+	{
+		placedBombs = newBombs;
+		ammo++;
+	}		
 }
 
 void Player::AnimatePlayer(float delta)
@@ -219,6 +279,11 @@ void Player::AnimatePlayer(float delta)
 }
 
 //Utils functions
+std::vector<Bomb> Player::GetBombs()
+{
+	return placedBombs;
+}
+
 SDL_Texture * Player::GetSprite()
 {
 	return sprite;
@@ -232,6 +297,11 @@ SDL_Rect* Player::GetSrcRectangle()
 SDL_Rect* Player::GetDestRectangle()
 {
 	return &destRectangle;
+}
+
+void Player::SetBombTexture(SDL_Texture* texture)
+{
+	bombTexture = texture;
 }
 
 //Destructor
