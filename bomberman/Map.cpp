@@ -208,4 +208,5 @@ bool Map::IsOverlaping(SDL_Rect rect1, SDL_Rect rect2)
 
 Map::~Map()
 {
+	SDL_DestroyTexture(tileSet);
 }

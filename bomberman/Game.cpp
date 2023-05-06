@@ -10,7 +10,6 @@ Game::~Game()
 	Clean();
 }
 
-
 //Engine initialization
 void Game::Init(const std::string title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
@@ -77,29 +76,20 @@ void Game::HandleEvents()
 
 	//Handle player events
 	for (size_t i = 0; i < players.size(); i++)
- 			players[i]->HandleEvents(event);
-
-	//Handle entity events
-	//for (size_t i = 0; i < entities.size(); i++)
-	//	entities[i]->HandleEvents(event);
-	
+ 		players[i]->HandleEvents(event);
 
 	//Handle system events
 	switch (event.type)
 	{
-		case SDL_QUIT:
-			isRunning = false;
-			break;
-
-		default:
-			break;
+		case SDL_QUIT: isRunning = false; break;
+		default: break;
 	}
 }
 
 void Game::Update(float delta)
 {
 	for (size_t i = 0; i < players.size(); i++)
-			players[i]->Update(delta);
+		players[i]->Update(delta);
 
 	CheckCollisions();
 }

@@ -67,4 +67,3 @@ class Player : public Entity
 		// Constants
 		const float timePerAnimation = 333.33333f; // 1 second to complete the animation set
 };
-

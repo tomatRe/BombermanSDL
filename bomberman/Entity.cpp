@@ -14,17 +14,15 @@ Entity::Entity(int x, int y, SDL_Texture* sprite, int textPosX, int textPosY)
 {
 	this->sprite = sprite;
 
-	// assuming this is for the player sprite
-
 	destRectangle.x = x;
 	destRectangle.y = y;
-	destRectangle.w = 17*2;
-	destRectangle.h = 24*2;
+	destRectangle.w = 34;
+	destRectangle.h = 48;
 
 	srcRectangle.x = textPosX;
 	srcRectangle.y = textPosY;
-	srcRectangle.w = 17 * 2;
-	srcRectangle.h = 24 * 2;
+	srcRectangle.w = 34;
+	srcRectangle.h = 48;
 }
 
 Entity::Entity(int x, int y, int rectW, int rectH, SDL_Texture *sprite, int textPosX, int textPosY, int textSizeX, int textSizeY)

@@ -26,4 +26,3 @@ class Bomb : public Entity
         float timeToExplode = 3.0f;
         int blastRadius = 1;
 };
-

@@ -38,4 +38,3 @@ class Map
 		void GetTexture(int tile, SDL_Rect* srcRectangle);
 		bool IsOverlaping(SDL_Rect rect1, SDL_Rect rect2);
 };
-

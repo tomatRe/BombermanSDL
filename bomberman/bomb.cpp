@@ -12,17 +12,18 @@ Bomb::Bomb(Player* p, SDL_Texture* texture) :
 	destRectangle.h = 48;
 
 	// Load animation frames
-	/*
 	animationFrames = {
 		{170, 528, destRectangle.w, destRectangle.h},
 		{170, 528, destRectangle.w, destRectangle.h},
 		{170, 528, destRectangle.w, destRectangle.h}
-	};*/
+	};
 }
 
 void Bomb::Update(float delta)
 {
-	//Animate(delta);
+	Animate(delta);
+
+	//Alive time is in (s) and delta in (ms)
 	aliveTime += (delta/1000);
 
 	if (aliveTime >= timeToExplode)

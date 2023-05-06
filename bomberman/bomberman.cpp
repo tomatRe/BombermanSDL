@@ -19,7 +19,7 @@ const int frameDelay = 1000/fps;
 //Delta time vars
 Uint64 now = SDL_GetPerformanceCounter();
 Uint64 last = 0;
-double deltaTime = 0;
+float deltaTime = 0;
 
 Game* game = nullptr;
 
@@ -50,5 +50,3 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
-
-//std::cout << "Hello World!\n";

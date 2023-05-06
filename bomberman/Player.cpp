@@ -143,7 +143,7 @@ void Player::HandleEvents(SDL_Event& e)
 void Player::CheckCollisions()
 {
 	//Screen boundaries collision
-	//If the player went too far to the left or right
+	//Left - Right
 	if (mPosX < 0)
 	{
 		mPosX = 0;
@@ -153,7 +153,7 @@ void Player::CheckCollisions()
 		mPosX = DM.w - playerW;
 	}
 
-	//If the player went too far up or down
+	//Up - Down
 	if (mPosY < 0)
 	{
 		mPosY = 0;
@@ -193,7 +193,7 @@ void Player::SetGameReference(Game* game)
 void Player::DestroyBombReference(Bomb* b)
 {
 	std::vector<Bomb> newBombs;
-	newBombs.reserve(placedBombs.size() - 1);
+	newBombs.reserve(placedBombs.size());
 	bool found = false;
 
 	for (size_t i = 0; i < placedBombs.size(); i++)

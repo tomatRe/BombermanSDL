@@ -22,4 +22,3 @@ class Entity
 		SDL_Rect srcRectangle;
 		SDL_Rect destRectangle;
 };
-
