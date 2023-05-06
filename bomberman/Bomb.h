@@ -21,8 +21,18 @@ class Bomb : public Entity
     private:
         void Animate(float delta);
 
+        //Animation vars
         std::vector<SDL_Rect> animationFrames;
+        SDL_Rect* blastOriginSprite;
+        SDL_Rect* blastTopSprite;
+        SDL_Rect* blastBottomSprite;
+        SDL_Rect* blastLeftSprite;
+        SDL_Rect* blastRightSprite;
+        float animationDeltaTime = 1;
+        int animationFrame = 0;
+
+        //Gameplay vars
         float aliveTime = 0.f;
-        float timeToExplode = 3.0f;
+        float timeToExplode = 3.f;
         int blastRadius = 1;
 };

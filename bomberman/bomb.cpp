@@ -13,9 +13,9 @@ Bomb::Bomb(Player* p, SDL_Texture* texture) :
 
 	// Load animation frames
 	animationFrames = {
-		{170, 528, destRectangle.w, destRectangle.h},
-		{170, 528, destRectangle.w, destRectangle.h},
-		{170, 528, destRectangle.w, destRectangle.h}
+		{170, 528, 17, 17},
+		{187, 528, 17, 17},
+		{204, 528, 17, 17}
 	};
 }
 
@@ -34,6 +34,19 @@ void Bomb::Update(float delta)
 
 void Bomb::Animate(float delta)
 {
+	float timePerAnimation = (timeToExplode*1000) / animationFrames.size();
+	animationDeltaTime += delta;
+
+	if (animationDeltaTime >= timePerAnimation)
+	{
+		animationDeltaTime = animationDeltaTime-1000;
+		srcRectangle = animationFrames[animationFrame];
+
+		if (animationFrame < animationFrames.size())
+			animationFrame++;
+	}
+
+	std::cout << "Delta: " << animationDeltaTime << " - " << animationFrame << "\n";
 }
 
 void Bomb::Detonate()
