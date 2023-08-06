@@ -1,6 +1,7 @@
 #include "Bomb.h"
 #include "Blast.h"
 
+//Constructor
 Bomb::Bomb(Player* p, SDL_Texture* texture) : 
 	Entity(p->lastPosX-10, p->lastPosY, texture, 170, 528)
 {
@@ -11,21 +12,9 @@ Bomb::Bomb(Player* p, SDL_Texture* texture) :
 
 	destRectangle.w = 48;
 	destRectangle.h = 48;
-
-	// Load animation frames
-	animationFrames = {
-		{170, 528, 17, 17},
-		{187, 528, 17, 17},
-		{204, 528, 17, 17}
-	};
-
-	blastOriginSprite = new SDL_Rect{ 170, 528, 17, 17 };
-	blastTopSprite = new SDL_Rect{ 170, 528, 17, 17 };
-	blastBottomSprite = new SDL_Rect{ 170, 528, 17, 17 };
-	blastLeftSprite = new SDL_Rect{ 170, 528, 17, 17 };
-	blastRightSprite = new SDL_Rect{ 170, 528, 17, 17 };
 }
 
+//Tick functions
 void Bomb::Update(float delta)
 {
 	Animate(delta);
@@ -65,6 +54,7 @@ void Bomb::Animate(float delta)
 	std::cout << "Delta: " << animationDeltaTime << " - " << animationFrame << "\n";
 }
 
+
 void Bomb::Detonate()
 {
 	exploded = true;
@@ -86,14 +76,10 @@ void Bomb::Detonate()
 	Bomb::~Bomb();
 }
 
+//Getters
 Player* Bomb::GetOwningPlayer()
 {
 	return ownerPlayer;
-}
-
-void Bomb::SetOwningPlayer(Player* p)
-{
-	this->ownerPlayer = p;
 }
 
 SDL_Texture* Bomb::GetSprite()
@@ -109,6 +95,12 @@ SDL_Rect* Bomb::GetSrcRectangle()
 SDL_Rect* Bomb::GetDestRectangle()
 {
 	return &destRectangle;
+}
+
+//Setters
+void Bomb::SetOwningPlayer(Player* p)
+{
+	this->ownerPlayer = p;
 }
 
 Bomb::~Bomb()

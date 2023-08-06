@@ -7,29 +7,45 @@
 class Bomb : public Entity
 {
     public:
+        //=========================Functions=========================
+
+        //Constructor / Destructor
         Bomb(Player*, SDL_Texture*);
         ~Bomb();
-        void Update(float delta);
-        void Detonate();
-        Player* GetOwningPlayer();
-        void SetOwningPlayer(Player*);
 
+        //Tick functions
+        void Update(float);
+        void Animate(float);
+
+        void Detonate();
+
+        //Getters
         SDL_Texture* GetSprite();
         SDL_Rect* GetSrcRectangle();
         SDL_Rect* GetDestRectangle();
+        Player* GetOwningPlayer();
 
+        //Setters
+        void SetOwningPlayer(Player*);
+
+        //=========================Variables=========================
         Player* ownerPlayer;
 
     private:
-        void Animate(float delta);
 
         //Animation vars
-        std::vector<SDL_Rect> animationFrames;
-        SDL_Rect* blastOriginSprite;
-        SDL_Rect* blastTopSprite;
-        SDL_Rect* blastBottomSprite;
-        SDL_Rect* blastLeftSprite;
-        SDL_Rect* blastRightSprite;
+        std::vector<SDL_Rect> animationFrames = {
+            {170, 528, 17, 17},
+            {187, 528, 17, 17},
+            {204, 528, 17, 17}
+        };
+
+        SDL_Rect* blastOriginSprite = new SDL_Rect{ 170, 528, 17, 17 };
+        SDL_Rect* blastTopSprite = new SDL_Rect{ 170, 528, 17, 17 };
+        SDL_Rect* blastBottomSprite = new SDL_Rect{ 170, 528, 17, 17 };
+        SDL_Rect* blastLeftSprite = new SDL_Rect{ 170, 528, 17, 17 };
+        SDL_Rect* blastRightSprite = new SDL_Rect{ 170, 528, 17, 17 };
+
         float animationDeltaTime = 1;
         int animationFrame = 0;
 
