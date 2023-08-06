@@ -9,28 +9,39 @@ class Game;
 class Player : public Entity
 {
 	public:
+		//=========================Functions=========================
+
+		//Constructors / Destructor
 		Player();
 		Player(int x, int y);
 		Player(int x, int y, SDL_Texture *sprite, int textPosX, int textPosY);
 		~Player();
 
+		//Tick functions
 		void Update(float);
 		void Move(float);
+		void AnimatePlayer(float);
+		void UpdateBombs(float);
+		void UpdateBlasts(float);
+
 		void HandleEvents(SDL_Event&);
 		void CheckCollisions();
-		void SetBombTexture(SDL_Texture*);
 		void SpawnBomb();
-		void UpdateBombs(float);
-		void SetGameReference(Game*);
 		void DestroyBombReference(Bomb*);
-		void UpdateBlasts(float);
 		void AddBlast(Blast*);
-		void SetBlasts(std::vector<Blast*>);
 
+		//Getters
 		std::vector<Bomb> GetBombs();
 		SDL_Texture* GetSprite();
 		SDL_Rect* GetSrcRectangle();
 		SDL_Rect* GetDestRectangle();
+
+		//Setters
+		void SetGameReference(Game*);
+		void SetBombTexture(SDL_Texture*);
+		void SetBlasts(std::vector<Blast*>);
+
+		//=========================Variables=========================
 
 		//Constants
 		const int playerW = 17;
@@ -50,10 +61,8 @@ class Player : public Entity
 
 	private:
 		bool isMoving = false;
-		void AnimatePlayer(float delta);
 
 		int ammo = 1;
-		int maxAmmo = 1;
 		int animationFrame = 0; // 3 frames per animation
 		int playerDirection = 1; //0=Up, 1=Down... (same order as below)
 		Game* game;
@@ -70,5 +79,6 @@ class Player : public Entity
 		float animationDeltaTime = 1; // Current frame duration
 
 		// Constants
+		const int maxAmmo = 1;
 		const float timePerAnimation = 333.33333f; // 1 second to complete the animation set
 };

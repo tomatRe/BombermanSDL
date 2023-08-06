@@ -2,6 +2,7 @@
 #include "Bomb.h"
 #include "Game.h"
 
+
 //Constructors
 Player::Player():Entity(0,0)
 {
@@ -71,7 +72,8 @@ Player::Player(int x, int y, SDL_Texture *sprite, int textPosX, int textPosY):
 	std::cout << "Player created at " << x << ", " << y << "\n";
 }
 
-//Gameplay functions
+
+//Tick functions
 void Player::Update(float delta)
 {
 	Move(delta);
@@ -117,6 +119,90 @@ void Player::Move(float delta)
 	else 
 	{
 		isMoving = false;
+	}
+}
+
+void Player::AnimatePlayer(float delta)
+{
+
+	if (isMoving) // Play moving animation
+	{
+		if (animationDeltaTime >= timePerAnimation)
+		{
+			animationDeltaTime = 0;
+
+			switch (playerDirection)
+			{
+			case 0:
+				srcRectangle = upSpriteFrames[animationFrame];
+				break;
+
+			case 1:
+				srcRectangle = downSpriteFrames[animationFrame];
+				break;
+
+			case 2:
+				srcRectangle = leftSpriteFrames[animationFrame];
+				break;
+
+			case 3:
+				srcRectangle = rightSpriteFrames[animationFrame];
+				break;
+			}
+
+			if (animationFrame < 2)
+				animationFrame++;
+			else
+				animationFrame = 1;
+		}
+	}
+	else // Play Idle frame
+	{
+		switch (playerDirection)
+		{
+		case 0:
+			srcRectangle = upSpriteFrames[0];
+			break;
+
+		case 1:
+			srcRectangle = downSpriteFrames[0];
+			break;
+
+		case 2:
+			srcRectangle = leftSpriteFrames[0];
+			break;
+
+		case 3:
+			srcRectangle = rightSpriteFrames[0];
+			break;
+		}
+
+		//Reset animation
+		animationFrame = 1;
+	}
+
+	animationDeltaTime += delta;
+}
+
+void Player::UpdateBombs(float delta)
+{
+	int bombsSize = placedBombs.size();
+
+	if (bombsSize > 0)
+	{
+		for (size_t i = 0; i < bombsSize; i++)
+			placedBombs[i].Update(delta);
+	}
+}
+
+void Player::UpdateBlasts(float delta)
+{
+	int explosions = blasts.size();
+
+	if (explosions > 0)
+	{
+		for (size_t i = 0; i < explosions; i++)
+			blasts[i]->Update(delta);
 	}
 }
 
@@ -183,22 +269,6 @@ void Player::SpawnBomb()
 	}
 }
 
-void Player::UpdateBombs(float delta)
-{
-	int bombsSize = placedBombs.size();
-
-	if (bombsSize > 0)
-	{
-		for (size_t i = 0; i < bombsSize; i++)
-			placedBombs[i].Update(delta);
-	}
-}
-
-void Player::SetGameReference(Game* game)
-{
-	this->game = game;
-}
-
 void Player::DestroyBombReference(Bomb* b)
 {
 	std::vector<Bomb> newBombs;
@@ -225,90 +295,13 @@ void Player::DestroyBombReference(Bomb* b)
 	}		
 }
 
-void Player::UpdateBlasts(float delta)
-{
-	int explosions = blasts.size();
-
-	if (explosions > 0)
-	{
-		for (size_t i = 0; i < explosions; i++)
-			blasts[i]->Update(delta);
-	}
-}
-
 void Player::AddBlast(Blast* b)
 {
 	this->blasts.push_back(b);
 }
 
-void Player::SetBlasts(std::vector<Blast*> b)
-{
-	this->blasts = b;
-}
 
-void Player::AnimatePlayer(float delta)
-{
-
-	if (isMoving) // Play moving animation
-	{
-		if (animationDeltaTime >= timePerAnimation)
-		{
-			animationDeltaTime = 0;
-
-			switch (playerDirection)
-			{
-			case 0:
-				srcRectangle = upSpriteFrames[animationFrame];
-				break;
-
-			case 1:
-				srcRectangle = downSpriteFrames[animationFrame];
-				break;
-
-			case 2:
-				srcRectangle = leftSpriteFrames[animationFrame];
-				break;
-
-			case 3:
-				srcRectangle = rightSpriteFrames[animationFrame];
-				break;
-			}
-
-			if (animationFrame < 2)
-				animationFrame++;
-			else
-				animationFrame = 1;
-		}
-	}
-	else // Play Idle frame
-	{
-		switch (playerDirection)
-		{
-		case 0:
-			srcRectangle = upSpriteFrames[0];
-			break;
-
-		case 1:
-			srcRectangle = downSpriteFrames[0];
-			break;
-
-		case 2:
-			srcRectangle = leftSpriteFrames[0];
-			break;
-
-		case 3:
-			srcRectangle = rightSpriteFrames[0];
-			break;
-		}
-
-		//Reset animation
-		animationFrame = 1;
-	}
-
-	animationDeltaTime += delta;
-}
-
-//Utils functions
+//Getters
 std::vector<Bomb> Player::GetBombs()
 {
 	return placedBombs;
@@ -329,9 +322,21 @@ SDL_Rect* Player::GetDestRectangle()
 	return &destRectangle;
 }
 
+
+//Setters
+void Player::SetGameReference(Game* game)
+{
+	this->game = game;
+}
+
 void Player::SetBombTexture(SDL_Texture* texture)
 {
 	bombTexture = texture;
+}
+
+void Player::SetBlasts(std::vector<Blast*> b)
+{
+	this->blasts = b;
 }
 
 //Destructor
