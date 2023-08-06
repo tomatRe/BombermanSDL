@@ -57,13 +57,55 @@ void Bomb::Detonate()
 {
 	exploded = true;
 	//Spawn explosions
+	Blast* b;
+
+	//Center blast
+	b = new Blast(destRectangle.x, destRectangle.y, blastOriginSprite);
+	b->SetOwnerPlayer(ownerPlayer);
+	ownerPlayer->AddBlast(b);
 
 	//Up Blast
 	for (size_t i = 0; i < blastRadius; i++)
 	{
 		//Get spawn position
 		int x = destRectangle.x;
+		int y = destRectangle.y - destRectangle.h;
+
+		Blast* b = new Blast(x, y, blastTopSprite);
+		b->SetOwnerPlayer(ownerPlayer);
+		ownerPlayer->AddBlast(b);
+	}
+
+	//Up Down
+	for (size_t i = 0; i < blastRadius; i++)
+	{
+		//Get spawn position
+		int x = destRectangle.x;
 		int y = destRectangle.y + destRectangle.h;
+
+		Blast* b = new Blast(x, y, blastTopSprite);
+		b->SetOwnerPlayer(ownerPlayer);
+		ownerPlayer->AddBlast(b);
+	}
+
+	//Left Blast
+	for (size_t i = 0; i < blastRadius; i++)
+	{
+		//Get spawn position
+		int x = destRectangle.x - destRectangle.w;
+		int y = destRectangle.y;
+
+		Blast* b = new Blast(x, y, blastTopSprite);
+		b->SetOwnerPlayer(ownerPlayer);
+		ownerPlayer->AddBlast(b);
+	}
+
+	//Right Blast
+	for (size_t i = 0; i < blastRadius; i++)
+	{
+		//Get spawn position
+		int x = destRectangle.x + destRectangle.w;
+		int y = destRectangle.y;
 
 		Blast* b = new Blast(x, y, blastTopSprite);
 		b->SetOwnerPlayer(ownerPlayer);

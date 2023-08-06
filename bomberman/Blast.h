@@ -5,27 +5,27 @@
 class Blast : Entity
 {
     public:
-    //=========================Functions=========================
+        //=========================Functions=========================
 
-    //Constructors / Destructor
-    Blast();
-    ~Blast();
-    Blast(int x, int y, SDL_Rect* sprite);
+        //Constructors / Destructor
+        Blast();
+        ~Blast();
+        Blast(int x, int y, SDL_Rect* sprite);
 
-    //Tick functions
-    void Update(float);
-    void Animate(float);
+        //Tick functions
+        void Update(float);
+        void Animate(float);
 
-    //Getters
-    SDL_Rect* GetSrcRectangle();
-    SDL_Rect* GetDestRectangle();
+        //Getters
+        SDL_Rect* GetSrcRectangle();
+        SDL_Rect* GetDestRectangle();
 
-    //Setters
-    void SetOwnerPlayer(Player*);
+        //Setters
+        void SetOwnerPlayer(Player*);
 
-    //=========================Variables=========================
+        //=========================Variables=========================
 
-    Player* ownerPlayer;
+        Player* ownerPlayer;
     private:
         SDL_Rect* sprite;
         float aliveTime = 0.f;

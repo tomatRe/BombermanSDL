@@ -9,9 +9,13 @@ Blast::Blast(int x, int y, SDL_Rect* sprite) :
 {
 	this->sprite = sprite;
 
-	srcRectangle.w = 17;
-	srcRectangle.h = 17;
+	srcRectangle.x = sprite->x;
+	srcRectangle.y = sprite->y;
+	srcRectangle.w = sprite->w;
+	srcRectangle.h = sprite->h;
 
+	destRectangle.x = x;
+	destRectangle.y = y;
 	destRectangle.w = 48;
 	destRectangle.h = 48;
 
@@ -34,16 +38,17 @@ void Blast::Update(float delta)
 
 void Blast::Animate(float)
 {
+
 }
 
 SDL_Rect* Blast::GetSrcRectangle()
 {
-	return nullptr;
+	return &srcRectangle;
 }
 
 SDL_Rect* Blast::GetDestRectangle()
 {
-	return nullptr;
+	return &destRectangle;
 }
 
 void Blast::SetOwnerPlayer(Player* p)

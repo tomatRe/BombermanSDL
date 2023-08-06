@@ -186,23 +186,21 @@ void Player::AnimatePlayer(float delta)
 
 void Player::UpdateBombs(float delta)
 {
-	int bombsSize = placedBombs.size();
-
-	if (bombsSize > 0)
+	if (placedBombs.size() > 0)
 	{
-		for (size_t i = 0; i < bombsSize; i++)
+		for (size_t i = 0; i < placedBombs.size(); i++)
 			placedBombs[i]->Update(delta);
 	}
 }
 
 void Player::UpdateBlasts(float delta)
 {
-	int explosions = blasts.size();
-
-	if (explosions > 0)
+	if (blasts.size() > 0)
 	{
-		for (size_t i = 0; i < explosions; i++)
+		for (size_t i = 0; i < blasts.size(); i++)
+		{
 			blasts[i]->Update(delta);
+		}
 	}
 }
 
