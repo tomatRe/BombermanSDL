@@ -10,6 +10,7 @@ class Bomb : public Entity
         //=========================Functions=========================
 
         //Constructor / Destructor
+        Bomb();
         Bomb(Player*, SDL_Texture*);
         ~Bomb();
 
@@ -20,7 +21,6 @@ class Bomb : public Entity
         void Detonate();
 
         //Getters
-        SDL_Texture* GetSprite();
         SDL_Rect* GetSrcRectangle();
         SDL_Rect* GetDestRectangle();
         Player* GetOwningPlayer();
@@ -54,5 +54,4 @@ class Bomb : public Entity
         float aliveTime = 0.f;
         float timeToExplode = 3.f;
         int blastRadius = 1;
-        std::vector<Blast*> blasts;
 };

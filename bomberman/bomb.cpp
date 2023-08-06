@@ -1,6 +1,10 @@
 #include "Bomb.h"
 #include "Blast.h"
 
+Bomb::Bomb()
+{
+}
+
 //Constructor
 Bomb::Bomb(Player* p, SDL_Texture* texture) : 
 	Entity(p->lastPosX-10, p->lastPosY, texture, 170, 528)
@@ -12,6 +16,8 @@ Bomb::Bomb(Player* p, SDL_Texture* texture) :
 
 	destRectangle.w = 48;
 	destRectangle.h = 48;
+
+	std::cout << "Created bomb at: " << p->lastPosX - 10 << ", " << p->lastPosY << "\n";
 }
 
 //Tick functions
@@ -27,12 +33,6 @@ void Bomb::Update(float delta)
 		if (!exploded)
 		{
 			Detonate();
-		}
-
-		//Update explosions
-		for (size_t i = 0; i < blasts.size(); i++)
-		{
-			blasts[i]->Update(delta);
 		}
 	}
 }
@@ -50,8 +50,6 @@ void Bomb::Animate(float delta)
 		if (animationFrame < animationFrames.size())
 			animationFrame++;
 	}
-
-	std::cout << "Delta: " << animationDeltaTime << " - " << animationFrame << "\n";
 }
 
 
@@ -67,24 +65,19 @@ void Bomb::Detonate()
 		int x = destRectangle.x;
 		int y = destRectangle.y + destRectangle.h;
 
-		Blast b = Blast(x, y, blastTopSprite);
-		ownerPlayer->AddBlast(&b);
+		Blast* b = new Blast(x, y, blastTopSprite);
+		b->SetOwnerPlayer(ownerPlayer);
+		ownerPlayer->AddBlast(b);
 	}
 
 	//Detach owning player
 	ownerPlayer->DestroyBombReference(this);
-	Bomb::~Bomb();
 }
 
 //Getters
 Player* Bomb::GetOwningPlayer()
 {
 	return ownerPlayer;
-}
-
-SDL_Texture* Bomb::GetSprite()
-{
-	return sprite;
 }
 
 SDL_Rect* Bomb::GetSrcRectangle()
@@ -105,4 +98,5 @@ void Bomb::SetOwningPlayer(Player* p)
 
 Bomb::~Bomb()
 {
+	std::cout << "Bomb destroyed" << "\n";
 }

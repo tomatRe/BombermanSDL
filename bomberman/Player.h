@@ -28,11 +28,14 @@ class Player : public Entity
 		void CheckCollisions();
 		void SpawnBomb();
 		void DestroyBombReference(Bomb*);
+		void DestroyBlastReference(Blast*);
 		void AddBlast(Blast*);
 
 		//Getters
-		std::vector<Bomb> GetBombs();
+		std::vector<Bomb*> GetBombs();
+		std::vector<Blast*> GetBlasts();
 		SDL_Texture* GetSprite();
+		SDL_Texture* GetBombSprite();
 		SDL_Rect* GetSrcRectangle();
 		SDL_Rect* GetDestRectangle();
 
@@ -69,7 +72,7 @@ class Player : public Entity
 
 		SDL_Texture* bombTexture;
 
-		std::vector<Bomb> placedBombs;
+		std::vector<Bomb*> placedBombs;
 		std::vector<Blast*> blasts;
 		std::vector<SDL_Rect> upSpriteFrames;
 		std::vector<SDL_Rect> downSpriteFrames;

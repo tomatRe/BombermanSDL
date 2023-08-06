@@ -191,7 +191,7 @@ void Player::UpdateBombs(float delta)
 	if (bombsSize > 0)
 	{
 		for (size_t i = 0; i < bombsSize; i++)
-			placedBombs[i].Update(delta);
+			placedBombs[i]->Update(delta);
 	}
 }
 
@@ -264,22 +264,22 @@ void Player::SpawnBomb()
 	if (ammo > 0)
 	{
 		ammo--;
-		Bomb b = Bomb(this, bombTexture);
+		Bomb* b = new Bomb(this, bombTexture);
 		placedBombs.push_back(b);
 	}
 }
 
+//TODO: Change this for std::find() / std::erase()
 void Player::DestroyBombReference(Bomb* b)
 {
-	std::vector<Bomb> newBombs;
+	std::vector<Bomb*> newBombs;
 	newBombs.reserve(placedBombs.size());
 	bool found = false;
 
 	for (size_t i = 0; i < placedBombs.size(); i++)
 	{
-		if (&placedBombs[i] == b)
+		if (placedBombs[i] == b)
 		{
-			b = nullptr;
 			found = true;
 		}
 		else 
@@ -292,7 +292,34 @@ void Player::DestroyBombReference(Bomb* b)
 	{
 		placedBombs = newBombs;
 		ammo++;
+		delete b;
 	}		
+}
+
+void Player::DestroyBlastReference(Blast* b)
+{
+	std::vector<Blast*> newBlasts;
+	newBlasts.reserve(blasts.size());
+	bool found = false;
+
+	for (size_t i = 0; i < blasts.size(); i++)
+	{
+		if (blasts[i] == b)
+		{
+			found = true;
+		}
+		else
+		{
+			newBlasts.push_back(blasts[i]);
+		}
+	}
+
+	if (found)
+	{
+		blasts = newBlasts;
+		ammo++;
+		delete b;
+	}
 }
 
 void Player::AddBlast(Blast* b)
@@ -302,14 +329,24 @@ void Player::AddBlast(Blast* b)
 
 
 //Getters
-std::vector<Bomb> Player::GetBombs()
+std::vector<Bomb*> Player::GetBombs()
 {
 	return placedBombs;
+}
+
+std::vector<Blast*> Player::GetBlasts()
+{
+	return blasts;
 }
 
 SDL_Texture * Player::GetSprite()
 {
 	return sprite;
+}
+
+SDL_Texture* Player::GetBombSprite()
+{
+	return bombTexture;
 }
 
 SDL_Rect* Player::GetSrcRectangle()
