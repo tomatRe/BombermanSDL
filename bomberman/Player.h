@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include <vector>
 
+class Blast;
 class Bomb;
 class Game;
 
@@ -13,15 +14,18 @@ class Player : public Entity
 		Player(int x, int y, SDL_Texture *sprite, int textPosX, int textPosY);
 		~Player();
 
-		void Update(float delta);
-		void Move(float delta);
-		void HandleEvents(SDL_Event& e);
+		void Update(float);
+		void Move(float);
+		void HandleEvents(SDL_Event&);
 		void CheckCollisions();
-		void SetBombTexture(SDL_Texture* texture);
+		void SetBombTexture(SDL_Texture*);
 		void SpawnBomb();
-		void UpdateBombs(float delta);
+		void UpdateBombs(float);
 		void SetGameReference(Game*);
 		void DestroyBombReference(Bomb*);
+		void UpdateBlasts(float);
+		void AddBlast(Blast*);
+		void SetBlasts(std::vector<Blast*>);
 
 		std::vector<Bomb> GetBombs();
 		SDL_Texture* GetSprite();
@@ -57,6 +61,7 @@ class Player : public Entity
 		SDL_Texture* bombTexture;
 
 		std::vector<Bomb> placedBombs;
+		std::vector<Blast*> blasts;
 		std::vector<SDL_Rect> upSpriteFrames;
 		std::vector<SDL_Rect> downSpriteFrames;
 		std::vector<SDL_Rect> leftSpriteFrames;

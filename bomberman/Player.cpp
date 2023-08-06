@@ -11,6 +11,10 @@ Player::Player():Entity(0,0)
 	mVelY = 0.f;
 
     SDL_GetCurrentDisplayMode(0, &DM);
+
+	// Reserve bombs memory space
+	placedBombs.reserve(20);
+	//blasts = std::vector<Blast>(80);
 }
 
 Player::Player(int x, int y):Entity(x, y)
@@ -21,6 +25,10 @@ Player::Player(int x, int y):Entity(x, y)
 	mVelY = 0.f;
 
     SDL_GetCurrentDisplayMode(0, &DM);
+
+	// Reserve bombs memory space
+	placedBombs.reserve(20);
+	//blasts = std::vector<Blast>(80);
 }
 
 Player::Player(int x, int y, SDL_Texture *sprite, int textPosX, int textPosY):
@@ -34,8 +42,8 @@ Player::Player(int x, int y, SDL_Texture *sprite, int textPosX, int textPosY):
     SDL_GetCurrentDisplayMode(0, &DM);
 
 	// Reserve bombs memory space
-
 	placedBombs.reserve(20);
+	//blasts = std::vector<Blast>(80);
 
 	// Load animation frames
 
@@ -69,6 +77,7 @@ void Player::Update(float delta)
 	Move(delta);
 	AnimatePlayer(delta);
 	UpdateBombs(delta);
+	UpdateBlasts(delta);
 }
 
 void Player::Move(float delta)
@@ -214,6 +223,27 @@ void Player::DestroyBombReference(Bomb* b)
 		placedBombs = newBombs;
 		ammo++;
 	}		
+}
+
+void Player::UpdateBlasts(float delta)
+{
+	int explosions = blasts.size();
+
+	if (explosions > 0)
+	{
+		for (size_t i = 0; i < explosions; i++)
+			blasts[i]->Update(delta);
+	}
+}
+
+void Player::AddBlast(Blast* b)
+{
+	this->blasts.push_back(b);
+}
+
+void Player::SetBlasts(std::vector<Blast*> b)
+{
+	this->blasts = b;
 }
 
 void Player::AnimatePlayer(float delta)

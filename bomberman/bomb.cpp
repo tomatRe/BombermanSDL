@@ -1,4 +1,5 @@
 #include "Bomb.h"
+#include "Blast.h"
 
 Bomb::Bomb(Player* p, SDL_Texture* texture) : 
 	Entity(p->lastPosX-10, p->lastPosY, texture, 170, 528)
@@ -17,6 +18,12 @@ Bomb::Bomb(Player* p, SDL_Texture* texture) :
 		{187, 528, 17, 17},
 		{204, 528, 17, 17}
 	};
+
+	blastOriginSprite = new SDL_Rect{ 170, 528, 17, 17 };
+	blastTopSprite = new SDL_Rect{ 170, 528, 17, 17 };
+	blastBottomSprite = new SDL_Rect{ 170, 528, 17, 17 };
+	blastLeftSprite = new SDL_Rect{ 170, 528, 17, 17 };
+	blastRightSprite = new SDL_Rect{ 170, 528, 17, 17 };
 }
 
 void Bomb::Update(float delta)
@@ -28,7 +35,16 @@ void Bomb::Update(float delta)
 
 	if (aliveTime >= timeToExplode)
 	{
-		Detonate();
+		if (!exploded)
+		{
+			Detonate();
+		}
+
+		//Update explosions
+		for (size_t i = 0; i < blasts.size(); i++)
+		{
+			blasts[i]->Update(delta);
+		}
 	}
 }
 
@@ -51,18 +67,33 @@ void Bomb::Animate(float delta)
 
 void Bomb::Detonate()
 {
+	exploded = true;
+	//Spawn explosions
+
+	//Up Blast
+	for (size_t i = 0; i < blastRadius; i++)
+	{
+		//Get spawn position
+		int x = destRectangle.x;
+		int y = destRectangle.y + destRectangle.h;
+
+		Blast b = Blast(x, y, blastTopSprite);
+		ownerPlayer->AddBlast(&b);
+	}
+
+	//Detach owning player
 	ownerPlayer->DestroyBombReference(this);
 	Bomb::~Bomb();
 }
 
 Player* Bomb::GetOwningPlayer()
 {
-	return nullptr;
+	return ownerPlayer;
 }
 
-Player* Bomb::SetOwningPlayer(Player*)
+void Bomb::SetOwningPlayer(Player* p)
 {
-	return nullptr;
+	this->ownerPlayer = p;
 }
 
 SDL_Texture* Bomb::GetSprite()

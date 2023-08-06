@@ -1,6 +1,8 @@
 #pragma once
 #include "Entity.h"
 #include "Player.h"
+#include "Blast.h"
+
 
 class Bomb : public Entity
 {
@@ -10,7 +12,7 @@ class Bomb : public Entity
         void Update(float delta);
         void Detonate();
         Player* GetOwningPlayer();
-        Player* SetOwningPlayer(Player*);
+        void SetOwningPlayer(Player*);
 
         SDL_Texture* GetSprite();
         SDL_Rect* GetSrcRectangle();
@@ -32,7 +34,9 @@ class Bomb : public Entity
         int animationFrame = 0;
 
         //Gameplay vars
+        bool exploded = false;
         float aliveTime = 0.f;
         float timeToExplode = 3.f;
         int blastRadius = 1;
+        std::vector<Blast*> blasts;
 };
