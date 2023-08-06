@@ -69,7 +69,7 @@ void Bomb::Detonate()
 	{
 		//Get spawn position
 		int x = destRectangle.x;
-		int y = destRectangle.y - destRectangle.h;
+		int y = destRectangle.y - destRectangle.h*i;
 
 		Blast* b = new Blast(x, y, blastTopSprite);
 		b->SetOwnerPlayer(ownerPlayer);
@@ -81,7 +81,7 @@ void Bomb::Detonate()
 	{
 		//Get spawn position
 		int x = destRectangle.x;
-		int y = destRectangle.y + destRectangle.h;
+		int y = destRectangle.y + destRectangle.h*i;
 
 		Blast* b = new Blast(x, y, blastTopSprite);
 		b->SetOwnerPlayer(ownerPlayer);
@@ -92,7 +92,7 @@ void Bomb::Detonate()
 	for (size_t i = 0; i < blastRadius; i++)
 	{
 		//Get spawn position
-		int x = destRectangle.x - destRectangle.w;
+		int x = destRectangle.x - destRectangle.w*i;
 		int y = destRectangle.y;
 
 		Blast* b = new Blast(x, y, blastTopSprite);
@@ -104,7 +104,7 @@ void Bomb::Detonate()
 	for (size_t i = 0; i < blastRadius; i++)
 	{
 		//Get spawn position
-		int x = destRectangle.x + destRectangle.w;
+		int x = destRectangle.x + destRectangle.w*i;
 		int y = destRectangle.y;
 
 		Blast* b = new Blast(x, y, blastTopSprite);
