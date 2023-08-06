@@ -101,9 +101,7 @@
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d  "$(SolutionDir)SDL2\lib\x64\*.dll" "$(OutDir)"
-xcopy /y /d  "$(ProjectDir)assets\sprites\*.*" "$(OutDir)assets\sprites\"
-xcopy /y /d  "$(SolutionDir)MapGenerator\bin\debug\*.map" "$(OutDir)assets\maps\"
-xcopy /y /d  "$(SolutionDir)MapGenerator\bin\debug\*.map" "$(ProjectDir)assets\maps\"</Command>
+xcopy /y /d  "$(ProjectDir)assets\sprites\*.*" "$(OutDir)assets\sprites\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -125,9 +123,7 @@ xcopy /y /d  "$(SolutionDir)MapGenerator\bin\debug\*.map" "$(ProjectDir)assets\m
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d  "$(SolutionDir)SDL2\lib\x64\*.dll" "$(OutDir)"
-xcopy /y /d  "$(ProjectDir)assets\sprites\*.*" "$(OutDir)assets\sprites\"
-xcopy /y /d  "$(SolutionDir)MapGenerator\bin\debug\*.map" "$(OutDir)assets\maps\"
-xcopy /y /d  "$(SolutionDir)MapGenerator\bin\debug\*.map" "$(ProjectDir)assets\maps\"</Command>
+xcopy /y /d  "$(ProjectDir)assets\sprites\*.*" "$(OutDir)assets\sprites\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -153,9 +149,7 @@ xcopy /y /d  "$(SolutionDir)MapGenerator\bin\debug\*.map" "$(ProjectDir)assets\m
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d  "$(SolutionDir)SDL2\lib\x64\*.dll" "$(OutDir)"
-xcopy /y /d  "$(ProjectDir)assets\sprites\*.*" "$(OutDir)assets\sprites\"
-xcopy /y /d  "$(SolutionDir)MapGenerator\bin\debug\*.map" "$(OutDir)assets\maps\"
-xcopy /y /d  "$(SolutionDir)MapGenerator\bin\debug\*.map" "$(ProjectDir)assets\maps\"</Command>
+xcopy /y /d  "$(ProjectDir)assets\sprites\*.*" "$(OutDir)assets\sprites\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -181,12 +175,11 @@ xcopy /y /d  "$(SolutionDir)MapGenerator\bin\debug\*.map" "$(ProjectDir)assets\m
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d  "$(SolutionDir)SDL2\lib\x64\*.dll" "$(OutDir)"
-xcopy /y /d  "$(ProjectDir)assets\sprites\*.*" "$(OutDir)assets\sprites\"
-xcopy /y /d  "$(SolutionDir)MapGenerator\bin\debug\*.map" "$(OutDir)assets\maps\"
-xcopy /y /d  "$(SolutionDir)MapGenerator\bin\debug\*.map" "$(ProjectDir)assets\maps\"</Command>
+xcopy /y /d  "$(ProjectDir)assets\sprites\*.*" "$(OutDir)assets\sprites\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Blast.cpp" />
     <ClCompile Include="bomb.cpp" />
     <ClCompile Include="bomberman.cpp" />
     <ClCompile Include="Entity.cpp" />
@@ -196,6 +189,7 @@ xcopy /y /d  "$(SolutionDir)MapGenerator\bin\debug\*.map" "$(ProjectDir)assets\m
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Blast.h" />
     <ClInclude Include="Bomb.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Game.h" />
