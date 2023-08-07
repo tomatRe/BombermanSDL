@@ -110,16 +110,6 @@ void Game::Render()
 		std::vector<Bomb*> bombs = p->GetBombs();
 		std::vector<Blast*> blasts = p->GetBlasts();
 
-		//Draw bomb(s) for this player
-		for (size_t i = 0; i < bombs.size(); i++)
-		{
-			SDL_RenderCopy(
-				renderer,
-				spritesheet,
-				bombs[i]->GetSrcRectangle(),
-				bombs[i]->GetDestRectangle());
-		}
-
 		//Draw blast(s) for this player
 		for (size_t i = 0; i < blasts.size(); i++)
 		{
@@ -128,6 +118,16 @@ void Game::Render()
 				spritesheet,
 				blasts[i]->GetSrcRectangle(),
 				blasts[i]->GetDestRectangle());
+		}
+
+		//Draw bomb(s) for this player
+		for (size_t i = 0; i < bombs.size(); i++)
+		{
+			SDL_RenderCopy(
+				renderer,
+				spritesheet,
+				bombs[i]->GetSrcRectangle(),
+				bombs[i]->GetDestRectangle());
 		}
 
 		//Draw player after bomb
