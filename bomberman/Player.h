@@ -66,6 +66,7 @@ class Player : public Entity
 		bool isMoving = false;
 
 		int ammo = 1;
+		int blastRadius = 1;
 		int animationFrame = 0; // 3 frames per animation
 		int playerDirection = 1; //0=Up, 1=Down... (same order as below)
 		Game* game;

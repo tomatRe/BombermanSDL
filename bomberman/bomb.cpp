@@ -56,12 +56,14 @@ void Bomb::Animate(float delta)
 void Bomb::Detonate()
 {
 	exploded = true;
-	//Spawn explosions
 	Blast* b;
+	Blast::blastDirection dirSprite;
+	const int offset = 4;
 
 	//Center blast
-	b = new Blast(destRectangle.x, destRectangle.y, blastOriginSprite);
+	b = new Blast(destRectangle.x, destRectangle.y, dirSprite.center[0]);
 	b->SetOwnerPlayer(ownerPlayer);
+	b->SetAnimation(dirSprite.center);
 	ownerPlayer->AddBlast(b);
 
 	//Up Blast
@@ -69,22 +71,34 @@ void Bomb::Detonate()
 	{
 		//Get spawn position
 		int x = destRectangle.x;
-		int y = destRectangle.y - destRectangle.h*i;
+		int y = destRectangle.y - destRectangle.h*i + (i * offset);
 
-		b = new Blast(x, y, blastTopSprite);
+		b = new Blast(x, y, dirSprite.up[0]);
 		b->SetOwnerPlayer(ownerPlayer);
+
+		if (i == blastRadius)
+			b->SetAnimation(dirSprite.up);
+		else
+			b->SetAnimation(dirSprite.verticalBody);
+
 		ownerPlayer->AddBlast(b);
 	}
 
-	//Up Down
+	//Down Blast
 	for (size_t i = 1; i < blastRadius+1; i++)
 	{
 		//Get spawn position
 		int x = destRectangle.x;
-		int y = destRectangle.y + destRectangle.h*i;
+		int y = destRectangle.y + destRectangle.h*i - (i * offset);
 
-		b = new Blast(x, y, blastTopSprite);
+		b = new Blast(x, y, dirSprite.down[0]);
 		b->SetOwnerPlayer(ownerPlayer);
+
+		if (i == blastRadius)
+			b->SetAnimation(dirSprite.down);
+		else
+			b->SetAnimation(dirSprite.verticalBody);
+		
 		ownerPlayer->AddBlast(b);
 	}
 
@@ -92,11 +106,17 @@ void Bomb::Detonate()
 	for (size_t i = 1; i < blastRadius + 1; i++)
 	{
 		//Get spawn position
-		int x = destRectangle.x - destRectangle.w*i;
+		int x = destRectangle.x - destRectangle.w*i + (i * offset);
 		int y = destRectangle.y;
 
-		b = new Blast(x, y, blastTopSprite);
+		b = new Blast(x, y, dirSprite.left[0]);
 		b->SetOwnerPlayer(ownerPlayer);
+		
+		if (i == blastRadius)
+			b->SetAnimation(dirSprite.left);
+		else
+			b->SetAnimation(dirSprite.horizontalBody);
+
 		ownerPlayer->AddBlast(b);
 	}
 
@@ -104,11 +124,17 @@ void Bomb::Detonate()
 	for (size_t i = 1; i < blastRadius + 1; i++)
 	{
 		//Get spawn position
-		int x = destRectangle.x + destRectangle.w*i;
+		int x = destRectangle.x + destRectangle.w*i - (i * offset);
 		int y = destRectangle.y;
 
-		b = new Blast(x, y, blastTopSprite);
+		b = new Blast(x, y, dirSprite.right[0]);
 		b->SetOwnerPlayer(ownerPlayer);
+
+		if (i == blastRadius)
+			b->SetAnimation(dirSprite.right);
+		else
+			b->SetAnimation(dirSprite.horizontalBody);
+		
 		ownerPlayer->AddBlast(b);
 	}
 
@@ -130,6 +156,11 @@ SDL_Rect* Bomb::GetSrcRectangle()
 SDL_Rect* Bomb::GetDestRectangle()
 {
 	return &destRectangle;
+}
+
+void Bomb::SetBlastRadius(int newRadius)
+{
+	this->blastRadius = newRadius;
 }
 
 //Setters

@@ -36,9 +36,19 @@ void Blast::Update(float delta)
 	}
 }
 
-void Blast::Animate(float)
+void Blast::Animate(float delta)
 {
+	float timePerAnimation = (timeToDisapear * 1000) / animationSet.size();
+	animationDeltaTime += delta;
 
+	if (animationDeltaTime >= timePerAnimation)
+	{
+		animationDeltaTime = 0;
+		srcRectangle = *animationSet[animationFrame];
+
+		if (animationFrame < animationSet.size())
+			animationFrame++;
+	}
 }
 
 SDL_Rect* Blast::GetSrcRectangle()
@@ -54,6 +64,12 @@ SDL_Rect* Blast::GetDestRectangle()
 void Blast::SetOwnerPlayer(Player* p)
 {
 	this->ownerPlayer = p;
+}
+
+void Blast::SetAnimation(std::vector<SDL_Rect*> animationSet)
+{
+	this->animationSet = animationSet;
+	srcRectangle = *animationSet[animationFrame];
 }
 
 Blast::~Blast()

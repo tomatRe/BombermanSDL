@@ -26,6 +26,7 @@ class Bomb : public Entity
         Player* GetOwningPlayer();
 
         //Setters
+        void SetBlastRadius(int);
         void SetOwningPlayer(Player*);
 
         //=========================Variables=========================
@@ -39,12 +40,6 @@ class Bomb : public Entity
             {187, 528, 17, 17},
             {204, 528, 17, 17}
         };
-
-        SDL_Rect* blastOriginSprite = new SDL_Rect{ 170, 528, 17, 17 };
-        SDL_Rect* blastTopSprite = new SDL_Rect{ 170, 528, 17, 17 };
-        SDL_Rect* blastBottomSprite = new SDL_Rect{ 170, 528, 17, 17 };
-        SDL_Rect* blastLeftSprite = new SDL_Rect{ 170, 528, 17, 17 };
-        SDL_Rect* blastRightSprite = new SDL_Rect{ 170, 528, 17, 17 };
 
         float animationDeltaTime = 1;
         int animationFrame = 0;
