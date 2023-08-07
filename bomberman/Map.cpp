@@ -10,6 +10,53 @@ Map::Map(std::string mapName, SDL_Texture* tileSet)
 	this->tileSet = tileSet;
 }
 
+void Map::DrawMap(SDL_Renderer* renderer)
+{
+	if (mapTiles.size() != 0)
+	{
+		for (size_t y = 0; y < mapSizey; y++)
+		{
+			for (size_t x = 0; x < mapSizex; x++)
+			{
+				//Get texture
+				SDL_Rect srcRectangle = { 0, 0, tileSizex, tileSizey };
+				GetTexture(mapTiles[x][y], &srcRectangle);
+
+				//Get screen tile position
+				SDL_Rect destRectangle = mapRect[y][x];
+
+				//Draw
+				SDL_RenderCopy(renderer, tileSet, &srcRectangle, &destRectangle);
+			}
+		}
+	}
+}
+
+void Map::CheckCollision(Player* p)
+{
+	SDL_Rect pRect = *p->GetDestRectangle();
+
+	//Player to map collisions
+
+	for (size_t i = 0; i < mapSizex; i++)
+	{
+		for (size_t j = 0; j < mapSizey; j++)
+		{
+			if (IsOverlaping(mapRect[j][i], pRect))
+			{
+				p->mPosX = p->lastPosX;
+				p->mPosY = p->lastPosY;
+			}
+		}
+	}
+
+	//Player to player collisions (TODO)
+
+	//Blasts to map collisions (TODO)
+
+	//Blasts to player collisions (TODO)
+}
+
 void Map::LoadMap(std::string mapName)
 {
 	std::string line;
@@ -58,40 +105,9 @@ void Map::LoadMap(std::string mapName)
 		std::cout << "Map " + mapName << " failed to load\n";
 }
 
-std::vector<std::vector<int>> Map::GetMap() const
+void Map::SetPlayers(std::vector<Player*> players)
 {
-	return mapTiles;
-}
-
-SDL_Texture * Map::GetSpriteAtLocation(int x, int y)
-{
-	return nullptr;
-}
-
-void Map::SetSpriteAtLocation(int x, int y)
-{
-}
-
-void Map::DrawMap(SDL_Renderer* renderer)
-{
-	if (mapTiles.size() != 0)
-	{
-		for (size_t y = 0; y < mapSizey; y++)
-		{
-			for (size_t x = 0; x < mapSizex; x++)
-			{
-				//Get texture
-				SDL_Rect srcRectangle = {0, 0, tileSizex, tileSizey};
-				GetTexture(mapTiles[x][y], &srcRectangle);
-
-				//Get screen tile position
-				SDL_Rect destRectangle = mapRect[y][x];
-
-				//Draw
-				SDL_RenderCopy(renderer, tileSet, &srcRectangle, &destRectangle);
-			}
-		}
-	}
+	this->players = players;
 }
 
 void Map::ParseTilesToRect()
@@ -173,36 +189,6 @@ void Map::GetTexture(int tile, SDL_Rect* srcRectangle)
 		srcRectangle->y = 460;
 		break;
 	}
-}
-
-void Map::CheckCollision(Player* p)
-{
-	SDL_Rect pRect = *p->GetDestRectangle();
-
-	//Player to map collisions
-
-	for (size_t i = 0; i < mapSizex; i++)
-	{
-		for (size_t j = 0; j < mapSizey; j++)
-		{
-			if (IsOverlaping(mapRect[j][i], pRect))
-			{
-				p->mPosX = p->lastPosX;
-				p->mPosY = p->lastPosY;
-			}
-		}
-	}
-
-	//Player to player collisions (TODO)
-
-	//Blasts to map collisions (TODO)
-
-	//Blasts to player collisions (TODO)
-}
-
-void Map::SetPlayers(std::vector<Player*> players)
-{
-	this->players = players;
 }
 
 bool Map::IsOverlaping(SDL_Rect rect1, SDL_Rect rect2)
