@@ -58,6 +58,8 @@ void Game::Init(const std::string title, int xpos, int ypos, int width, int heig
 		player->SetGameReference(this);
 		players.push_back(player);
 
+		map->SetPlayers(players);
+
 		//if everything goes ok set running to true
 		isRunning = true;
 		std::cout << "Engine running: OK\n";

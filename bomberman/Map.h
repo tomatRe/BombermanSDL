@@ -21,11 +21,13 @@ class Map
 		void SetSpriteAtLocation(int x, int y);
 		void DrawMap(SDL_Renderer* renderer);
 		void CheckCollision(Player* p);
+		void SetPlayers(std::vector<Player*>);
 	private:
 		//variables
 		SDL_Texture* tileSet;
 		std::vector<std::vector<int>> mapTiles;
 		std::vector<std::vector<SDL_Rect>> mapRect;
+		std::vector<Player*> players;
 		int mapSizex = 0;
 		int mapSizey = 0;
 		const int tileSizex = 18;

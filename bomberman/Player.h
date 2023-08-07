@@ -62,6 +62,9 @@ class Player : public Entity
 		float lastPosX;
 		float lastPosY;
 
+		//Gameplay / animations
+		bool isAlive = true;
+
 	private:
 		bool isMoving = false;
 

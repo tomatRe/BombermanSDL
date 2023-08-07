@@ -179,6 +179,8 @@ void Map::CheckCollision(Player* p)
 {
 	SDL_Rect pRect = *p->GetDestRectangle();
 
+	//Player to map collisions
+
 	for (size_t i = 0; i < mapSizex; i++)
 	{
 		for (size_t j = 0; j < mapSizey; j++)
@@ -190,6 +192,17 @@ void Map::CheckCollision(Player* p)
 			}
 		}
 	}
+
+	//Player to player collisions (TODO)
+
+	//Blasts to map collisions (TODO)
+
+	//Blasts to player collisions (TODO)
+}
+
+void Map::SetPlayers(std::vector<Player*> players)
+{
+	this->players = players;
 }
 
 bool Map::IsOverlaping(SDL_Rect rect1, SDL_Rect rect2)
