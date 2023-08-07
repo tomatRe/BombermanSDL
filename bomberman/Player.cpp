@@ -316,7 +316,6 @@ void Player::DestroyBlastReference(Blast* b)
 	if (found)
 	{
 		blasts = newBlasts;
-		ammo++;
 		delete b;
 	}
 }
