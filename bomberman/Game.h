@@ -29,6 +29,9 @@ class Game
 		void Clean();
 
 		bool Running() { return isRunning; }
+		SDL_Renderer* GetRenderer();
+		SDL_Window* GetWindow();
+		Loader* GetLoader();
 
 		Loader* loader;
 

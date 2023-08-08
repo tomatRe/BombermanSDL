@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "Game.h"
+#include "Menu.h"
 #include <SDL.h>
 
 const std::string windowTitle = "Bomberman";
@@ -22,14 +23,33 @@ Uint64 last = 0;
 float deltaTime = 0;
 
 Game* game = nullptr;
+Menu* menu = nullptr;
 
-int main(int argc, char *argv[])
+void RunMainMenuLoop()
 {
-	game = new Game();
+	//Set background color to black
+	SDL_SetRenderDrawColor(game->GetRenderer(), 0, 0, 0, 255);
 
-	game->Init(windowTitle, xPos, yPos, resolutionX, resolutionY, fullScreen);
+	while (menu->Running())
+	{
+		last = now;
 
-	//Main Game loop
+		menu->HandleEvents();
+		menu->Update(deltaTime);
+		menu->Render();
+
+		now = SDL_GetPerformanceCounter();
+		deltaTime = (now - last) * 1000 / (float)SDL_GetPerformanceFrequency();
+
+		if (frameDelay > deltaTime)//apply delay
+			SDL_Delay(frameDelay - deltaTime);
+	}
+}
+
+void RunMainGameLoop()
+{
+	//Set background color to green
+	SDL_SetRenderDrawColor(game->GetRenderer(), 16, 120, 48, 255);
 
 	while (game->Running())
 	{
@@ -45,6 +65,20 @@ int main(int argc, char *argv[])
 		if (frameDelay > deltaTime)//apply delay
 			SDL_Delay(frameDelay - deltaTime);
 	}
+}
+
+int main(int argc, char *argv[])
+{
+	game = new Game();
+
+	game->Init(windowTitle, xPos, yPos, resolutionX, resolutionY, fullScreen);
+	menu = new Menu(game->GetWindow(), game->GetRenderer(), game->GetLoader());
+
+	//Start main menu
+	RunMainMenuLoop();
+
+	//Main Game loop
+	RunMainGameLoop();
 
 	game->Clean();
 

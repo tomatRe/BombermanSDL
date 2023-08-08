@@ -34,9 +34,6 @@ void Game::Init(const std::string title, int xpos, int ypos, int width, int heig
 		if (renderer)
 			std::cout << "Renderer Created...\n";
 
-		//Set background color to background green
-		SDL_SetRenderDrawColor(renderer, 16, 120, 48, 255);
-
 		//Initialize PNG loader
 		int imgFlags = IMG_INIT_PNG;
 
@@ -154,6 +151,21 @@ void Game::Render()
 void Game::CheckCollisions()
 {
 	map->CheckCollision();
+}
+
+SDL_Renderer* Game::GetRenderer()
+{
+	return renderer;
+}
+
+SDL_Window* Game::GetWindow()
+{
+	return window;
+}
+
+Loader* Game::GetLoader()
+{
+	return loader;
 }
 
 void Game::Clean()

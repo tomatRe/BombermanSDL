@@ -186,6 +186,7 @@ xcopy /y /d  "$(ProjectDir)assets\sprites\*.*" "$(OutDir)assets\sprites\"</Comma
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Loader.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -195,6 +196,7 @@ xcopy /y /d  "$(ProjectDir)assets\sprites\*.*" "$(OutDir)assets\sprites\"</Comma
     <ClInclude Include="Game.h" />
     <ClInclude Include="Loader.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
