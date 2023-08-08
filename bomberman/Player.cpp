@@ -44,30 +44,7 @@ Player::Player(int x, int y, SDL_Texture *sprite, int textPosX, int textPosY):
 
 	// Reserve bombs memory space
 	placedBombs.reserve(20);
-	//blasts = std::vector<Blast>(80);
-
-	// Load animation frames
-
-	upSpriteFrames = {
-		{72, 20, playerW, playerH},
-		{56, 20, playerW, playerH},
-		{88, 20, playerW, playerH}
-	};
-	downSpriteFrames = {
-		{71, 45, playerW, playerH},
-		{55, 45, playerW, playerH},
-		{87, 45, playerW, playerH}
-	};
-	leftSpriteFrames = {
-		{2, 44, playerW, playerH},
-		{19, 44, playerW, playerH},
-		{35, 44, playerW, playerH}
-	};
-	rightSpriteFrames = {
-		{105, 46, playerW, playerH},
-		{121, 47, playerW, playerH},
-		{139, 48, playerW, playerH}
-	};
+	blasts.reserve(200);
 
 	std::cout << "Player created at " << x << ", " << y << "\n";
 }
@@ -125,7 +102,7 @@ void Player::Move(float delta)
 void Player::AnimatePlayer(float delta)
 {
 
-	if (isMoving) // Play moving animation
+	if (isAlive && isMoving) // Play moving animation
 	{
 		if (animationDeltaTime >= timePerAnimation)
 		{
@@ -156,7 +133,7 @@ void Player::AnimatePlayer(float delta)
 				animationFrame = 1;
 		}
 	}
-	else // Play Idle frame
+	else if (!isMoving && isAlive) // Play Idle frame
 	{
 		switch (playerDirection)
 		{
@@ -179,6 +156,17 @@ void Player::AnimatePlayer(float delta)
 
 		//Reset animation
 		animationFrame = 1;
+	}
+	else 
+	{
+		if (animationDeltaTime >= timePerAnimation)
+		{
+			animationDeltaTime = 0;
+			srcRectangle = dieSpriteFrames[animationFrame];
+
+			if (animationFrame < dieSpriteFrames.size()-1)
+				animationFrame++;
+		}
 	}
 
 	animationDeltaTime += delta;
@@ -206,7 +194,7 @@ void Player::UpdateBlasts(float delta)
 
 void Player::HandleEvents(SDL_Event& e)
 {
-	if (playerNumber == 0)
+	if (isAlive && playerNumber == 0)
 	{
 		//If a key was pressed
 		if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
@@ -327,6 +315,14 @@ void Player::DestroyBlastReference(Blast* b)
 void Player::AddBlast(Blast* b)
 {
 	this->blasts.push_back(b);
+}
+
+void Player::Die()
+{
+	isAlive = false;
+	isMoving = false;
+	animationFrame = 0;
+	animationDeltaTime = 0;
 }
 
 

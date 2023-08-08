@@ -57,7 +57,8 @@ void Map::CheckCollision()
 		{
 			if (players[i] != players[j])
 			{
-				if (IsOverlaping(*pRect, players[j]->destRectangle))
+				if (IsOverlaping(*pRect, players[j]->destRectangle)
+					&& players[j]->isAlive)
 				{
 					players[i]->mPosX = players[i]->lastPosX;
 					players[i]->mPosY = players[i]->lastPosY;
@@ -91,11 +92,13 @@ void Map::CheckCollision()
 			//Blasts to player collisions
 			for (size_t z = 0; z < players.size(); z++)
 			{
-				if (IsOverlaping(*playerBlasts[k]->GetDestRectangle(),
+				if (players[z]->isAlive &&
+					IsOverlaping(*playerBlasts[k]->GetDestRectangle(),
 					players[z]->destRectangle))
 				{
-					//kill
-					std::cout << "Player " << players[z]->playerNumber << " is dead \n";
+					players[z]->Die();
+					std::cout << "Player " << players[z]->playerNumber
+						<< " was killed by "<< playerBlasts[k]->ownerPlayer << std::endl;
 				}
 			}
 

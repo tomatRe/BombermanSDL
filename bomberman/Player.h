@@ -30,6 +30,7 @@ class Player : public Entity
 		void DestroyBombReference(Bomb*);
 		void DestroyBlastReference(Blast*);
 		void AddBlast(Blast*);
+		void Die();
 
 		//Getters
 		std::vector<Bomb*> GetBombs();
@@ -67,22 +68,52 @@ class Player : public Entity
 		bool isAlive = true;
 
 	private:
-		bool isMoving = false;
 
+		//Gameplay variables
 		int ammo = 1;
 		int blastRadius = 1;
 		int animationFrame = 0; // 3 frames per animation
 		int playerDirection = 1; //0=Up, 1=Down... (same order as below)
 		Game* game;
-
-		SDL_Texture* bombTexture;
-
 		std::vector<Bomb*> placedBombs;
 		std::vector<Blast*> blasts;
-		std::vector<SDL_Rect> upSpriteFrames;
-		std::vector<SDL_Rect> downSpriteFrames;
-		std::vector<SDL_Rect> leftSpriteFrames;
-		std::vector<SDL_Rect> rightSpriteFrames;
+
+		//Animation variables
+		bool isMoving = false;
+		SDL_Texture* bombTexture;
+
+		std::vector<SDL_Rect> upSpriteFrames = {
+			{72, 20, playerW, playerH},
+			{56, 20, playerW, playerH},
+			{88, 20, playerW, playerH}
+		};
+
+		std::vector<SDL_Rect> downSpriteFrames = {
+			{71, 45, playerW, playerH},
+			{55, 45, playerW, playerH},
+			{87, 45, playerW, playerH}
+		};
+
+		std::vector<SDL_Rect> leftSpriteFrames = {
+			{2, 44, playerW, playerH},
+			{19, 44, playerW, playerH},
+			{35, 44, playerW, playerH}
+		};
+
+		std::vector<SDL_Rect> rightSpriteFrames = {
+			{105, 46, playerW, playerH},
+			{121, 47, playerW, playerH},
+			{139, 48, playerW, playerH}
+		};
+
+		std::vector<SDL_Rect> dieSpriteFrames = {
+			{29, 74, playerW, playerH},
+			{48, 74, playerW, playerH},
+			{65, 74, playerW, playerH},
+			{82, 74, playerW, playerH},
+			{99, 74, playerW, playerH},
+			{117, 74, playerW, playerH}
+		};
 
 		float animationDeltaTime = 1; // Current frame duration
 
