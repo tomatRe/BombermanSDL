@@ -102,7 +102,7 @@ class Player : public Entity
 
 		std::vector<SDL_Rect> rightSpriteFrames = {
 			{105, 46, playerW, playerH},
-			{121, 47, playerW, playerH},
+			{122, 47, playerW, playerH},
 			{139, 48, playerW, playerH}
 		};
 
