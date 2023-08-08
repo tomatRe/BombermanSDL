@@ -85,9 +85,10 @@ void Map::CheckCollision()
 			}
 		}
 
-		//Blasts to player collisions
+		//Blasts collisions
 		for (size_t k = 0; k < playerBlasts.size(); k++)
 		{
+			//Blasts to player collisions
 			for (size_t z = 0; z < players.size(); z++)
 			{
 				if (IsOverlaping(*playerBlasts[k]->GetDestRectangle(),
@@ -96,12 +97,23 @@ void Map::CheckCollision()
 					//kill
 					std::cout << "Player " << players[z]->playerNumber << " is dead \n";
 				}
+			}
 
+			//Blasts to map collisions
+			for (size_t x = 0; x < mapSizex; x++)
+			{
+				for (size_t y = 0; y < mapSizey; y++)
+				{
+					if (IsOverlaping(mapRect[y][x],
+						*playerBlasts[k]->GetDestRectangle()))
+					{
+						//TODO Check for unbreakable walls
+						mapRect[y][x] = SDL_Rect{};
+					}
+				}
 			}
 		}
 	}
-
-	//Blasts to map collisions (TODO)
 }
 
 void Map::LoadMap(std::string mapName)

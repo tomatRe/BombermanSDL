@@ -262,6 +262,7 @@ void Player::CheckCollisions()
 
 void Player::SpawnBomb()
 {
+	//TODO Fit to grid system
 	if (ammo > 0)
 	{
 		ammo--;
