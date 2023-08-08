@@ -37,14 +37,14 @@ void Map::CheckCollision()
 {	
 	for (size_t i = 0; i < players.size(); i++)
 	{
-		SDL_Rect pRect = *players[i]->GetDestRectangle();
+		SDL_Rect* pRect = players[i]->GetDestRectangle();
 
 		//Player to map collisions
-		for (size_t i = 0; i < mapSizex; i++)
+		for (size_t x = 0; x < mapSizex; x++)
 		{
-			for (size_t j = 0; j < mapSizey; j++)
+			for (size_t y = 0; y < mapSizey; y++)
 			{
-				if (IsOverlaping(mapRect[j][i], pRect))
+				if (IsOverlaping(mapRect[y][x], *pRect))
 				{
 					players[i]->mPosX = players[i]->lastPosX;
 					players[i]->mPosY = players[i]->lastPosY;
@@ -57,7 +57,7 @@ void Map::CheckCollision()
 		{
 			if (players[i] != players[j])
 			{
-				if (IsOverlaping(pRect, players[j]->destRectangle))
+				if (IsOverlaping(*pRect, players[j]->destRectangle))
 				{
 					players[i]->mPosX = players[i]->lastPosX;
 					players[i]->mPosY = players[i]->lastPosY;
@@ -67,6 +67,7 @@ void Map::CheckCollision()
 
 		//Bombs to player collisions
 		std::vector<Bomb*> playerBombs = players[i]->GetBombs();
+		std::vector<Blast*> playerBlasts = players[i]->GetBlasts();
 
 		for (size_t j = 0; j < playerBombs.size(); j++)
 		{
@@ -83,9 +84,22 @@ void Map::CheckCollision()
 				}
 			}
 		}
-	}
 
-	//Blasts to player collisions (TODO)
+		//Blasts to player collisions
+		for (size_t k = 0; k < playerBlasts.size(); k++)
+		{
+			for (size_t z = 0; z < players.size(); z++)
+			{
+				if (IsOverlaping(*playerBlasts[k]->GetDestRectangle(),
+					players[z]->destRectangle))
+				{
+					//kill
+					std::cout << "Player " << players[z]->playerNumber << " is dead \n";
+				}
+
+			}
+		}
+	}
 
 	//Blasts to map collisions (TODO)
 }

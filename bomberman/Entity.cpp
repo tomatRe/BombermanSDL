@@ -8,6 +8,8 @@ Entity::Entity(int x, int y)
 {
 	destRectangle.x = x;
 	destRectangle.y = y;
+	destRectangle.w = 34;
+	destRectangle.h = 48;
 }
 
 Entity::Entity(int x, int y, SDL_Texture* sprite, int textPosX, int textPosY)
