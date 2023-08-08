@@ -24,6 +24,7 @@ class Bomb : public Entity
         SDL_Rect* GetSrcRectangle();
         SDL_Rect* GetDestRectangle();
         Player* GetOwningPlayer();
+        float GetAliveTime();
 
         //Setters
         void SetBlastRadius(int);

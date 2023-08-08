@@ -21,7 +21,7 @@ class Map
 
 		//Tick functions
 		void DrawMap(SDL_Renderer* renderer);
-		void CheckCollision(Player* p);
+		void CheckCollision();
 
 		//Public functions
 		void LoadMap(std::string mapName);

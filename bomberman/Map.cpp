@@ -1,4 +1,5 @@
 #include "Map.h"
+#include "Bomb.h"
 
 Map::Map()
 {
@@ -32,40 +33,61 @@ void Map::DrawMap(SDL_Renderer* renderer)
 	}
 }
 
-void Map::CheckCollision(Player* p)
-{
-	SDL_Rect pRect = *p->GetDestRectangle();
-
-	//Player to map collisions
-
-	for (size_t i = 0; i < mapSizex; i++)
-	{
-		for (size_t j = 0; j < mapSizey; j++)
-		{
-			if (IsOverlaping(mapRect[j][i], pRect))
-			{
-				p->mPosX = p->lastPosX;
-				p->mPosY = p->lastPosY;
-			}
-		}
-	}
-
-	//Player to player collisions
+void Map::CheckCollision()
+{	
 	for (size_t i = 0; i < players.size(); i++)
 	{
-		if (p != players[i])
+		SDL_Rect pRect = *players[i]->GetDestRectangle();
+
+		//Player to map collisions
+		for (size_t i = 0; i < mapSizex; i++)
 		{
-			if (IsOverlaping(players[i]->destRectangle, pRect))
+			for (size_t j = 0; j < mapSizey; j++)
 			{
-				p->mPosX = p->lastPosX;
-				p->mPosY = p->lastPosY;
+				if (IsOverlaping(mapRect[j][i], pRect))
+				{
+					players[i]->mPosX = players[i]->lastPosX;
+					players[i]->mPosY = players[i]->lastPosY;
+				}
+			}
+		}
+
+		//Player to player collisions
+		for (size_t j = 0; j < players.size(); j++)
+		{
+			if (players[i] != players[j])
+			{
+				if (IsOverlaping(pRect, players[j]->destRectangle))
+				{
+					players[i]->mPosX = players[i]->lastPosX;
+					players[i]->mPosY = players[i]->lastPosY;
+				}
+			}
+		}
+
+		//Bombs to player collisions
+		std::vector<Bomb*> playerBombs = players[i]->GetBombs();
+
+		for (size_t j = 0; j < playerBombs.size(); j++)
+		{
+			for (size_t z = 0; z < players.size(); z++)
+			{
+				if (playerBombs[j]->GetOwningPlayer() != players[i] ||
+					playerBombs[j]->GetAliveTime() > 1.f)
+				{
+					if (IsOverlaping(playerBombs[j]->destRectangle, players[z]->destRectangle))
+					{
+						players[z]->mPosX = players[z]->lastPosX;
+						players[z]->mPosY = players[z]->lastPosY;
+					}
+				}
 			}
 		}
 	}
 
-	//Blasts to map collisions (TODO)
-
 	//Blasts to player collisions (TODO)
+
+	//Blasts to map collisions (TODO)
 }
 
 void Map::LoadMap(std::string mapName)

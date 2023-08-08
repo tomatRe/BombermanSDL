@@ -153,10 +153,7 @@ void Game::Render()
 
 void Game::CheckCollisions()
 {
-	for (size_t i = 0; i < players.size(); i++)
-	{
-		map->CheckCollision(players[i]);
-	}
+	map->CheckCollision();
 }
 
 void Game::Clean()

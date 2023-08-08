@@ -148,6 +148,11 @@ Player* Bomb::GetOwningPlayer()
 	return ownerPlayer;
 }
 
+float Bomb::GetAliveTime()
+{
+	return aliveTime;
+}
+
 SDL_Rect* Bomb::GetSrcRectangle()
 {
 	return &srcRectangle;
