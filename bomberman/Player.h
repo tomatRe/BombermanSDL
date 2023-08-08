@@ -63,6 +63,7 @@ class Player : public Entity
 		float lastPosY;
 
 		//Gameplay / animations
+		int playerNumber = 0;
 		bool isAlive = true;
 
 	private:

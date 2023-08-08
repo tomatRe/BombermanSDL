@@ -206,29 +206,32 @@ void Player::UpdateBlasts(float delta)
 
 void Player::HandleEvents(SDL_Event& e)
 {
-	//If a key was pressed
-	if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
+	if (playerNumber == 0)
 	{
-		//Adjust the velocity
-		switch (e.key.keysym.sym)
+		//If a key was pressed
+		if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
 		{
+			//Adjust the velocity
+			switch (e.key.keysym.sym)
+			{
 			case SDLK_UP: mVelY -= moveSpeed; break;
 			case SDLK_DOWN: mVelY += moveSpeed; break;
 			case SDLK_LEFT: mVelX -= moveSpeed; break;
 			case SDLK_RIGHT: mVelX += moveSpeed; break;
 			case SDLK_SPACE: SpawnBomb(); break;
+			}
 		}
-	}
-	//If a key was released
-	else if (e.type == SDL_KEYUP && e.key.repeat == 0)
-	{
-		//Adjust the velocity
-		switch (e.key.keysym.sym)
+		//If a key was released
+		else if (e.type == SDL_KEYUP && e.key.repeat == 0)
 		{
-		case SDLK_UP: mVelY += moveSpeed; break;
-		case SDLK_DOWN: mVelY -= moveSpeed; break;
-		case SDLK_LEFT: mVelX += moveSpeed; break;
-		case SDLK_RIGHT: mVelX -= moveSpeed; break;
+			//Adjust the velocity
+			switch (e.key.keysym.sym)
+			{
+			case SDLK_UP: mVelY += moveSpeed; break;
+			case SDLK_DOWN: mVelY -= moveSpeed; break;
+			case SDLK_LEFT: mVelX += moveSpeed; break;
+			case SDLK_RIGHT: mVelX -= moveSpeed; break;
+			}
 		}
 	}
 }

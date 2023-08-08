@@ -50,7 +50,18 @@ void Map::CheckCollision(Player* p)
 		}
 	}
 
-	//Player to player collisions (TODO)
+	//Player to player collisions
+	for (size_t i = 0; i < players.size(); i++)
+	{
+		if (p != players[i])
+		{
+			if (IsOverlaping(players[i]->destRectangle, pRect))
+			{
+				p->mPosX = p->lastPosX;
+				p->mPosY = p->lastPosY;
+			}
+		}
+	}
 
 	//Blasts to map collisions (TODO)
 

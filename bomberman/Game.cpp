@@ -53,10 +53,17 @@ void Game::Init(const std::string title, int xpos, int ypos, int width, int heig
 		map = new Map("assets/maps/map1.map", tilemap);
 
 		//Initialize players
-		Player* player = new Player(500, 200, pTexture, 56, 48);
-		player->SetBombTexture(tilemap);
-		player->SetGameReference(this);
-		players.push_back(player);
+		Player* player0 = new Player(500, 200, pTexture, 56, 48);
+		player0->SetBombTexture(tilemap);
+		player0->SetGameReference(this);
+		player0->playerNumber = 0;
+		players.push_back(player0);
+
+		Player* player1 = new Player(600, 400, pTexture, 56, 48);
+		player1->SetBombTexture(tilemap);
+		player1->SetGameReference(this);
+		player0->playerNumber = 1;
+		players.push_back(player1);
 
 		map->SetPlayers(players);
 
