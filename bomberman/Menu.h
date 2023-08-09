@@ -1,16 +1,17 @@
 #pragma once
 
 #include <iostream>
+#include <vector>
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_surface.h>
-#include "SDL_image.h"
+#include <SDL_ttf.h>
+
 #include "Entity.h"
 #include "Player.h"
 #include "Loader.h"
 #include "Map.h"
 #include "Bomb.h"
-#include <vector>
 
 class Menu
 {
@@ -24,15 +25,18 @@ class Menu
 		void Update(float);
 		void HandleEvents();
 		void Render();
-		void Clean();
 		bool Running() { return isRunning; }
 
 		Loader* loader;
 		SDL_Window* window;
 		SDL_Renderer* renderer;
 	private:
+		void Clean();
 		void LoadUISprites();
+		void Quit();
 
 		bool isRunning = false;
+		std::vector <SDL_Texture*> textures;
+		std::vector<SDL_Rect> texts;
 };
 
