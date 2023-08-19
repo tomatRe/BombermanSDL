@@ -107,11 +107,19 @@ void Map::CheckCollision()
 			{
 				for (size_t y = 0; y < mapSizey; y++)
 				{
-					if (IsOverlaping(mapRect[y][x],
-						*playerBlasts[k]->GetDestRectangle()))
+					SDL_Rect pRect = *playerBlasts[k]->GetDestRectangle();
+
+					//Created a small reduction in bomb collision so it wont break unexpected walls
+					SDL_Rect reducedCollision = { 
+						pRect.x+10, pRect.y+10, pRect.h-10, pRect.w-10
+					};
+
+					if (IsOverlaping(mapRect[y][x], reducedCollision))
 					{
-						//TODO Check for unbreakable walls
-						mapRect[y][x] = SDL_Rect{};
+						if (mapTiles[y][x] == 2)
+						{
+							mapRect[y][x] = SDL_Rect{};
+						}
 					}
 				}
 			}
