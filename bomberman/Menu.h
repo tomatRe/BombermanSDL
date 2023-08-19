@@ -26,16 +26,21 @@ class Menu
 		void HandleEvents();
 		void Render();
 		bool Running() { return isRunning; }
+		int GetSelectedOption();
 
 		Loader* loader;
 		SDL_Window* window;
 		SDL_Renderer* renderer;
 	private:
+		void GoCursorUp();
+		void GoCursorDown();
 		void Clean();
 		void LoadUISprites();
 		void Quit();
 
 		bool isRunning = false;
+		int selectedOption = 1; // 1 = new game
+		int cursorPosition = 1;
 		std::vector <SDL_Texture*> textures;
 		std::vector<SDL_Rect> texts;
 };

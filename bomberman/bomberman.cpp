@@ -77,8 +77,11 @@ int main(int argc, char *argv[])
 	//Start main menu
 	RunMainMenuLoop();
 
-	//Main Game loop
-	RunMainGameLoop();
+	if (menu->GetSelectedOption() == 1)
+	{
+		//Main Game loop
+		RunMainGameLoop();
+	}
 
 	game->Clean();
 

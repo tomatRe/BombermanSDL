@@ -21,7 +21,8 @@ void Menu::Update(float)
 {
 	if (isRunning)
 	{
-		//TODO
+		//Update cursor vertical position
+		texts[texts.size()-1].y = texts[cursorPosition].y;
 	}
 	else
 	{
@@ -47,11 +48,12 @@ void Menu::HandleEvents()
 		//Adjust the velocity
 		switch (e.key.keysym.sym)
 		{
-		case SDLK_UP: /*TODO*/; break;
-		case SDLK_DOWN: /*TODO*/; break;
+		case SDLK_UP: GoCursorUp(); break;
+		case SDLK_DOWN: GoCursorDown(); break;
 		case SDLK_LEFT: /*TODO*/; break;
 		case SDLK_RIGHT: /*TODO*/; break;
-		case SDLK_SPACE: /*TODO*/; break;
+		case SDLK_INSERT: isRunning = false; break;
+		case SDLK_SPACE: isRunning = false; break;
 		case SDLK_ESCAPE: isRunning = false; break;
 		}
 	}
@@ -84,28 +86,106 @@ void Menu::Render()
 	SDL_RenderPresent(renderer);
 }
 
+int Menu::GetSelectedOption()
+{
+	selectedOption = cursorPosition;
+	return selectedOption;
+}
+
 void Menu::LoadUISprites()
 {
 	//TODO: load menu sprites
 
 	//Draw menu
+
+	//Load font
 	TTF_Init();
-	TTF_Font* sans = TTF_OpenFont("assets/fonts/font.ttf", 24);
+	TTF_Font* sansTitle = TTF_OpenFont("assets/fonts/font.ttf", 24);
+	TTF_Font* sansText = TTF_OpenFont("assets/fonts/font.ttf", 12);
+	TTF_Font* sansSubText = TTF_OpenFont("assets/fonts/font.ttf", 8);
 	SDL_Color white = { 255, 255, 255 };
 
-	SDL_Surface* surfaceMessage =
-		TTF_RenderText_Solid(sans, "Menu to cutre to wapo ahi pim pam", white);
+	//Declare common vars
+	SDL_Surface* surface;
+	SDL_Texture* texture;
+	SDL_Rect rectangle;
 
-	SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
-	textures.push_back(Message);
+	//Create Title text + square
+	surface = TTF_RenderText_Solid(sansTitle, "Bomberman SDL", white);
 
-	SDL_Rect message_rect; //create a rect
-	message_rect.x = 20;  //controls the rect's x coordinate 
-	message_rect.y = 20; // controls the rect's y coordinte
-	message_rect.w = 1000; // controls the width of the rect
-	message_rect.h = 150; // controls the height of the rect
+	texture = SDL_CreateTextureFromSurface(renderer, surface);
+	textures.push_back(texture);
 
-	texts.push_back(message_rect);
+	rectangle.x = 20;
+	rectangle.y = 20;
+	rectangle.w = 750;
+	rectangle.h = 125;
+
+	texts.push_back(rectangle);
+
+	//Create new game text + square
+	surface = TTF_RenderText_Solid(sansText, "New Game", white);
+
+	texture = SDL_CreateTextureFromSurface(renderer, surface);
+	textures.push_back(texture);
+
+	rectangle.y = 200; // controls the rect's y coordinte
+	rectangle.w = 375; // controls the width of the rect
+	rectangle.h = 75; // controls the height of the rect
+
+	texts.push_back(rectangle);
+
+	//Create quit text + square
+	surface = TTF_RenderText_Solid(sansText, "Quit", white);
+
+	texture = SDL_CreateTextureFromSurface(renderer, surface);
+	textures.push_back(texture);
+
+	rectangle.y = 250;
+	rectangle.w = 175;
+	rectangle.h = 75;
+
+	texts.push_back(rectangle);
+
+	//Create Cursor Sprite + square
+	white.r = 0;
+	white.b = 0;
+
+	surface = TTF_RenderText_Solid(sansTitle, "<-", white);
+
+	texture = SDL_CreateTextureFromSurface(renderer, surface);
+	textures.push_back(texture);
+
+	rectangle.x = 400;
+	rectangle.y = texts[1].y; // same height as the first menu option
+	rectangle.w = 75;
+	rectangle.h = 75;
+
+	texts.push_back(rectangle);
+}
+
+void Menu::GoCursorUp()
+{
+	if (cursorPosition > 1)
+	{
+		cursorPosition--;
+	}
+	else 
+	{
+		cursorPosition = 1;
+	}
+}
+
+void Menu::GoCursorDown()
+{
+	if (cursorPosition < texts.size()-2)
+	{
+		cursorPosition++;
+	}
+	else
+	{
+		cursorPosition = texts.size()-2;
+	}
 }
 
 void Menu::Clean()
