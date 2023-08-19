@@ -92,9 +92,15 @@ void Map::CheckCollision()
 			//Blasts to player collisions
 			for (size_t z = 0; z < players.size(); z++)
 			{
+				SDL_Rect pRect = *playerBlasts[k]->GetDestRectangle();
+
+				//Created a small reduction in bomb collision so it wont break unexpected walls
+				SDL_Rect reducedCollision = {
+					pRect.x + 10, pRect.y + 10, pRect.h - 10, pRect.w - 10
+				};
+
 				if (players[z]->isAlive &&
-					IsOverlaping(*playerBlasts[k]->GetDestRectangle(),
-					players[z]->destRectangle))
+					IsOverlaping(reducedCollision, players[z]->destRectangle))
 				{
 					players[z]->Die();
 					std::cout << "Player " << players[z]->playerNumber
@@ -116,7 +122,7 @@ void Map::CheckCollision()
 
 					if (IsOverlaping(mapRect[y][x], reducedCollision))
 					{
-						if (mapTiles[y][x] == 2)
+						if (mapTiles[x][y] == 9)
 						{
 							mapRect[y][x] = SDL_Rect{};
 						}
@@ -152,6 +158,18 @@ void Map::LoadMap(std::string mapName)
 
 				//Convert char to int
 				tile = sTile - '0';
+
+				// Spawn a breakable wall at random 50/50
+				if (tile == -16 && std::rand()%2 == 0)
+				{
+					tile = 9;
+				}
+
+				// leave this chunk empty for the player to spawn
+				if (sTile == 'p')
+				{
+					tile = -16;
+				}
 
 				//save int to the array
 				mapTiles[i][j] = tile;
@@ -190,7 +208,7 @@ void Map::ParseTilesToRect()
 
 			for (size_t x = 0; x < mapSizex; x++)
 			{
-				if (mapTiles[x][y] != 0) // 0 Means nodraw
+				if (mapTiles[x][y] != -16) // Blank
 				{
 					//Get screen tile position
 					SDL_Rect destRectangle = GetRectAtPosition(x, y);
@@ -221,11 +239,11 @@ void Map::GetTexture(int tile, SDL_Rect* srcRectangle)
 {
 	switch (tile)
 	{
-	case 1: // Brick TL
+	case 1: // Brick Top
 		srcRectangle->x = 34;
 		srcRectangle->y = 237;
 		break;
-	case 8: // Brick TR
+	case 8: // Brick bott
 		srcRectangle->x = 68;
 		srcRectangle->y = 237;
 		break;
@@ -252,6 +270,14 @@ void Map::GetTexture(int tile, SDL_Rect* srcRectangle)
 	case 7: // Brick BR corner
 		srcRectangle->x = 119;
 		srcRectangle->y = 272;
+		break;
+	case 9: // breakable wall
+		srcRectangle->x = 34;
+		srcRectangle->y = 254;
+		break;
+	case 0: // unbreakable wall
+		srcRectangle->x = 821;
+		srcRectangle->y = 288;
 		break;
 
 	default: // Ground texture
