@@ -52,9 +52,9 @@ void Menu::HandleEvents()
 		case SDLK_DOWN: GoCursorDown(); break;
 		case SDLK_LEFT: /*TODO*/; break;
 		case SDLK_RIGHT: /*TODO*/; break;
-		case SDLK_INSERT: isRunning = false; break;
+		case SDLK_RETURN: isRunning = false; break;
 		case SDLK_SPACE: isRunning = false; break;
-		case SDLK_ESCAPE: isRunning = false; break;
+		case SDLK_ESCAPE: isRunning = false; selectedOption = -1; break;
 		}
 	}
 	//If a key was released
@@ -84,12 +84,6 @@ void Menu::Render()
 
 	//Draw next frame
 	SDL_RenderPresent(renderer);
-}
-
-int Menu::GetSelectedOption()
-{
-	selectedOption = cursorPosition;
-	return selectedOption;
 }
 
 void Menu::LoadUISprites()
@@ -186,6 +180,14 @@ void Menu::GoCursorDown()
 	{
 		cursorPosition = texts.size()-2;
 	}
+}
+
+int Menu::GetSelectedOption()
+{
+	if (selectedOption != -1)
+		selectedOption = cursorPosition;
+
+	return selectedOption;
 }
 
 void Menu::Clean()
