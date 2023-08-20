@@ -196,6 +196,7 @@ xcopy /y /d  "$(ProjectDir)assets\fonts\*.*" "$(OutDir)assets\fonts\"</Command>
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PowerUp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Blast.h" />
@@ -206,6 +207,7 @@ xcopy /y /d  "$(ProjectDir)assets\fonts\*.*" "$(OutDir)assets\fonts\"</Command>
     <ClInclude Include="Map.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PowerUp.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\sprites\playerSpriteSheet.png" />
