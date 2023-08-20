@@ -198,6 +198,16 @@ void Map::SetPlayers(std::vector<Player*> players)
 	this->players = players;
 }
 
+std::vector<float> Map::GetSpawnPoint(int pNumber)
+{
+	std::vector<float> coords = {
+		spawnPoints[pNumber][0],
+		spawnPoints[pNumber][1]
+	};
+
+	return coords;
+}
+
 void Map::ParseTilesToRect()
 {
 	if (mapTiles.size() != 0)

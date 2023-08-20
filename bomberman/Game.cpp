@@ -50,13 +50,17 @@ void Game::Init(const std::string title, int xpos, int ypos, int width, int heig
 		map = new Map("assets/maps/map1.map", tilemap);
 
 		//Initialize players
-		Player* player0 = new Player(50, 600, pTexture, 56, 48);
+		std::vector<float> spawnPoint = map->GetSpawnPoint(0);
+
+		Player* player0 = new Player(spawnPoint[0], spawnPoint[1], pTexture, 56, 48);
 		player0->SetBombTexture(tilemap);
 		player0->SetGameReference(this);
 		player0->playerNumber = 0;
 		players.push_back(player0);
 
-		Player* player1 = new Player(1190, 30, pTexture, 56, 48);
+		spawnPoint = map->GetSpawnPoint(1);
+
+		Player* player1 = new Player(spawnPoint[0], spawnPoint[1], pTexture, 56, 48);
 		player1->SetBombTexture(tilemap);
 		player1->SetGameReference(this);
 		player0->playerNumber = 1;
