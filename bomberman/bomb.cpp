@@ -16,8 +16,6 @@ Bomb::Bomb(Player* p, SDL_Texture* texture) :
 
 	destRectangle.w = 48;
 	destRectangle.h = 48;
-
-	std::cout << "Created bomb at: " << p->lastPosX - 10 << ", " << p->lastPosY << "\n";
 }
 
 //Tick functions

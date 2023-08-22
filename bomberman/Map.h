@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "Player.h"
+#include "PowerUp.h"
 
 class Map
 {
@@ -21,6 +22,7 @@ public:
 
 	//Tick functions
 	void DrawMap(SDL_Renderer* renderer);
+	void UpdatePowerUps(float);
 	void CheckCollision();
 
 	//Public functions
@@ -33,6 +35,8 @@ public:
 private:
 	//Private Functions
 	void ParseTilesToRect();
+	void AddPowerUP(float, float);
+	void DeletePowerUP(PowerUp);
 	SDL_Rect GetRectAtPosition(int x, int y);
 	void GetTexture(int tile, SDL_Rect* srcRectangle);
 	bool IsOverlaping(SDL_Rect rect1, SDL_Rect rect2);
@@ -40,6 +44,7 @@ private:
 	//variables
 	SDL_Texture* tileSet;
 	std::vector<Player*> players;
+	std::vector<PowerUp> powerUps;
 	std::vector<std::vector<int>> mapTiles;
 	std::vector<std::vector<SDL_Rect>> mapRect;
 	int mapSizex = 0;

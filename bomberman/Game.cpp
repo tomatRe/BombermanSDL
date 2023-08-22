@@ -101,6 +101,7 @@ void Game::Update(float delta)
 	for (size_t i = 0; i < players.size(); i++)
 		players[i]->Update(delta);
 
+	map->UpdatePowerUps(delta);
 	CheckCollisions();
 }
 

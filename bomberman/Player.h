@@ -5,6 +5,7 @@
 class Blast;
 class Bomb;
 class Game;
+class PowerUp;
 
 class Player : public Entity
 {
@@ -30,6 +31,7 @@ class Player : public Entity
 		void DestroyBombReference(Bomb*);
 		void DestroyBlastReference(Blast*);
 		void AddBlast(Blast*);
+		void LevelUp(PowerUp);
 		void Die();
 
 		//Getters
@@ -52,7 +54,7 @@ class Player : public Entity
 		const int playerH = 24;
 
 		//Movement
-		const float moveSpeed = 0.07f;
+		float moveSpeed = 0.07f;
 		float mPosX, mPosY;
 		float mVelX, mVelY;
 
@@ -70,6 +72,7 @@ class Player : public Entity
 	private:
 
 		//Gameplay variables
+		int maxAmmo = 1;
 		int ammo = 1;
 		int blastRadius = 1;
 		int animationFrame = 0; // 3 frames per animation
@@ -118,6 +121,5 @@ class Player : public Entity
 		float animationDeltaTime = 1; // Current frame duration
 
 		// Constants
-		const int maxAmmo = 1;
 		const float timePerAnimation = 333.33333f; // 1 second to complete the animation set
 };

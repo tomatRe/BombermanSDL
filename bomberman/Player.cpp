@@ -1,7 +1,7 @@
 #include "Player.h"
 #include "Bomb.h"
 #include "Game.h"
-
+#include "PowerUp.h"
 
 //Constructors
 Player::Player():Entity(0,0)
@@ -315,6 +315,23 @@ void Player::DestroyBlastReference(Blast* b)
 void Player::AddBlast(Blast* b)
 {
 	this->blasts.push_back(b);
+}
+
+void Player::LevelUp(PowerUp p)
+{
+	if (p.GetProperty() == 0)
+	{
+		blastRadius++;
+	}
+	else if (p.GetProperty() == 1)
+	{
+		moveSpeed+=moveSpeed;
+	}
+	else
+	{
+		maxAmmo++;
+		ammo++;
+	}
 }
 
 void Player::Die()
