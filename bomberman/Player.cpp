@@ -263,51 +263,23 @@ void Player::SpawnBomb()
 //TODO: Change this for std::find() / std::erase()
 void Player::DestroyBombReference(Bomb* b)
 {
-	std::vector<Bomb*> newBombs;
-	newBombs.reserve(placedBombs.size());
-	bool found = false;
+	const auto& removed_iterator = std::find(placedBombs.begin(), placedBombs.end(), b);
 
-	for (size_t i = 0; i < placedBombs.size(); i++)
+	if (removed_iterator != placedBombs.end())
 	{
-		if (placedBombs[i] == b)
-		{
-			found = true;
-		}
-		else 
-		{
-			newBombs.push_back(placedBombs[i]);
-		}
-	}
-
-	if (found)
-	{
-		placedBombs = newBombs;
+		placedBombs.erase(removed_iterator);
 		ammo++;
 		delete b;
-	}		
+	}
 }
 
 void Player::DestroyBlastReference(Blast* b)
 {
-	std::vector<Blast*> newBlasts;
-	newBlasts.reserve(blasts.size());
-	bool found = false;
+	const auto& removed_iterator = std::find(blasts.begin(), blasts.end(), b);
 
-	for (size_t i = 0; i < blasts.size(); i++)
+	if (removed_iterator != blasts.end())
 	{
-		if (blasts[i] == b)
-		{
-			found = true;
-		}
-		else
-		{
-			newBlasts.push_back(blasts[i]);
-		}
-	}
-
-	if (found)
-	{
-		blasts = newBlasts;
+		blasts.erase(removed_iterator);
 		delete b;
 	}
 }
