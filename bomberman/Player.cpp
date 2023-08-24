@@ -53,7 +53,9 @@ Player::Player(int x, int y, SDL_Texture *sprite, int textPosX, int textPosY):
 //Tick functions
 void Player::Update(float delta)
 {
-	Move(delta);
+	if (isAlive)
+		Move(delta);
+
 	AnimatePlayer(delta);
 	UpdateBombs(delta);
 	UpdateBlasts(delta);
@@ -198,15 +200,15 @@ void Player::HandleEvents(SDL_Event& e)
 	{
 		//If a key was pressed
 		if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
-		{
+		{ 
 			//Adjust the velocity
 			switch (e.key.keysym.sym)
 			{
-			case SDLK_UP: mVelY -= moveSpeed; break;
-			case SDLK_DOWN: mVelY += moveSpeed; break;
-			case SDLK_LEFT: mVelX -= moveSpeed; break;
-			case SDLK_RIGHT: mVelX += moveSpeed; break;
-			case SDLK_SPACE: SpawnBomb(); break;
+			case SDLK_UP:	 mVelY = -moveSpeed; break;
+			case SDLK_DOWN:  mVelY =  moveSpeed; break;
+			case SDLK_LEFT:  mVelX = -moveSpeed; break;
+			case SDLK_RIGHT: mVelX =  moveSpeed; break;
+			case SDLK_SPACE: SpawnBomb();		 break;
 			}
 		}
 		//If a key was released
@@ -215,10 +217,10 @@ void Player::HandleEvents(SDL_Event& e)
 			//Adjust the velocity
 			switch (e.key.keysym.sym)
 			{
-			case SDLK_UP: mVelY += moveSpeed; break;
-			case SDLK_DOWN: mVelY -= moveSpeed; break;
-			case SDLK_LEFT: mVelX += moveSpeed; break;
-			case SDLK_RIGHT: mVelX -= moveSpeed; break;
+			case SDLK_UP:	 mVelY = 0; break;
+			case SDLK_DOWN:  mVelY = 0; break;
+			case SDLK_LEFT:  mVelX = 0; break;
+			case SDLK_RIGHT: mVelX = 0; break;
 			}
 		}
 	}
@@ -260,7 +262,6 @@ void Player::SpawnBomb()
 	}
 }
 
-//TODO: Change this for std::find() / std::erase()
 void Player::DestroyBombReference(Bomb* b)
 {
 	const auto& removed_iterator = std::find(placedBombs.begin(), placedBombs.end(), b);
