@@ -37,8 +37,8 @@ void Map::DrawMap(SDL_Renderer* renderer)
 			SDL_RenderCopy(
 				renderer,
 				tileSet,
-				&powerUps[i].srcRectangle,
-				&powerUps[i].destRectangle);
+				&powerUps[i]->srcRectangle,
+				&powerUps[i]->destRectangle);
 		}
 	}
 }
@@ -47,7 +47,7 @@ void Map::UpdatePowerUps(float delta)
 {
 	for (size_t i = 0; i < powerUps.size(); i++)
 	{
-		powerUps[i].Update(delta);
+		powerUps[i]->Update(delta);
 	}
 }
 
@@ -158,9 +158,9 @@ void Map::CheckCollision()
 		// PowerUp pickups
 		for (size_t j = 0; j < powerUps.size(); j++)
 		{
-			if (IsOverlaping(*pRect, powerUps[j].destRectangle))
+			if (IsOverlaping(*pRect, powerUps[j]->destRectangle))
 			{
-				players[i]->LevelUp(powerUps[j]);
+				players[i]->LevelUp(*powerUps[j]);
 				DeletePowerUP(powerUps[j]);
 			}
 		}
@@ -266,14 +266,18 @@ void Map::ParseTilesToRect()
 
 void Map::AddPowerUP(float x, float y)
 {
-	PowerUp p = PowerUp(x, y, tileSet);
+	PowerUp* p = new PowerUp(x, y, tileSet);
 	powerUps.push_back(p);
 }
 
-void Map::DeletePowerUP(PowerUp p)
+void Map::DeletePowerUP(PowerUp* p)
 {
-	//TODO: Change this for std::find() / std::erase()
-	//powerUps.erase(powerUps.begin());
+	const auto& removed_iterator = std::find(powerUps.begin(), powerUps.end(), p);
+
+	if (removed_iterator != powerUps.end())
+	{
+		powerUps.erase(removed_iterator);
+	}
 }
 
 SDL_Rect Map::GetRectAtPosition(int x, int y)

@@ -36,7 +36,7 @@ private:
 	//Private Functions
 	void ParseTilesToRect();
 	void AddPowerUP(float, float);
-	void DeletePowerUP(PowerUp);
+	void DeletePowerUP(PowerUp*);
 	SDL_Rect GetRectAtPosition(int x, int y);
 	void GetTexture(int tile, SDL_Rect* srcRectangle);
 	bool IsOverlaping(SDL_Rect rect1, SDL_Rect rect2);
@@ -44,7 +44,7 @@ private:
 	//variables
 	SDL_Texture* tileSet;
 	std::vector<Player*> players;
-	std::vector<PowerUp> powerUps;
+	std::vector<PowerUp*> powerUps;
 	std::vector<std::vector<int>> mapTiles;
 	std::vector<std::vector<SDL_Rect>> mapRect;
 	int mapSizex = 0;
