@@ -9,6 +9,8 @@ PowerUp::PowerUp(float x, float y, SDL_Texture* texture) :
 	destRectangle.w = 48;
 	destRectangle.h = 48;
 
+	mPosY = y;
+
 	propertyNum = (std::rand() % (0 - 3));
 	property[propertyNum] = true;
 
@@ -20,10 +22,10 @@ void PowerUp::Update(float delta)
 	mVelY = std::sin(mPosY);
 
 	//Move the powerup up or down
-	mPosY += mVelY * delta;
+	mPosY = mVelY * delta;
 
 	//Apply movement
-	Entity::SetY((int)mPosY);
+	//Entity::SetY((int)mPosY);
 }
 
 int PowerUp::GetProperty()

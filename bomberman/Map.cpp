@@ -143,7 +143,7 @@ void Map::CheckCollision()
 						if (mapTiles[x][y] == 9)
 						{
 							// Spawn a powerUp at random 50/50
-							if (std::rand() % 2 == 0)
+							if (std::rand() % 100 < 50)
 							{
 								AddPowerUP(mapRect[y][x].x, mapRect[y][x].y);
 							}
@@ -172,6 +172,7 @@ void Map::LoadMap(std::string mapName)
 	std::string line;
 	mapTiles.reserve(165);
 	mapRect.reserve(165);
+	std::srand(std::time(nullptr));
 
 	// Read from the text file
 	std::ifstream mapFile(mapName);
@@ -194,7 +195,7 @@ void Map::LoadMap(std::string mapName)
 				tile = sTile - '0';
 
 				// Spawn a breakable wall at random 50/50
-				if (tile == -16 && std::rand()%2 == 0)
+				if (tile == -16 && std::rand()%100 < 50)
 				{
 					tile = 9;
 				}
