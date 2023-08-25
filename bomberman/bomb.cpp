@@ -174,5 +174,4 @@ void Bomb::SetOwningPlayer(Player* p)
 
 Bomb::~Bomb()
 {
-	std::cout << "Bomb destroyed" << "\n";
 }

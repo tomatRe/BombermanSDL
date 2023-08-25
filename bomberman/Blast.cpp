@@ -18,8 +18,6 @@ Blast::Blast(int x, int y, SDL_Rect* sprite) :
 	destRectangle.y = y;
 	destRectangle.w = 48;
 	destRectangle.h = 48;
-
-	std::cout << "Created blast at: " << x << ", " << y << "\n";
 }
 
 void Blast::Update(float delta)
@@ -74,5 +72,4 @@ void Blast::SetAnimation(std::vector<SDL_Rect*> animationSet)
 
 Blast::~Blast()
 {
-	std::cout << "Blast destroyed" << "\n";
 }
