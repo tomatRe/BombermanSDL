@@ -55,6 +55,8 @@ class Player : public Entity
 
 		//Movement
 		float moveSpeed = 0.07f;
+		float moveUpgradeIncrement = moveSpeed * 1.12f;
+		float maxMoveSpeed = moveSpeed * 5;
 		float mPosX, mPosY;
 		float mVelX, mVelY;
 

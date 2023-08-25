@@ -296,9 +296,9 @@ void Player::LevelUp(PowerUp p)
 	{
 		blastRadius++;
 	}
-	else if (p.GetProperty() == 1)
+	else if (p.GetProperty() == 1 && moveSpeed < maxMoveSpeed)
 	{
-		moveSpeed+=moveSpeed;
+		moveSpeed += moveUpgradeIncrement;
 	}
 	else
 	{
