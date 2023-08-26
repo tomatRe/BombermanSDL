@@ -1,18 +1,28 @@
 #include "PowerUp.h"
 
 PowerUp::PowerUp(float x, float y, SDL_Texture* texture) :
-	Entity(x, y, texture, srcRects[propertyNum][0], srcRects[propertyNum][1])
+	Entity(x, y, texture)
 {
-	srcRectangle.w = 17;
-	srcRectangle.h = 17;
-
-	destRectangle.w = 48;
-	destRectangle.h = 48;
-
-	mPosY = y;
-
 	propertyNum = (std::rand() % (0 - 3));
 	property[propertyNum] = true;
+
+	srcRects sprites;
+
+	switch (propertyNum)
+	{
+		case 0: srcRectangle = sprites.blastUpgrade; break;
+		case 1: srcRectangle = sprites.speedUpgrade; break;
+		case 2: srcRectangle = sprites.ammoUpgrade; break;
+	}
+
+	destRectangle.w = 32;
+	destRectangle.h = 32;
+
+	//Accounting possition for the size reduction
+	destRectangle.x += 8;
+	destRectangle.y += 8;
+
+	mPosY = y;
 
 	std::cout << "PowerUP created at: " << x << ", " << y << "\n";
 }

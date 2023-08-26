@@ -9,6 +9,7 @@ class Entity
 	public:
 		Entity();
 		Entity(int x, int y);
+		Entity(int x, int y, SDL_Texture* sprite);
 		Entity(int x, int y, SDL_Texture* sprite, int textPosX, int textPosY);
 		Entity(int x, int y, int rectW, int rectH, SDL_Texture *sprite, int textPosX, int textPosY, int textSizeX, int textSizeY);
 		~Entity();

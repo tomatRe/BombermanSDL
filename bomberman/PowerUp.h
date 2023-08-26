@@ -30,10 +30,11 @@ public:
     };
 
 private:
-    float srcRects[3][2] = {
-        {321, 14},
-        {321, 14},
-        {321, 14}
+    struct srcRects
+    {
+        SDL_Rect blastUpgrade = SDL_Rect{ 299, 322, 17, 17 };
+        SDL_Rect speedUpgrade = SDL_Rect{ 350, 322, 17, 17 };
+        SDL_Rect ammoUpgrade = SDL_Rect{ 367, 322, 17, 17 };
     };
 
     //Movement
