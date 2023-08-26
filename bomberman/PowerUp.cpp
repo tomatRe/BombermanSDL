@@ -41,6 +41,11 @@ float PowerUp::GetAliveTime()
 	return aliveTime;
 }
 
+float PowerUp::GetMaxAliveTime()
+{
+	return maxAliveTime;
+}
+
 void PowerUp::SetProperty(std::vector<bool> property)
 {
 	this->property = property;

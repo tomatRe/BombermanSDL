@@ -46,7 +46,11 @@ void Map::UpdatePowerUps(float delta)
 {
 	for (size_t i = 0; i < powerUps.size(); i++)
 	{
-		powerUps[i]->Update(delta);
+		PowerUp* p = powerUps[i];
+		p->Update(delta);
+
+		if (p->GetAliveTime() > p->GetMaxAliveTime())
+			DeletePowerUP(p);
 	}
 }
 
