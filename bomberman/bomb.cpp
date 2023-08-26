@@ -57,6 +57,7 @@ void Bomb::Detonate()
 	Blast* b;
 	Blast::blastDirection dirSprite;
 	const int offset = 4;
+	std::vector<std::vector<SDL_Rect>> mapRects = map->GetmapRects();
 
 	//Center blast
 	b = new Blast(destRectangle.x, destRectangle.y, dirSprite.center[0]);
@@ -71,8 +72,21 @@ void Bomb::Detonate()
 		int x = destRectangle.x;
 		int y = destRectangle.y - destRectangle.h*i + (i * offset);
 
-		//TODO check with map collision if blast can spawn there
-		if (true)
+		SDL_Rect blastRect = {x,y, 48, 48};
+		bool canBeSpawned = true;
+
+		for (size_t x = 0; x < map->GetMapSizeX(); x++)
+		{
+			for (size_t y = 0; y < map->GetMapSizeY(); y++)
+			{
+				if (IsOverlaping(blastRect, mapRects[y][x]))
+				{
+					canBeSpawned = false;
+				}
+			}
+		}
+
+		if (canBeSpawned)
 		{
 			b = new Blast(x, y, dirSprite.up[0]);
 			b->SetOwnerPlayer(ownerPlayer);
@@ -144,6 +158,19 @@ void Bomb::Detonate()
 	ownerPlayer->DestroyBombReference(this);
 }
 
+bool Bomb::IsOverlaping(SDL_Rect rect1, SDL_Rect rect2)
+{
+	if (rect1.x < rect2.x + rect2.w &&
+		rect1.x + rect1.w > rect2.x &&
+		rect1.y < rect2.y + rect2.h &&
+		(rect1.h / 2) + rect1.y > rect2.y)
+	{
+		return true;
+	}
+
+	return false;
+}
+
 //Getters
 Player* Bomb::GetOwningPlayer()
 {
@@ -165,15 +192,20 @@ SDL_Rect* Bomb::GetDestRectangle()
 	return &destRectangle;
 }
 
+//Setters
 void Bomb::SetBlastRadius(int newRadius)
 {
 	this->blastRadius = newRadius;
 }
 
-//Setters
 void Bomb::SetOwningPlayer(Player* p)
 {
 	this->ownerPlayer = p;
+}
+
+void Bomb::SetMap(Map* map)
+{
+	this->map = map;
 }
 
 Bomb::~Bomb()

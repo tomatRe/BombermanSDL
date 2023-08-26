@@ -255,6 +255,11 @@ void Map::SetPlayers(std::vector<Player*> players)
 	this->players = players;
 }
 
+std::vector<std::vector<SDL_Rect>> Map::GetmapRects()
+{
+	return mapRect;
+}
+
 std::vector<float> Map::GetSpawnPoint(int pNumber)
 {
 	std::vector<float> coords = {
@@ -263,6 +268,16 @@ std::vector<float> Map::GetSpawnPoint(int pNumber)
 	};
 
 	return coords;
+}
+
+int Map::GetMapSizeX()
+{
+	return mapSizex;
+}
+
+int Map::GetMapSizeY()
+{
+	return mapSizey;
 }
 
 void Map::ParseTilesToRect()

@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include "Player.h"
 #include "Blast.h"
+#include "Map.h"
 
 
 class Bomb : public Entity
@@ -29,11 +30,13 @@ class Bomb : public Entity
         //Setters
         void SetBlastRadius(int);
         void SetOwningPlayer(Player*);
+        void SetMap(Map*);
 
         //=========================Variables=========================
         Player* ownerPlayer;
 
     private:
+        bool IsOverlaping(SDL_Rect rect1, SDL_Rect rect2);
 
         //Animation vars
         std::vector<SDL_Rect> animationFrames = {
@@ -44,6 +47,8 @@ class Bomb : public Entity
 
         float animationDeltaTime = 1;
         int animationFrame = 0;
+
+        Map* map;
 
         //Gameplay vars
         bool exploded = false;

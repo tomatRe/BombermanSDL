@@ -1,5 +1,6 @@
 #pragma once
 #include "Entity.h"
+#include "Map.h"
 #include <vector>
 
 class Blast;

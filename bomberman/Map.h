@@ -32,7 +32,10 @@ public:
 
 	//Getters/setters
 	void SetPlayers(std::vector<Player*>);
+	std::vector<std::vector<SDL_Rect>> GetmapRects();
 	std::vector<float> GetSpawnPoint(int);
+	int GetMapSizeX();
+	int GetMapSizeY();
 
 private:
 	//Private Functions
