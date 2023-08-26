@@ -31,7 +31,6 @@ void Map::DrawMap(SDL_Renderer* renderer)
 			}
 		}
 
-		//TODO DRAW POWERUPS
 		for (size_t i = 0; i < powerUps.size(); i++)
 		{
 			SDL_RenderCopy(
@@ -131,11 +130,11 @@ void Map::CheckCollision()
 			{
 				for (size_t y = 0; y < mapSizey; y++)
 				{
-					SDL_Rect pRect = *playerBlasts[k]->GetDestRectangle();
+					SDL_Rect bRect = *playerBlasts[k]->GetDestRectangle();
 
-					//Created a small reduction in bomb collision so it wont break unexpected walls
+					//Created a small reduction in the blast collision so it wont break unexpected walls
 					SDL_Rect reducedCollision = { 
-						pRect.x+10, pRect.y+10, pRect.h-10, pRect.w-10
+						bRect.x+10, bRect.y+10, bRect.h-10, bRect.w-10
 					};
 
 					if (IsOverlaping(mapRect[y][x], reducedCollision))
@@ -151,6 +150,18 @@ void Map::CheckCollision()
 							mapRect[y][x] = SDL_Rect{};
 						}
 					}
+				}
+			}
+
+			//Blasts to powerUps collisions
+			for (size_t j = 0; j < powerUps.size(); j++)
+			{
+				SDL_Rect bRect = *playerBlasts[k]->GetDestRectangle();
+
+				if (powerUps[j]->GetAliveTime() > 0.75f &&
+					IsOverlaping(bRect, powerUps[j]->destRectangle))
+				{
+					DeletePowerUP(powerUps[j]);
 				}
 			}
 		}

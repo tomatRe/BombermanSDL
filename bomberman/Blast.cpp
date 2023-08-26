@@ -59,6 +59,11 @@ SDL_Rect* Blast::GetDestRectangle()
 	return &destRectangle;
 }
 
+float Blast::GetAliveTime()
+{
+	return aliveTime;
+}
+
 void Blast::SetOwnerPlayer(Player* p)
 {
 	this->ownerPlayer = p;

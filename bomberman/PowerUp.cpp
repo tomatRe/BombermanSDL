@@ -19,6 +19,9 @@ PowerUp::PowerUp(float x, float y, SDL_Texture* texture) :
 
 void PowerUp::Update(float delta)
 {
+	//Alive time is in (s) and delta in (ms)
+	aliveTime += (delta / 1000);
+
 	mVelY = std::sin(mPosY);
 
 	//Move the powerup up or down
@@ -31,6 +34,11 @@ void PowerUp::Update(float delta)
 int PowerUp::GetProperty()
 {
 	return propertyNum;
+}
+
+float PowerUp::GetAliveTime()
+{
+	return aliveTime;
 }
 
 void PowerUp::SetProperty(std::vector<bool> property)

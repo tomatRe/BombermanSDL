@@ -16,6 +16,7 @@ public:
 
     //Getters / setters
     int GetProperty();
+    float GetAliveTime();
     void SetProperty(std::vector<bool>);
 
     //=========================Variables=========================

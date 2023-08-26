@@ -71,15 +71,19 @@ void Bomb::Detonate()
 		int x = destRectangle.x;
 		int y = destRectangle.y - destRectangle.h*i + (i * offset);
 
-		b = new Blast(x, y, dirSprite.up[0]);
-		b->SetOwnerPlayer(ownerPlayer);
+		//TODO check with map collision if blast can spawn there
+		if (true)
+		{
+			b = new Blast(x, y, dirSprite.up[0]);
+			b->SetOwnerPlayer(ownerPlayer);
 
-		if (i == blastRadius)
-			b->SetAnimation(dirSprite.up);
-		else
-			b->SetAnimation(dirSprite.verticalBody);
+			if (i == blastRadius)
+				b->SetAnimation(dirSprite.up);
+			else
+				b->SetAnimation(dirSprite.verticalBody);
 
-		ownerPlayer->AddBlast(b);
+			ownerPlayer->AddBlast(b);
+		}
 	}
 
 	//Down Blast

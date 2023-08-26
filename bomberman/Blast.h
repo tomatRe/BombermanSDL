@@ -19,6 +19,7 @@ class Blast : Entity
         //Getters
         SDL_Rect* GetSrcRectangle();
         SDL_Rect* GetDestRectangle();
+        float GetAliveTime();
 
         //Setters
         void SetOwnerPlayer(Player*);
