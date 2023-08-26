@@ -173,10 +173,17 @@ void Map::CheckCollision()
 		// PowerUp pickups
 		for (size_t j = 0; j < powerUps.size(); j++)
 		{
-			if (IsOverlaping(*pRect, powerUps[j]->destRectangle))
+			PowerUp* p = powerUps[j];
+			SDL_Rect powerUpRect = p->destRectangle;
+			//Upscale collision rectangle to account for the size reduction
+			SDL_Rect upscaledCollision = {
+						powerUpRect.x - 8, powerUpRect.y - 8, 48, 48
+			};
+
+			if (IsOverlaping(*pRect, upscaledCollision))
 			{
-				players[i]->LevelUp(*powerUps[j]);
-				DeletePowerUP(powerUps[j]);
+				players[i]->LevelUp(*p);
+				DeletePowerUP(p);
 			}
 		}
 	}
