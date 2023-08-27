@@ -43,8 +43,8 @@ void Game::Init(const std::string title, int xpos, int ypos, int width, int heig
 			std::cout << "Error initializing SDL_image '" << IMG_GetError() << "'...\n";
 
 		//Load everything
-		SDL_Texture* pTexture = loader->LoadTexture("assets/sprites/playerSpriteSheet.png");
-		SDL_Texture* tilemap = loader->LoadTexture("assets/sprites/tilemap.png");
+		pTexture = loader->LoadTexture("assets/sprites/playerSpriteSheet.png");
+		tilemap = loader->LoadTexture("assets/sprites/tilemap.png");
 
 		//Load map
 		map = new Map("assets/maps/map1.map", tilemap);
@@ -56,17 +56,20 @@ void Game::Init(const std::string title, int xpos, int ypos, int width, int heig
 		player0->SetBombTexture(tilemap);
 		player0->SetGameReference(this);
 		player0->playerNumber = 0;
-		//players.push_back(player0);
+		players.push_back(player0);
 
 		spawnPoint = map->GetSpawnPoint(1);
 
 		Player* player1 = new Player(spawnPoint[0], spawnPoint[1], pTexture, 56, 48);
 		player1->SetBombTexture(tilemap);
 		player1->SetGameReference(this);
-		player0->playerNumber = 1;
+		player1->playerNumber = 1;
 		players.push_back(player1);
 
-		map->SetPlayers(players);
+		//Load Collision manager
+		cm = new CollisionManager(map);
+		cm->SetTileMap(tilemap);
+		cm->SetPlayers(players);
 
 		//if everything goes ok set running to true
 		isRunning = true;
@@ -101,7 +104,9 @@ void Game::Update(float delta)
 	for (size_t i = 0; i < players.size(); i++)
 		players[i]->Update(delta);
 
-	map->UpdatePowerUps(delta);
+	cm->UpdatePowerUps(delta);
+	powerUps = cm->GetPowerUps();
+	map->SetMapRect(cm->GetMapRect());
 	CheckCollisions();
 }
 
@@ -149,13 +154,23 @@ void Game::Render()
 		}
 	}
 
+	//Draw PowerUps
+	for (size_t i = 0; i < powerUps.size(); i++)
+	{
+		SDL_RenderCopy(
+			renderer,
+			tilemap,
+			&powerUps[i]->srcRectangle,
+			&powerUps[i]->destRectangle);
+	}
+
 	//Draw next frame
 	SDL_RenderPresent(renderer);
 }
 
 void Game::CheckCollisions()
 {
-	map->CheckCollision();
+	cm->CheckCollision();
 }
 
 SDL_Renderer* Game::GetRenderer()

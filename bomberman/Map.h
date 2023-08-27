@@ -24,29 +24,27 @@ public:
 
 	//Tick functions
 	void DrawMap(SDL_Renderer* renderer);
-	void UpdatePowerUps(float);
-	void CheckCollision();
 
 	//Public functions
 	void LoadMap(std::string mapName);
 
 	//Getters/setters
-	void SetPlayers(std::vector<Player*>);
+	std::vector<std::vector<int>> GetMapTiles();
+	std::vector<std::vector<SDL_Rect>> GetMapRects();
+	SDL_Texture* GetTileSet();
+	int GetMapSizeX();
+	int GetMapSizeY();
 	std::vector<float> GetSpawnPoint(int);
+	void SetMapRect(std::vector<std::vector<SDL_Rect>>);
 
 private:
 	//Private Functions
 	void ParseTilesToRect();
-	void AddPowerUP(float, float);
-	void DeletePowerUP(PowerUp*);
 	SDL_Rect GetRectAtPosition(int x, int y);
 	void GetTexture(int tile, SDL_Rect* srcRectangle);
-	bool IsOverlaping(SDL_Rect rect1, SDL_Rect rect2);
 
 	//variables
 	SDL_Texture* tileSet;
-	std::vector<Player*> players;
-	std::vector<PowerUp*> powerUps;
 	std::vector<std::vector<int>> mapTiles;
 	std::vector<std::vector<SDL_Rect>> mapRect;
 	int mapSizex = 0;

@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "Loader.h"
 #include "Map.h"
+#include "CollisionManager.h"
 #include "Bomb.h"
 #include <vector>
 
@@ -40,6 +41,8 @@ class Game
 		bool isRunning;
 		SDL_Window *window;
 		SDL_Renderer *renderer;
+		SDL_Texture* pTexture;
+		SDL_Texture* tilemap;
 
 		//Media (HUD)
 		//std::vector<SDL_Texture*> textures;
@@ -47,8 +50,14 @@ class Game
 		//Map
 		Map* map;
 
+		//Collision manager
+		CollisionManager* cm;
+
 		//Player(s)
 		std::vector<Player*> players;
+
+		//PowerUps
+		std::vector<PowerUp*> powerUps;
 
 		//Constants
 		const int maxPlayers = 4;
