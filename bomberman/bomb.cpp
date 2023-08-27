@@ -72,31 +72,29 @@ void Bomb::Detonate()
 		int x = destRectangle.x;
 		int y = destRectangle.y - destRectangle.h*i + (i * offset);
 
-		SDL_Rect blastRect = {x,y, 48, 48};
-		bool canBeSpawned = true;
+		SDL_Rect blastRect = { x,y, 48, 48 };
 
-		for (size_t x = 0; x < map->GetMapSizeX(); x++)
+		for (size_t mapx = 0; mapx < map->GetMapSizeX(); mapx++)
 		{
-			for (size_t y = 0; y < map->GetMapSizeY(); y++)
+			for (size_t mapy = 0; mapy < map->GetMapSizeY(); mapy++)
 			{
-				if (IsOverlaping(blastRect, mapRects[y][x]))
+				b = new Blast(x, y, dirSprite.up[0]);
+				b->SetOwnerPlayer(ownerPlayer);
+
+				if (i == blastRadius || IsOverlaping(blastRect, mapRects[mapy][mapx]))
 				{
-					canBeSpawned = false;
+					b->SetAnimation(dirSprite.up);
+					i = blastRadius+1;
+					mapx = map->GetMapSizeX();
+					mapy = map->GetMapSizeY();
 				}
+				else
+				{
+					b->SetAnimation(dirSprite.verticalBody);
+				}
+
+				ownerPlayer->AddBlast(b);
 			}
-		}
-
-		if (canBeSpawned)
-		{
-			b = new Blast(x, y, dirSprite.up[0]);
-			b->SetOwnerPlayer(ownerPlayer);
-
-			if (i == blastRadius)
-				b->SetAnimation(dirSprite.up);
-			else
-				b->SetAnimation(dirSprite.verticalBody);
-
-			ownerPlayer->AddBlast(b);
 		}
 	}
 

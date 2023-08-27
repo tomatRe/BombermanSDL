@@ -1,8 +1,8 @@
 #pragma once
 #include "Entity.h"
-#include "Map.h"
 #include <vector>
 
+class Map;
 class Blast;
 class Bomb;
 class Game;
@@ -45,6 +45,7 @@ class Player : public Entity
 
 		//Setters
 		void SetGameReference(Game*);
+		void SetMapReference(Map*);
 		void SetBombTexture(SDL_Texture*);
 		void SetBlasts(std::vector<Blast*>);
 
@@ -122,6 +123,7 @@ class Player : public Entity
 		};
 
 		float animationDeltaTime = 1; // Current frame duration
+		Map* map;
 
 		// Constants
 		const float timePerAnimation = 333.33333f; // 1 second to complete the animation set

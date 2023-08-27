@@ -257,6 +257,7 @@ void Player::SpawnBomb()
 	{
 		ammo--;
 		Bomb* b = new Bomb(this, bombTexture);
+		b->SetMap(map);
 		b->SetBlastRadius(blastRadius);
 		placedBombs.push_back(b);
 	}
@@ -352,6 +353,11 @@ SDL_Rect* Player::GetDestRectangle()
 void Player::SetGameReference(Game* game)
 {
 	this->game = game;
+}
+
+void Player::SetMapReference(Map* map)
+{
+	this->map = map;
 }
 
 void Player::SetBombTexture(SDL_Texture* texture)
