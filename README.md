@@ -1,6 +1,6 @@
 ## Bomberman SDL
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+[![Bomberman sprite asset][bombermansdl]](bomberman/assets/sprites/playerSpriteSheet.png)
 
 This project was born with the idea of practicing my c++ and sdl skills on a exciting project recreating a cult classic from the n64 on modern day hardware.
 The scope of this project is to have a functional game, with all its menus, gameplay features, and networking capabilities to play with friends!
