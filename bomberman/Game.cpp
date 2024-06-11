@@ -101,8 +101,20 @@ void Game::HandleEvents()
 
 void Game::Update(float delta)
 {
+	playersAlive = players.size();
+
 	for (size_t i = 0; i < players.size(); i++)
+	{
 		players[i]->Update(delta);
+
+		if (!players[i]->isAlive)
+		{
+			playersAlive--;
+
+			if (playersAlive <= 1)
+				isRunning = false;
+		}
+	}
 
 	cm->UpdatePowerUps(delta);
 	powerUps = cm->GetPowerUps();

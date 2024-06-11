@@ -204,11 +204,40 @@ void Player::HandleEvents(SDL_Event& e)
 			//Adjust the velocity
 			switch (e.key.keysym.sym)
 			{
+			case SDLK_w:	 mVelY = -moveSpeed; break;
+			case SDLK_s:	 mVelY =  moveSpeed; break;
+			case SDLK_a:     mVelX = -moveSpeed; break;
+			case SDLK_d:     mVelX =  moveSpeed; break;
+			case SDLK_SPACE: SpawnBomb();	     break;
+			}
+		}
+		//If a key was released
+		else if (e.type == SDL_KEYUP && e.key.repeat == 0)
+		{
+			//Adjust the velocity
+			switch (e.key.keysym.sym)
+			{
+			case SDLK_w: mVelY = 0; break;
+			case SDLK_s: mVelY = 0; break;
+			case SDLK_a: mVelX = 0; break;
+			case SDLK_d: mVelX = 0; break;
+			}
+		}
+	}
+
+	if (isAlive && playerNumber == 1)
+	{
+		//If a key was pressed
+		if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
+		{
+			//Adjust the velocity
+			switch (e.key.keysym.sym)
+			{
 			case SDLK_UP:	 mVelY = -moveSpeed; break;
-			case SDLK_DOWN:  mVelY =  moveSpeed; break;
+			case SDLK_DOWN:  mVelY = moveSpeed;  break;
 			case SDLK_LEFT:  mVelX = -moveSpeed; break;
-			case SDLK_RIGHT: mVelX =  moveSpeed; break;
-			case SDLK_SPACE: SpawnBomb();		 break;
+			case SDLK_RIGHT: mVelX = moveSpeed;  break;
+			case SDLK_RCTRL: SpawnBomb();		 break;
 			}
 		}
 		//If a key was released

@@ -55,6 +55,7 @@ class Game
 
 		//Player(s)
 		std::vector<Player*> players;
+		int playersAlive;
 
 		//PowerUps
 		std::vector<PowerUp*> powerUps;
