@@ -11,6 +11,8 @@ Menu::Menu(SDL_Window* window, SDL_Renderer* renderer, Loader* loader)
 	this->loader = loader;
 
 	LoadUISprites();
+	DrawBaseMenu();
+	DrawCursor();
 	texts.reserve(50);
 	textures.reserve(50);
 
@@ -53,7 +55,7 @@ void Menu::HandleEvents()
 		case SDLK_LEFT: /*TODO*/; break;
 		case SDLK_RIGHT: /*TODO*/; break;
 		case SDLK_RETURN: isRunning = false; break;
-		case SDLK_SPACE: isRunning = false; break;
+		case SDLK_SPACE: SelectOption(); break;
 		case SDLK_ESCAPE: isRunning = false; selectedOption = -1; break;
 		}
 	}
@@ -88,23 +90,40 @@ void Menu::Render()
 
 void Menu::LoadUISprites()
 {
-	//TODO: load menu sprites
-
-	//Draw menu
+	//Load textures
+	pTexture = loader->LoadTexture("assets/sprites/playerSpriteSheet.png");
+	tilemap = loader->LoadTexture("assets/sprites/tilemap.png");
 
 	//Load font
 	TTF_Init();
-	TTF_Font* sansTitle = TTF_OpenFont("assets/fonts/font.ttf", 24);
-	TTF_Font* sansText = TTF_OpenFont("assets/fonts/font.ttf", 12);
-	TTF_Font* sansSubText = TTF_OpenFont("assets/fonts/font.ttf", 8);
-	SDL_Color white = { 255, 255, 255 };
+	sansTitle = TTF_OpenFont("assets/fonts/font.ttf", 24);
+	sansText = TTF_OpenFont("assets/fonts/font.ttf", 12);
+	sansSubText = TTF_OpenFont("assets/fonts/font.ttf", 8);
+	white = { 255, 255, 255 };
+}
 
-	//Declare common vars
-	SDL_Surface* surface;
-	SDL_Texture* texture;
-	SDL_Rect rectangle;
+void Menu::DrawCursor()
+{
+	//Create Cursor Sprite + square
+	white.r = 0;
+	white.b = 0;
 
-	//Create Title text + square
+	surface = TTF_RenderText_Solid(sansTitle, "<-", white);
+
+	texture = SDL_CreateTextureFromSurface(renderer, surface);
+	textures.push_back(texture);
+
+	rectangle.x = 400;
+	rectangle.y = texts[1].y; // same height as the first menu option
+	rectangle.w = 75;
+	rectangle.h = 75;
+
+	texts.push_back(rectangle);
+}
+
+void Menu::DrawBaseMenu()
+{
+	//GAME TITLE
 	surface = TTF_RenderText_Solid(sansTitle, "Bomberman SDL", white);
 
 	texture = SDL_CreateTextureFromSurface(renderer, surface);
@@ -118,7 +137,7 @@ void Menu::LoadUISprites()
 	texts.push_back(rectangle);
 
 	//Create new game text + square
-	surface = TTF_RenderText_Solid(sansText, "New Game", white);
+	surface = TTF_RenderText_Solid(sansText, "Local VS", white);
 
 	texture = SDL_CreateTextureFromSurface(renderer, surface);
 	textures.push_back(texture);
@@ -140,22 +159,27 @@ void Menu::LoadUISprites()
 	rectangle.h = 75;
 
 	texts.push_back(rectangle);
+}
 
-	//Create Cursor Sprite + square
-	white.r = 0;
-	white.b = 0;
+void Menu::DrawPlayerSelection()
+{
 
-	surface = TTF_RenderText_Solid(sansTitle, "<-", white);
+	isRunning = false;
+}
 
-	texture = SDL_CreateTextureFromSurface(renderer, surface);
-	textures.push_back(texture);
+void Menu::SelectOption()
+{
+	switch (GetSelectedOption())
+	{
+	case 1:// play local vs game
+		DrawPlayerSelection();
+		break;
 
-	rectangle.x = 400;
-	rectangle.y = texts[1].y; // same height as the first menu option
-	rectangle.w = 75;
-	rectangle.h = 75;
-
-	texts.push_back(rectangle);
+	default:
+		// Failsafe -> quit the game
+		isRunning = false;
+		break;
+	}
 }
 
 void Menu::GoCursorUp()

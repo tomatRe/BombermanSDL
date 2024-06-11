@@ -32,16 +32,38 @@ class Menu
 		SDL_Window* window;
 		SDL_Renderer* renderer;
 	private:
+		void SelectOption();
 		void GoCursorUp();
 		void GoCursorDown();
-		void Clean();
 		void LoadUISprites();
+		void DrawCursor();
+		void DrawBaseMenu();
+		void DrawPlayerSelection();
+		void DrawMultiplayerClient();
+		void DrawMultiplayerHost();
+		void DrawOptions();
+		void Clean();
 		void Quit();
 
 		bool isRunning = false;
 		int selectedOption = 1; // 1 = new game
 		int cursorPosition = 1;
+		
+		// Textures
+		SDL_Texture* pTexture;
+		SDL_Texture* tilemap;
+
+		// Texts and menus
 		std::vector <SDL_Texture*> textures;
 		std::vector<SDL_Rect> texts;
+
+		SDL_Surface* surface;
+		SDL_Texture* texture;
+		SDL_Rect rectangle;
+
+		TTF_Font* sansTitle;
+		TTF_Font* sansText;
+		TTF_Font* sansSubText;
+		SDL_Color white;
 };
 
