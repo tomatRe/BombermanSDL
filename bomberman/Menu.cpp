@@ -20,7 +20,7 @@ Menu::Menu(SDL_Window* window, SDL_Renderer* renderer, Loader* loader, SDL_Textu
 	isRunning = true;
 }
 
-void Menu::Update(float)
+void Menu::Update(float delta)
 {
 	if (isRunning)
 	{
@@ -28,6 +28,9 @@ void Menu::Update(float)
 		SDL_Rect* cursor = &texts[texts.size() - 1];
 		cursor->x = cursorLocations[cursorPosition].x;
 		cursor->y = cursorLocations[cursorPosition].y;
+
+		if (isPlayerMenuUp)
+			AnimatePlayer(delta);
 	}
 	else
 	{
@@ -360,13 +363,13 @@ void Menu::GoCursorDown()
 
 void Menu::P1SkinNext()
 {
-	if (textureOffsets.size() < skinP1)
+	if (skinP1 < textureOffsets.size()-1)
 		skinP1++;
 	else
 		skinP1 = 0;
 
-	offset = textureOffsets[skinP1];
-	srcRectangleP1 = downSpriteFrames[0]; // TODO animate
+	offsetP1 = textureOffsets[skinP1];
+	srcRectangleP1 = downSpriteFrames[0];
 }
 
 void Menu::P1SkinPrev()
@@ -376,19 +379,19 @@ void Menu::P1SkinPrev()
 	else
 		skinP1 = textureOffsets.size()-1;
 
-	offset = textureOffsets[skinP1];
-	srcRectangleP1 = downSpriteFrames[0]; // TODO animate
+	offsetP1 = textureOffsets[skinP1];
+	srcRectangleP1 = downSpriteFrames[0];
 }
 
 void Menu::P2SkinNext()
 {
-	if (textureOffsets.size() < skinP2)
+	if (skinP2 < textureOffsets.size()-1)
 		skinP2++;
 	else
 		skinP2 = 0;
 
-	offset = textureOffsets[skinP2];
-	srcRectangleP2 = downSpriteFrames[0]; // TODO animate
+	offsetP2 = textureOffsets[skinP2];
+	srcRectangleP2 = downSpriteFrames[0];
 }
 
 void Menu::P2SkinPrev()
@@ -398,8 +401,35 @@ void Menu::P2SkinPrev()
 	else
 		skinP2 = textureOffsets.size()-1;
 
-	offset = textureOffsets[skinP2];
-	srcRectangleP2 = downSpriteFrames[0]; // TODO animate
+	offsetP2 = textureOffsets[skinP2];
+	srcRectangleP2 = downSpriteFrames[0];
+}
+
+void Menu::AnimatePlayer(float delta)
+{
+	if (animationDeltaTime >= timePerAnimation)
+	{
+		animationDeltaTime = 0;
+
+		SDL_Rect p1SpritesWithOffset = downSpriteFrames[animationFrame];
+		p1SpritesWithOffset.x = downSpriteFrames[animationFrame].x + offsetP1.x;
+		p1SpritesWithOffset.y = downSpriteFrames[animationFrame].y + offsetP1.y;
+
+		SDL_Rect p2SpritesWithOffset = downSpriteFrames[animationFrame];
+		p2SpritesWithOffset.x = downSpriteFrames[animationFrame].x + offsetP2.x;
+		p2SpritesWithOffset.y = downSpriteFrames[animationFrame].y + offsetP2.y;
+
+		srcRectangleP1 = p1SpritesWithOffset;
+		srcRectangleP2 = p2SpritesWithOffset;
+		
+
+		if (animationFrame < 2)
+			animationFrame++;
+		else
+			animationFrame = 1;
+	}
+
+	animationDeltaTime += delta;
 }
 
 
@@ -413,8 +443,31 @@ int Menu::GetSelectedOption()
 			return (cursorPosition + 10);
 	}
 
-
 	return -1;
+}
+
+std::vector<int> Menu::GetPlayerSkinOffset(int pIndex)
+{
+	std::vector<int> offset;
+
+	if (pIndex == 0)
+	{
+		offset =
+		{
+			offsetP1.x,
+			offsetP1.y
+		};
+	}
+	else 
+	{
+		offset =
+		{
+			offsetP2.x,
+			offsetP2.y
+		};
+	}
+
+	return offset;
 }
 
 void Menu::Clean()

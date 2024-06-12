@@ -11,7 +11,7 @@ const int xPos = SDL_WINDOWPOS_CENTERED;
 const int yPos = SDL_WINDOWPOS_CENTERED;
 const int resolutionX = 1280;
 const int resolutionY = 720;
-const bool fullScreen = false;
+const bool fullScreen = true;
 
 //FPS
 const int fps = 60;
@@ -136,9 +136,12 @@ int main(int argc, char *argv[])
 		if (menu->GetSelectedOption() == 10)
 		{
 			menu->isRunning = true;
-			//Main Game loop
+			
 			game = new Game(window, renderer, loader, pTexture, tilemap);
+			game->SetPlayerSkin(0, menu->GetPlayerSkinOffset(0)[0], menu->GetPlayerSkinOffset(0)[1]);
+			game->SetPlayerSkin(1, menu->GetPlayerSkinOffset(1)[0], menu->GetPlayerSkinOffset(1)[1]);
 
+			//Main Game loop
 			RunMainGameLoop();
 		}
 

@@ -393,6 +393,54 @@ void Player::SetBlasts(std::vector<Blast*> b)
 	this->blasts = b;
 }
 
+void Player::SetXSkinOffset(int offset)
+{
+	this->xSkinOffset = offset;
+	UpdateSkinOffset();
+}
+
+void Player::SetYSkinOffset(int offset)
+{
+	this->ySkinOffset = offset;
+	UpdateSkinOffset();
+}
+
+void Player::UpdateSkinOffset()
+{
+	this->upSpriteFrames = {
+		{72 + xSkinOffset, 20 + ySkinOffset, playerW, playerH},
+		{56 + xSkinOffset, 20 + ySkinOffset, playerW, playerH},
+		{88 + xSkinOffset, 20 + ySkinOffset, playerW, playerH}
+	};
+
+	this->downSpriteFrames = {
+		{71 + xSkinOffset, 45 + ySkinOffset, playerW, playerH},
+		{55 + xSkinOffset, 45 + ySkinOffset, playerW, playerH},
+		{87 + xSkinOffset, 45 + ySkinOffset, playerW, playerH}
+	};
+
+	this->leftSpriteFrames = {
+		{2 + xSkinOffset, 44 + ySkinOffset, playerW, playerH},
+		{19 + xSkinOffset, 44 + ySkinOffset, playerW, playerH},
+		{35 + xSkinOffset, 44 + ySkinOffset, playerW, playerH}
+	};
+
+	this->rightSpriteFrames = {
+		{105 + xSkinOffset, 46 + ySkinOffset, playerW, playerH},
+		{122 + xSkinOffset, 47 + ySkinOffset, playerW, playerH},
+		{139 + xSkinOffset, 48 + ySkinOffset, playerW, playerH}
+	};
+
+	this->dieSpriteFrames = {
+		{29 + xSkinOffset, 74 + ySkinOffset, playerW, playerH},
+		{48 + xSkinOffset, 74 + ySkinOffset, playerW, playerH},
+		{65 + xSkinOffset, 74 + ySkinOffset, playerW, playerH},
+		{82 + xSkinOffset, 74 + ySkinOffset, playerW, playerH},
+		{99 + xSkinOffset, 74 + ySkinOffset, playerW, playerH},
+		{117 + xSkinOffset, 74 + ySkinOffset, playerW, playerH}
+	};
+}
+
 //Destructor
 Player::~Player()
 {

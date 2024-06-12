@@ -28,6 +28,8 @@ class Menu
 		bool Running() { return isRunning; }
 		int GetSelectedOption();
 
+		std::vector<int> GetPlayerSkinOffset(int pIndex);
+
 		Loader* loader;
 		SDL_Window* window;
 		SDL_Renderer* renderer;
@@ -47,6 +49,7 @@ class Menu
 		void P1SkinPrev();
 		void P2SkinNext();
 		void P2SkinPrev();
+		void AnimatePlayer(float);
 		void Clean();
 		void Quit();
 
@@ -96,7 +99,12 @@ class Menu
 		const int xOriginalOffset = 155;
 		const int yOriginalOffset = 113;
 
-		position2D offset = {0, 0};
+		position2D offsetP1 = {0, 0};
+		position2D offsetP2 = {0, 0};
+
+		float animationDeltaTime = 1; // Current frame duration
+		int animationFrame = 0; // 3 frames per animation
+		const float timePerAnimation = 333.33333f; // 1 second to complete the animation set
 
 		std::vector<position2D> textureOffsets =
 		{
@@ -107,9 +115,9 @@ class Menu
 		};
 
 		std::vector<SDL_Rect> downSpriteFrames = {
-			{71 + offset.x, 45 + offset.y, 17, 24},
-			{55 + offset.x, 45 + offset.y, 17, 24},
-			{87 + offset.x, 45 + offset.y, 17, 24}
+			{71, 45, 17, 24},
+			{55, 45, 17, 24},
+			{87, 45, 17, 24}
 		};
 };
 

@@ -18,6 +18,19 @@ Game::Game(SDL_Window* window, SDL_Renderer* renderer, Loader* loader, SDL_Textu
  	map = new Map("assets/maps/map1.map", tilemap);
 
 	//Initialize players
+	SpawnPlayers();
+
+	//Load Collision manager
+	cm = new CollisionManager(map);
+	cm->SetTileMap(tilemap);
+	cm->SetPlayers(players);
+
+	//if everything goes ok set running to true
+	isRunning = true;
+}
+
+void Game::SpawnPlayers()
+{
 	std::vector<float> spawnPoint = map->GetSpawnPoint(2);
 
 	Player* player0 = new Player(spawnPoint[0], spawnPoint[1], pTexture, 56, 48);
@@ -33,14 +46,6 @@ Game::Game(SDL_Window* window, SDL_Renderer* renderer, Loader* loader, SDL_Textu
 	player1->SetGameReference(this);
 	player1->playerNumber = 1;
 	players.push_back(player1);
-
-	//Load Collision manager
-	cm = new CollisionManager(map);
-	cm->SetTileMap(tilemap);
-	cm->SetPlayers(players);
-
-	//if everything goes ok set running to true
-	isRunning = true;
 }
 
 void Game::HandleEvents()
@@ -152,6 +157,12 @@ void Game::Render()
 void Game::CheckCollisions()
 {
 	cm->CheckCollision();
+}
+
+void Game::SetPlayerSkin(int pIndex, int offsetX, int offsetY)
+{
+	players[pIndex]->SetXSkinOffset(offsetX);
+	players[pIndex]->SetXSkinOffset(offsetY);
 }
 
 void Game::Clean()

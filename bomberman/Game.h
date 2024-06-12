@@ -26,6 +26,7 @@ class Game
 		void Update(float delta);
 		void Render();
 		void CheckCollisions();
+		void SetPlayerSkin(int pIndex, int offsetX, int offsetY);
 		void Clean();
 
 		bool Running() { return isRunning; }
@@ -33,6 +34,8 @@ class Game
 		Loader* loader;
 
 	private:
+		void SpawnPlayers();
+
 		bool isRunning;
 		SDL_Window* window;
 		SDL_Renderer* renderer;
