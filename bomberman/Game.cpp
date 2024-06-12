@@ -2,84 +2,45 @@
 
 Game::Game()
 {
+}
+
+Game::Game(SDL_Window* window, SDL_Renderer* renderer, Loader* loader, SDL_Texture* pTexture, SDL_Texture* tilemap)
+{
+	this->window = window;
+	this->renderer = renderer;
+	this->loader = loader;
+	this->pTexture = pTexture;
+	this->tilemap = tilemap;
+
 	players.reserve(maxPlayers);
-}
 
-Game::~Game()
-{
-	Clean();
-}
+	//Load map
+ 	map = new Map("assets/maps/map1.map", tilemap);
 
-//Engine initialization
-void Game::Init(const std::string title, int xpos, int ypos, int width, int height, bool fullscreen)
-{
-	//Check Flags
-	int flags = 0;
+	//Initialize players
+	std::vector<float> spawnPoint = map->GetSpawnPoint(2);
 
-	if (fullscreen)
-		flags = SDL_WINDOW_FULLSCREEN;
+	Player* player0 = new Player(spawnPoint[0], spawnPoint[1], pTexture, 56, 48);
+	player0->SetBombTexture(tilemap);
+	player0->SetGameReference(this);
+	player0->playerNumber = 0;
+	players.push_back(player0);
 
-	//Start everything
-	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
-	{
-		std::cout << "SDL Started!\n";
+	spawnPoint = map->GetSpawnPoint(1);
 
-		window = SDL_CreateWindow(title.c_str(), xpos, ypos, width, height, flags);
+	Player* player1 = new Player(spawnPoint[0], spawnPoint[1], pTexture, 56, 48);
+	player1->SetBombTexture(tilemap);
+	player1->SetGameReference(this);
+	player1->playerNumber = 1;
+	players.push_back(player1);
 
-		if (window)
-			std::cout << "Window Created...\n";
+	//Load Collision manager
+	cm = new CollisionManager(map);
+	cm->SetTileMap(tilemap);
+	cm->SetPlayers(players);
 
-		renderer = SDL_CreateRenderer(window, -1, 0);
-
-		if (renderer)
-			std::cout << "Renderer Created...\n";
-
-		//Initialize PNG loader
-		int imgFlags = IMG_INIT_PNG;
-
-		loader = new Loader(renderer);
-		
-		if (!(IMG_Init(imgFlags) & imgFlags))
-			std::cout << "Error initializing SDL_image '" << IMG_GetError() << "'...\n";
-
-		//Load everything
-		pTexture = loader->LoadTexture("assets/sprites/playerSpriteSheet.png");
-		tilemap = loader->LoadTexture("assets/sprites/tilemap.png");
-
-		//Load map
-		map = new Map("assets/maps/map1.map", tilemap);
-
-		//Initialize players
-		std::vector<float> spawnPoint = map->GetSpawnPoint(2);
-
-		Player* player0 = new Player(spawnPoint[0], spawnPoint[1], pTexture, 56, 48);
-		player0->SetBombTexture(tilemap);
-		player0->SetGameReference(this);
-		player0->playerNumber = 0;
-		players.push_back(player0);
-
-		spawnPoint = map->GetSpawnPoint(1);
-
-		Player* player1 = new Player(spawnPoint[0], spawnPoint[1], pTexture, 56, 48);
-		player1->SetBombTexture(tilemap);
-		player1->SetGameReference(this);
-		player1->playerNumber = 1;
-		players.push_back(player1);
-
-		//Load Collision manager
-		cm = new CollisionManager(map);
-		cm->SetTileMap(tilemap);
-		cm->SetPlayers(players);
-
-		//if everything goes ok set running to true
-		isRunning = true;
-		std::cout << "Engine running: OK\n";
-	}
-	else 
-	{
-		isRunning = false;
-		std::cout << "Engine running: ERR\n";
-	}
+	//if everything goes ok set running to true
+	isRunning = true;
 }
 
 void Game::HandleEvents()
@@ -193,21 +154,6 @@ void Game::CheckCollisions()
 	cm->CheckCollision();
 }
 
-SDL_Renderer* Game::GetRenderer()
-{
-	return renderer;
-}
-
-SDL_Window* Game::GetWindow()
-{
-	return window;
-}
-
-Loader* Game::GetLoader()
-{
-	return loader;
-}
-
 void Game::Clean()
 {
 	std::cout << "Cleaning up...\n";
@@ -221,4 +167,9 @@ void Game::Clean()
 	SDL_DestroyRenderer(renderer);
 	SDL_Quit();
 	std::cout << "Quitting...\n";
+}
+
+Game::~Game()
+{
+	Clean();
 }

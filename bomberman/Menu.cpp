@@ -4,11 +4,13 @@ Menu::Menu()
 {
 }
 
-Menu::Menu(SDL_Window* window, SDL_Renderer* renderer, Loader* loader)
+Menu::Menu(SDL_Window* window, SDL_Renderer* renderer, Loader* loader, SDL_Texture* pTexture, SDL_Texture* tilemap)
 {
 	this->window = window;
 	this->renderer = renderer;
 	this->loader = loader;
+	this->pTexture = pTexture;
+	this->tilemap = tilemap;
 
 	LoadUISprites();
 	DrawBaseMenu();
@@ -90,10 +92,6 @@ void Menu::Render()
 
 void Menu::LoadUISprites()
 {
-	//Load textures
-	pTexture = loader->LoadTexture("assets/sprites/playerSpriteSheet.png");
-	tilemap = loader->LoadTexture("assets/sprites/tilemap.png");
-
 	//Load font
 	TTF_Init();
 	sansTitle = TTF_OpenFont("assets/fonts/font.ttf", 24);

@@ -17,6 +17,14 @@ const bool fullScreen = false;
 const int fps = 60;
 const int frameDelay = 1000/fps;
 
+// Engine
+bool isEngineRunning;
+SDL_Window* window;
+SDL_Renderer* renderer;
+Loader* loader;
+SDL_Texture* pTexture;
+SDL_Texture* tilemap;
+
 //Delta time vars
 Uint64 now = SDL_GetPerformanceCounter();
 Uint64 last = 0;
@@ -25,10 +33,57 @@ float deltaTime = 0;
 Game* game = nullptr;
 Menu* menu = nullptr;
 
+//Engine initialization
+void Init(const std::string title, int xpos, int ypos, int width, int height, bool fullscreen)
+{
+	//Check Flags
+	int flags = 0;
+
+	if (fullscreen)
+		flags = SDL_WINDOW_FULLSCREEN;
+
+	//Start everything
+	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
+	{
+		std::cout << "SDL Started!\n";
+
+		window = SDL_CreateWindow(title.c_str(), xpos, ypos, width, height, flags);
+
+		if (window)
+			std::cout << "Window Created...\n";
+
+		renderer = SDL_CreateRenderer(window, -1, 0);
+
+		if (renderer)
+			std::cout << "Renderer Created...\n";
+
+		//Initialize PNG loader
+		int imgFlags = IMG_INIT_PNG;
+
+		loader = new Loader(renderer);
+
+		if (!(IMG_Init(imgFlags) & imgFlags))
+			std::cout << "Error initializing SDL_image '" << IMG_GetError() << "'...\n";
+
+		//Load everything
+		pTexture = loader->LoadTexture("assets/sprites/playerSpriteSheet.png");
+		tilemap = loader->LoadTexture("assets/sprites/tilemap.png");
+
+		//if everything goes ok set running to true
+		isEngineRunning = true;
+		std::cout << "Engine running: OK\n";
+	}
+	else
+	{
+		isEngineRunning = false;
+		std::cout << "Engine running: ERR\n";
+	}
+}
+
 void RunMainMenuLoop()
 {
 	//Set background color to black
-	SDL_SetRenderDrawColor(game->GetRenderer(), 0, 0, 0, 255);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
 	while (menu->Running())
 	{
@@ -49,7 +104,7 @@ void RunMainMenuLoop()
 void RunMainGameLoop()
 {
 	//Set background color to green
-	SDL_SetRenderDrawColor(game->GetRenderer(), 16, 120, 48, 255);
+	SDL_SetRenderDrawColor(renderer, 16, 120, 48, 255);
 
 	while (game->Running())
 	{
@@ -69,13 +124,11 @@ void RunMainGameLoop()
 
 int main(int argc, char *argv[])
 {
-	bool isRunning = true;
-	game = new Game();
+	Init(windowTitle, xPos, yPos, resolutionX, resolutionY, fullScreen);
 
-	game->Init(windowTitle, xPos, yPos, resolutionX, resolutionY, fullScreen);
-	menu = new Menu(game->GetWindow(), game->GetRenderer(), game->GetLoader());
+	menu = new Menu(window, renderer, loader, pTexture, tilemap);
 
-	while (isRunning)
+	while (isEngineRunning)
 	{
 		//Start main menu
 		RunMainMenuLoop();
@@ -84,16 +137,16 @@ int main(int argc, char *argv[])
 		{
 			menu->isRunning = true;
 			//Main Game loop
+			game = new Game(window, renderer, loader, pTexture, tilemap);
+
 			RunMainGameLoop();
 		}
 
 		if (!menu->Running())
 		{
-			isRunning = false;
+			isEngineRunning = false;
 		}
 	}
-
-	game->Clean();
 
 	return 0;
 }

@@ -19,7 +19,7 @@ class Menu
 	public:
 		//Constructors / Destructor
 		Menu();
-		Menu(SDL_Window*, SDL_Renderer*, Loader*);
+		Menu(SDL_Window*, SDL_Renderer*, Loader*, SDL_Texture*, SDL_Texture*);
 		~Menu();
 
 		void Update(float);

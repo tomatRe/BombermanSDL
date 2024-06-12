@@ -19,9 +19,8 @@ class Game
 {
 	public:
 		Game();
+		Game(SDL_Window*, SDL_Renderer*, Loader*, SDL_Texture*, SDL_Texture*);
 		~Game();
-
-		void Init(const std::string title, int xpos, int ypos, int width, int height, bool fullscreen);
 
 		void HandleEvents();
 		void Update(float delta);
@@ -30,17 +29,13 @@ class Game
 		void Clean();
 
 		bool Running() { return isRunning; }
-		SDL_Renderer* GetRenderer();
-		SDL_Window* GetWindow();
-		Loader* GetLoader();
 
 		Loader* loader;
 
 	private:
-		SDL_Texture* LoadMedia(std::string path);
 		bool isRunning;
-		SDL_Window *window;
-		SDL_Renderer *renderer;
+		SDL_Window* window;
+		SDL_Renderer* renderer;
 		SDL_Texture* pTexture;
 		SDL_Texture* tilemap;
 
