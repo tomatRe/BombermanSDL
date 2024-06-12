@@ -12,7 +12,6 @@ Menu::Menu(SDL_Window* window, SDL_Renderer* renderer, Loader* loader)
 
 	LoadUISprites();
 	DrawBaseMenu();
-	DrawCursor();
 	texts.reserve(50);
 	textures.reserve(50);
 
@@ -24,7 +23,9 @@ void Menu::Update(float)
 	if (isRunning)
 	{
 		//Update cursor vertical position
-		texts[texts.size()-1].y = texts[cursorPosition].y;
+		SDL_Rect* cursor = &texts[texts.size() - 1];
+		cursor->x = cursorLocations[cursorPosition].x;
+		cursor->y = cursorLocations[cursorPosition].y;
 	}
 	else
 	{
@@ -78,7 +79,6 @@ void Menu::Render()
 	//Clear last frame
 	SDL_RenderClear(renderer);
 
-	//TODO: draw menu
 	for (size_t i = 0; i < texts.size(); i++)
 	{
 		SDL_RenderCopy(renderer, textures[i], NULL, &texts[i]);
@@ -104,7 +104,7 @@ void Menu::LoadUISprites()
 
 void Menu::DrawCursor()
 {
-	//Create Cursor Sprite + square
+	// Create Cursor Sprite + square
 	white.r = 0;
 	white.b = 0;
 
@@ -113,17 +113,28 @@ void Menu::DrawCursor()
 	texture = SDL_CreateTextureFromSurface(renderer, surface);
 	textures.push_back(texture);
 
-	rectangle.x = 400;
-	rectangle.y = texts[1].y; // same height as the first menu option
+	rectangle.x = cursorLocations[0].x;
+	rectangle.y = cursorLocations[0].y;
 	rectangle.w = 75;
 	rectangle.h = 75;
 
 	texts.push_back(rectangle);
+
+	cursorPosition = 0;
+
+	// set the white color back
+	white.r = 255;
+	white.b = 255;
 }
 
 void Menu::DrawBaseMenu()
 {
-	//GAME TITLE
+	// Clear previous texts
+	texts.clear();
+	textures.clear();
+	cursorLocations.clear();
+
+	// GAME TITLE
 	surface = TTF_RenderText_Solid(sansTitle, "Bomberman SDL", white);
 
 	texture = SDL_CreateTextureFromSurface(renderer, surface);
@@ -145,7 +156,10 @@ void Menu::DrawBaseMenu()
 	rectangle.y = 200; // controls the rect's y coordinte
 	rectangle.w = 375; // controls the width of the rect
 	rectangle.h = 75; // controls the height of the rect
+	pos.x = rectangle.x;
+	pos.y = rectangle.y;
 
+	cursorLocations.push_back(pos);
 	texts.push_back(rectangle);
 
 	//Create quit text + square
@@ -157,22 +171,123 @@ void Menu::DrawBaseMenu()
 	rectangle.y = 250;
 	rectangle.w = 175;
 	rectangle.h = 75;
+	pos.x = rectangle.x;
+	pos.y = rectangle.y;
 
+	cursorLocations.push_back(pos);
 	texts.push_back(rectangle);
+
+	DrawCursor();
+
+	isBaseMenuUp = true;
+	isPlayerMenuUp = false;
 }
 
 void Menu::DrawPlayerSelection()
 {
+	// Clear previous texts
+	texts.clear();
+	textures.clear();
+	cursorLocations.clear();
 
-	isRunning = false;
+	//Section TITLE
+	surface = TTF_RenderText_Solid(sansTitle, "player VS player", white);
+
+	texture = SDL_CreateTextureFromSurface(renderer, surface);
+	textures.push_back(texture);
+
+	rectangle.x = 20;
+	rectangle.y = 20;
+	rectangle.w = 750;
+	rectangle.h = 125;
+
+	texts.push_back(rectangle);
+
+	//Player 1 texts + square
+	surface = TTF_RenderText_Solid(sansText, "Player 1", white);
+
+	texture = SDL_CreateTextureFromSurface(renderer, surface);
+	textures.push_back(texture);
+
+	rectangle.x = 150; // controls the rect's x coordinte
+	rectangle.y = 200; // controls the rect's y coordinte
+	rectangle.w = 375; // controls the width of the rect
+	rectangle.h = 75; // controls the height of the rect
+
+	texts.push_back(rectangle);
+
+	//Player 2 texts + square
+	surface = TTF_RenderText_Solid(sansText, "Player 2", white);
+
+	texture = SDL_CreateTextureFromSurface(renderer, surface);
+	textures.push_back(texture);
+
+	rectangle.x = 725; // controls the rect's x coordinte
+	rectangle.w = 375; // controls the width of the rect
+	rectangle.h = 75; // controls the height of the rect
+
+	texts.push_back(rectangle);
+
+	//Play button + square
+	surface = TTF_RenderText_Solid(sansText, "play!", white);
+
+	texture = SDL_CreateTextureFromSurface(renderer, surface);
+	textures.push_back(texture);
+
+	rectangle.x = 20;
+	rectangle.y = 525;
+	rectangle.w = 175;
+	rectangle.h = 75;
+
+	pos.x = rectangle.x;
+	pos.y = rectangle.y;
+
+	cursorLocations.push_back(pos);
+	texts.push_back(rectangle);
+
+	//Back button + square
+	surface = TTF_RenderText_Solid(sansText, "Back", white);
+
+	texture = SDL_CreateTextureFromSurface(renderer, surface);
+	textures.push_back(texture);
+
+	rectangle.x = 20;
+	rectangle.y = 600;
+	rectangle.w = 175;
+	rectangle.h = 75;
+	pos.x = rectangle.x;
+	pos.y = rectangle.y;
+
+	cursorLocations.push_back(pos);
+	texts.push_back(rectangle);
+
+	DrawCursor();
+
+	isBaseMenuUp = false;
+	isPlayerMenuUp = true;
 }
 
 void Menu::SelectOption()
 {
+	// Base menu [0 - 9 options
+	// Player selection [10 - 19]
+
 	switch (GetSelectedOption())
 	{
-	case 1:// play local vs game
+	case -1:// force Quit
+		isRunning = false;
+		break;
+	case 0:// play local vs game
 		DrawPlayerSelection();
+		break;
+	case 1:// Quit
+		isRunning = false;
+		break;
+	case 10:// Play
+		isRunning = false;
+		break;
+	case 11:// Back
+		DrawBaseMenu();
 		break;
 
 	default:
@@ -184,34 +299,40 @@ void Menu::SelectOption()
 
 void Menu::GoCursorUp()
 {
-	if (cursorPosition > 1)
+	if (cursorPosition >= 0)
 	{
 		cursorPosition--;
 	}
 	else 
 	{
-		cursorPosition = 1;
+		cursorPosition = 0;
 	}
 }
 
 void Menu::GoCursorDown()
 {
-	if (cursorPosition < texts.size()-2)
+	if (cursorPosition < cursorLocations.size()-1)
 	{
 		cursorPosition++;
 	}
 	else
 	{
-		cursorPosition = texts.size()-2;
+		cursorPosition = cursorLocations.size()-1;
 	}
 }
 
 int Menu::GetSelectedOption()
 {
 	if (selectedOption != -1)
-		selectedOption = cursorPosition;
+	{
+		if (isBaseMenuUp)
+			return cursorPosition;
+		else if (isPlayerMenuUp)
+			return (cursorPosition + 10);
+	}
+		
 
-	return selectedOption;
+	return -1;
 }
 
 void Menu::Clean()

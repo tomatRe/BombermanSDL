@@ -45,18 +45,28 @@ class Menu
 		void Clean();
 		void Quit();
 
+		//Variables
 		bool isRunning = false;
-		int selectedOption = 1; // 1 = new game
-		int cursorPosition = 1;
+
+		// Cursor
+		struct position2D
+		{
+			int x, y;
+		};
+
+		int selectedOption = 0; // 1 = new game
+		int cursorPosition = 0;
+		std::vector<position2D> cursorLocations;
 		
 		// Textures
 		SDL_Texture* pTexture;
 		SDL_Texture* tilemap;
 
 		// Texts and menus
-		std::vector <SDL_Texture*> textures;
+		std::vector<SDL_Texture*> textures;
 		std::vector<SDL_Rect> texts;
 
+		position2D pos;
 		SDL_Surface* surface;
 		SDL_Texture* texture;
 		SDL_Rect rectangle;
@@ -65,5 +75,8 @@ class Menu
 		TTF_Font* sansText;
 		TTF_Font* sansSubText;
 		SDL_Color white;
+
+		bool isBaseMenuUp = false;
+		bool isPlayerMenuUp = false;
 };
 

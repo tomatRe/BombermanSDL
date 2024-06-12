@@ -111,7 +111,7 @@ void Game::Update(float delta)
 		{
 			playersAlive--;
 
-			if (playersAlive <= 1)
+			if (playersAlive == 0)
 				isRunning = false;
 		}
 	}
