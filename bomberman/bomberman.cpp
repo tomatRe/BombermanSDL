@@ -69,18 +69,28 @@ void RunMainGameLoop()
 
 int main(int argc, char *argv[])
 {
+	bool isRunning = true;
 	game = new Game();
 
 	game->Init(windowTitle, xPos, yPos, resolutionX, resolutionY, fullScreen);
 	menu = new Menu(game->GetWindow(), game->GetRenderer(), game->GetLoader());
 
-	//Start main menu
-	RunMainMenuLoop();
-
-	if (menu->GetSelectedOption() == 10)
+	while (isRunning)
 	{
-		//Main Game loop
-		RunMainGameLoop();
+		//Start main menu
+		RunMainMenuLoop();
+
+		if (menu->GetSelectedOption() == 10)
+		{
+			menu->isRunning = true;
+			//Main Game loop
+			RunMainGameLoop();
+		}
+
+		if (!menu->Running())
+		{
+			isRunning = false;
+		}
 	}
 
 	game->Clean();

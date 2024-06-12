@@ -31,6 +31,7 @@ class Menu
 		Loader* loader;
 		SDL_Window* window;
 		SDL_Renderer* renderer;
+		bool isRunning = false;
 	private:
 		void SelectOption();
 		void GoCursorUp();
@@ -46,7 +47,6 @@ class Menu
 		void Quit();
 
 		//Variables
-		bool isRunning = false;
 
 		// Cursor
 		struct position2D

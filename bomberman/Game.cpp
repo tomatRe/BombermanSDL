@@ -97,6 +97,17 @@ void Game::HandleEvents()
 		case SDL_QUIT: isRunning = false; break;
 		default: break;
 	}
+
+	// press space to quit to menu on all players dead
+	if (event.type == SDL_KEYDOWN && event.key.repeat == 0)
+	{
+		//Adjust the velocity
+		switch (event.key.keysym.sym)
+		{
+		case SDLK_SPACE: if (playersAlive <= 1) isRunning = false; break;
+		case SDLK_ESCAPE: isRunning = false; break;
+		}
+	}
 }
 
 void Game::Update(float delta)
@@ -110,9 +121,6 @@ void Game::Update(float delta)
 		if (!players[i]->isAlive)
 		{
 			playersAlive--;
-
-			if (playersAlive == 0)
-				isRunning = false;
 		}
 	}
 
