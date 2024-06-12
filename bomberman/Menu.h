@@ -43,6 +43,10 @@ class Menu
 		void DrawMultiplayerClient();
 		void DrawMultiplayerHost();
 		void DrawOptions();
+		void P1SkinNext();
+		void P1SkinPrev();
+		void P2SkinNext();
+		void P2SkinPrev();
 		void Clean();
 		void Quit();
 
@@ -86,10 +90,26 @@ class Menu
 		SDL_Rect srcRectangleP2;
 		SDL_Rect destRectangleP2;
 
+		int skinP1 = 0;
+		int skinP2 = 0;
+
+		const int xOriginalOffset = 155;
+		const int yOriginalOffset = 113;
+
+		position2D offset = {0, 0};
+
+		std::vector<position2D> textureOffsets =
+		{
+			{0, 0},
+			{0, yOriginalOffset},
+			{xOriginalOffset, 0},
+			{xOriginalOffset, yOriginalOffset}
+		};
+
 		std::vector<SDL_Rect> downSpriteFrames = {
-			{71, 45, 17, 24},
-			{55, 45, 17, 24},
-			{87, 45, 17, 24}
+			{71 + offset.x, 45 + offset.y, 17, 24},
+			{55 + offset.x, 45 + offset.y, 17, 24},
+			{87 + offset.x, 45 + offset.y, 17, 24}
 		};
 };
 

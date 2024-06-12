@@ -87,6 +87,9 @@ class Player : public Entity
 		bool isMoving = false;
 		SDL_Texture* bombTexture;
 
+		int xOffset = 155;
+		int yOffset = 113;
+
 		std::vector<SDL_Rect> upSpriteFrames = {
 			{72, 20, playerW, playerH},
 			{56, 20, playerW, playerH},

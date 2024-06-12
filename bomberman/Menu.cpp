@@ -53,10 +53,16 @@ void Menu::HandleEvents()
 		//Adjust the velocity
 		switch (e.key.keysym.sym)
 		{
+		case SDLK_w: GoCursorUp(); break;
+		case SDLK_s: GoCursorDown(); break;
+		case SDLK_a: P1SkinPrev(); break;
+		case SDLK_d: P1SkinNext(); break;
+
 		case SDLK_UP: GoCursorUp(); break;
 		case SDLK_DOWN: GoCursorDown(); break;
-		case SDLK_LEFT: /*TODO*/; break;
-		case SDLK_RIGHT: /*TODO*/; break;
+		case SDLK_LEFT: P2SkinPrev(); break;
+		case SDLK_RIGHT: P2SkinNext(); break;
+
 		case SDLK_RETURN: isRunning = false; break;
 		case SDLK_SPACE: SelectOption(); break;
 		case SDLK_ESCAPE: isRunning = false; selectedOption = -1; break;
@@ -330,7 +336,7 @@ void Menu::SelectOption()
 
 void Menu::GoCursorUp()
 {
-	if (cursorPosition >= 0)
+	if (cursorPosition > 0)
 	{
 		cursorPosition--;
 	}
@@ -352,6 +358,51 @@ void Menu::GoCursorDown()
 	}
 }
 
+void Menu::P1SkinNext()
+{
+	if (textureOffsets.size() < skinP1)
+		skinP1++;
+	else
+		skinP1 = 0;
+
+	offset = textureOffsets[skinP1];
+	srcRectangleP1 = downSpriteFrames[0]; // TODO animate
+}
+
+void Menu::P1SkinPrev()
+{
+	if (skinP1 > 0)
+		skinP1--;
+	else
+		skinP1 = textureOffsets.size()-1;
+
+	offset = textureOffsets[skinP1];
+	srcRectangleP1 = downSpriteFrames[0]; // TODO animate
+}
+
+void Menu::P2SkinNext()
+{
+	if (textureOffsets.size() < skinP2)
+		skinP2++;
+	else
+		skinP2 = 0;
+
+	offset = textureOffsets[skinP2];
+	srcRectangleP2 = downSpriteFrames[0]; // TODO animate
+}
+
+void Menu::P2SkinPrev()
+{
+	if (skinP2 > 0)
+		skinP2--;
+	else
+		skinP2 = textureOffsets.size()-1;
+
+	offset = textureOffsets[skinP2];
+	srcRectangleP2 = downSpriteFrames[0]; // TODO animate
+}
+
+
 int Menu::GetSelectedOption()
 {
 	if (selectedOption != -1)
@@ -361,7 +412,7 @@ int Menu::GetSelectedOption()
 		else if (isPlayerMenuUp)
 			return (cursorPosition + 10);
 	}
-		
+
 
 	return -1;
 }
