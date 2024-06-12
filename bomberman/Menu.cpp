@@ -86,6 +86,21 @@ void Menu::Render()
 		SDL_RenderCopy(renderer, textures[i], NULL, &texts[i]);
 	}
 
+	if (isPlayerMenuUp)
+	{
+		SDL_RenderCopy(
+			renderer,
+			pTexture,
+			&srcRectangleP1,
+			&destRectangleP1);
+
+		SDL_RenderCopy(
+			renderer,
+			pTexture,
+			&srcRectangleP2,
+			&destRectangleP2);
+	}
+
 	//Draw next frame
 	SDL_RenderPresent(renderer);
 }
@@ -260,6 +275,24 @@ void Menu::DrawPlayerSelection()
 	texts.push_back(rectangle);
 
 	DrawCursor();
+
+	// Draw player 1
+
+	srcRectangleP1 = downSpriteFrames[0];
+
+	destRectangleP1.x = 300;
+	destRectangleP1.y = 300;
+	destRectangleP1.w = 136;
+	destRectangleP1.h = 192;
+
+	// Draw player 2
+
+	srcRectangleP2 = downSpriteFrames[0];
+
+	destRectangleP2.x = 825;
+	destRectangleP2.y = 300;
+	destRectangleP2.w = 136;
+	destRectangleP2.h = 192;
 
 	isBaseMenuUp = false;
 	isPlayerMenuUp = true;

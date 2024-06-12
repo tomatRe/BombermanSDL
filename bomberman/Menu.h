@@ -78,5 +78,18 @@ class Menu
 
 		bool isBaseMenuUp = false;
 		bool isPlayerMenuUp = false;
+
+		// Player sprites
+		SDL_Rect srcRectangleP1;
+		SDL_Rect destRectangleP1;
+
+		SDL_Rect srcRectangleP2;
+		SDL_Rect destRectangleP2;
+
+		std::vector<SDL_Rect> downSpriteFrames = {
+			{71, 45, 17, 24},
+			{55, 45, 17, 24},
+			{87, 45, 17, 24}
+		};
 };
 
