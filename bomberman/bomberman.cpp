@@ -11,7 +11,7 @@ const int xPos = SDL_WINDOWPOS_CENTERED;
 const int yPos = SDL_WINDOWPOS_CENTERED;
 const int resolutionX = 1280;
 const int resolutionY = 720;
-const bool fullScreen = true;
+const bool fullScreen = false;
 
 //FPS
 const int fps = 60;

@@ -161,8 +161,7 @@ void Game::CheckCollisions()
 
 void Game::SetPlayerSkin(int pIndex, int offsetX, int offsetY)
 {
-	players[pIndex]->SetXSkinOffset(offsetX);
-	players[pIndex]->SetXSkinOffset(offsetY);
+	players[pIndex]->SetSkinOffset(offsetX, offsetY);
 }
 
 void Game::Clean()

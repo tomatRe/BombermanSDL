@@ -46,8 +46,7 @@ class Player : public Entity
 		void SetGameReference(Game*);
 		void SetBombTexture(SDL_Texture*);
 		void SetBlasts(std::vector<Blast*>);
-		void SetXSkinOffset(int offset);
-		void SetYSkinOffset(int offset);
+		void SetSkinOffset(int x, int y);
 
 		//=========================Variables=========================
 
@@ -94,36 +93,36 @@ class Player : public Entity
 		SDL_Texture* bombTexture;
 
 		std::vector<SDL_Rect> upSpriteFrames = {
-			{72 + xSkinOffset, 20 + ySkinOffset, playerW, playerH},
-			{56 + xSkinOffset, 20 + ySkinOffset, playerW, playerH},
-			{88 + xSkinOffset, 20 + ySkinOffset, playerW, playerH}
+			{72, 20, playerW, playerH},
+			{56, 20, playerW, playerH},
+			{88, 20, playerW, playerH}
 		};
 
 		std::vector<SDL_Rect> downSpriteFrames = {
-			{71 + xSkinOffset, 45 + ySkinOffset, playerW, playerH},
-			{55 + xSkinOffset, 45 + ySkinOffset, playerW, playerH},
-			{87 + xSkinOffset, 45 + ySkinOffset, playerW, playerH}
+			{71, 45, playerW, playerH},
+			{55, 45, playerW, playerH},
+			{87, 45, playerW, playerH}
 		};
 
 		std::vector<SDL_Rect> leftSpriteFrames = {
-			{2 + xSkinOffset, 44 + ySkinOffset, playerW, playerH},
-			{19 + xSkinOffset, 44 + ySkinOffset, playerW, playerH},
-			{35 + xSkinOffset, 44 + ySkinOffset, playerW, playerH}
+			{2, 44, playerW, playerH},
+			{19, 44, playerW, playerH},
+			{35, 44, playerW, playerH}
 		};
 
 		std::vector<SDL_Rect> rightSpriteFrames = {
-			{105 + xSkinOffset, 46 + ySkinOffset, playerW, playerH},
-			{122 + xSkinOffset, 47 + ySkinOffset, playerW, playerH},
-			{139 + xSkinOffset, 48 + ySkinOffset, playerW, playerH}
+			{105, 46, playerW, playerH},
+			{122, 47, playerW, playerH},
+			{139, 48, playerW, playerH}
 		};
 
 		std::vector<SDL_Rect> dieSpriteFrames = {
-			{29 + xSkinOffset, 74 + ySkinOffset, playerW, playerH},
-			{48 + xSkinOffset, 74 + ySkinOffset, playerW, playerH},
-			{65 + xSkinOffset, 74 + ySkinOffset, playerW, playerH},
-			{82 + xSkinOffset, 74 + ySkinOffset, playerW, playerH},
-			{99 + xSkinOffset, 74 + ySkinOffset, playerW, playerH},
-			{117 + xSkinOffset, 74 + ySkinOffset, playerW, playerH}
+			{29, 74, playerW, playerH},
+			{48, 74, playerW, playerH},
+			{65, 74, playerW, playerH},
+			{82, 74, playerW, playerH},
+			{99, 74, playerW, playerH},
+			{117, 74, playerW, playerH}
 		};
 
 		float animationDeltaTime = 1; // Current frame duration

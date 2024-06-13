@@ -393,15 +393,10 @@ void Player::SetBlasts(std::vector<Blast*> b)
 	this->blasts = b;
 }
 
-void Player::SetXSkinOffset(int offset)
+void Player::SetSkinOffset(int x, int y)
 {
-	this->xSkinOffset = offset;
-	UpdateSkinOffset();
-}
-
-void Player::SetYSkinOffset(int offset)
-{
-	this->ySkinOffset = offset;
+	this->xSkinOffset = x;
+	this->ySkinOffset = y;
 	UpdateSkinOffset();
 }
 
