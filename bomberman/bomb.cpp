@@ -71,19 +71,24 @@ void Bomb::Detonate()
 		int x = destRectangle.x;
 		int y = destRectangle.y - destRectangle.h*i + (i * offset);
 
-		//TODO check with map collision if blast can spawn there
-		if (true)
+		b = new Blast(x, y, dirSprite.up[0]);
+		b->SetOwnerPlayer(ownerPlayer);
+		SDL_Rect rect = *b->GetDestRectangle();
+
+		if (i == blastRadius)
+			b->SetAnimation(dirSprite.up);
+		else
+			b->SetAnimation(dirSprite.verticalBody);
+
+		if (IsOverlapingWithWorld(rect))
 		{
-			b = new Blast(x, y, dirSprite.up[0]);
-			b->SetOwnerPlayer(ownerPlayer);
-
-			if (i == blastRadius)
-				b->SetAnimation(dirSprite.up);
-			else
-				b->SetAnimation(dirSprite.verticalBody);
-
-			ownerPlayer->AddBlast(b);
+			b->SetAnimation(dirSprite.invisible);
+			
+			// break the loop
+			i = blastRadius + 1;
 		}
+
+		ownerPlayer->AddBlast(b);
 	}
 
 	//Down Blast
@@ -96,11 +101,21 @@ void Bomb::Detonate()
 		b = new Blast(x, y, dirSprite.down[0]);
 		b->SetOwnerPlayer(ownerPlayer);
 
+		SDL_Rect rect = *b->GetDestRectangle();
+
 		if (i == blastRadius)
 			b->SetAnimation(dirSprite.down);
 		else
 			b->SetAnimation(dirSprite.verticalBody);
-		
+
+		if (IsOverlapingWithWorld(rect))
+		{
+			b->SetAnimation(dirSprite.invisible);
+
+			// break the loop
+			i = blastRadius + 1;
+		}
+
 		ownerPlayer->AddBlast(b);
 	}
 
@@ -113,11 +128,21 @@ void Bomb::Detonate()
 
 		b = new Blast(x, y, dirSprite.left[0]);
 		b->SetOwnerPlayer(ownerPlayer);
-		
+
+		SDL_Rect rect = *b->GetDestRectangle();
+
 		if (i == blastRadius)
 			b->SetAnimation(dirSprite.left);
 		else
 			b->SetAnimation(dirSprite.horizontalBody);
+
+		if (IsOverlapingWithWorld(rect))
+		{
+			b->SetAnimation(dirSprite.invisible);
+
+			// break the loop
+			i = blastRadius + 1;
+		}
 
 		ownerPlayer->AddBlast(b);
 	}
@@ -132,16 +157,70 @@ void Bomb::Detonate()
 		b = new Blast(x, y, dirSprite.right[0]);
 		b->SetOwnerPlayer(ownerPlayer);
 
+		SDL_Rect rect = *b->GetDestRectangle();
+
 		if (i == blastRadius)
 			b->SetAnimation(dirSprite.right);
 		else
 			b->SetAnimation(dirSprite.horizontalBody);
-		
+
+		if (IsOverlapingWithWorld(rect))
+		{
+			b->SetAnimation(dirSprite.invisible);
+
+			// break the loop
+			i = blastRadius + 1;
+		}
+
 		ownerPlayer->AddBlast(b);
 	}
 
 	//Detach owning player
 	ownerPlayer->DestroyBombReference(this);
+}
+
+bool Bomb::IsOverlapingWithWorld(SDL_Rect rect)
+{
+	//Blasts to map collisions
+	for (size_t x = 0; x < mapSizex; x++)
+	{
+		for (size_t y = 0; y < mapSizey; y++)
+		{
+			//Created a small reduction in the blast collision so it wont break unexpected walls
+			SDL_Rect reducedCollision = {
+				rect.x + 10, rect.y + 10, rect.h - 10, rect.w - 10
+			};
+
+			if (IsOverlaping(mapRect[y][x], reducedCollision))
+			{
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+bool Bomb::IsOverlaping(SDL_Rect rect1, SDL_Rect rect2)
+{
+	if (rect1.x < rect2.x + rect2.w &&
+		rect1.x + rect1.w > rect2.x &&
+		rect1.y < rect2.y + rect2.h &&
+		(rect1.h / 2) + rect1.y > rect2.y)
+	{
+		// Collision detected!
+		return true;
+	}
+
+	return false;
+}
+
+void Bomb::UpdateGrid()
+{
+	this->mapTiles = map->GetMapTiles();
+	this->mapRect = map->GetMapRects();
+	this->mapSizex = map->GetMapSizeX();
+	this->mapSizey = map->GetMapSizeY();
 }
 
 //Getters
@@ -174,6 +253,12 @@ void Bomb::SetBlastRadius(int newRadius)
 void Bomb::SetOwningPlayer(Player* p)
 {
 	this->ownerPlayer = p;
+}
+
+void Bomb::SetMapReference(Map* map)
+{
+	this->map = map;
+	UpdateGrid();
 }
 
 Bomb::~Bomb()

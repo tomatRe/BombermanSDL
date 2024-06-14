@@ -164,6 +164,11 @@ void Game::SetPlayerSkin(int pIndex, int offsetX, int offsetY)
 	players[pIndex]->SetSkinOffset(offsetX, offsetY);
 }
 
+Map* Game::GetMapReference()
+{
+	return map;
+}
+
 void Game::Clean()
 {
 	std::cout << "Cleaning up...\n";

@@ -287,6 +287,7 @@ void Player::SpawnBomb()
 		ammo--;
 		Bomb* b = new Bomb(this, bombTexture);
 		b->SetBlastRadius(blastRadius);
+		b->SetMapReference(game->GetMapReference());
 		placedBombs.push_back(b);
 	}
 }

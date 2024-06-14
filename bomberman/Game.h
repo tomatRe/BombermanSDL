@@ -27,6 +27,7 @@ class Game
 		void Render();
 		void CheckCollisions();
 		void SetPlayerSkin(int pIndex, int offsetX, int offsetY);
+		Map* GetMapReference();
 		void Clean();
 
 		bool Running() { return isRunning; }

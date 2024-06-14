@@ -84,6 +84,14 @@ class Blast : Entity
                 new SDL_Rect{ 316, 373, 17, 17 },
                 new SDL_Rect{ 299, 373, 17, 17 }
             };
+
+            std::vector<SDL_Rect*> invisible = {
+                new SDL_Rect{0,0,0,0},
+                new SDL_Rect{0,0,0,0},
+                new SDL_Rect{0,0,0,0},
+                new SDL_Rect{0,0,0,0},
+                new SDL_Rect{0,0,0,0}
+            };
         };
 
         Player* ownerPlayer;
