@@ -49,8 +49,7 @@ void CollisionManager::CheckCollision()
 		{
 			for (size_t z = 0; z < players.size(); z++)
 			{
-				if (playerBombs[j]->GetOwningPlayer() != players[i] ||
-					playerBombs[j]->GetAliveTime() > 1.f)
+				if (playerBombs[j]->GetOwningPlayer() != players[i])
 				{
 					if (IsOverlaping(playerBombs[j]->destRectangle, players[z]->destRectangle))
 					{
